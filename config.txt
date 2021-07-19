@@ -1,0 +1,14 @@
+baseDatos=hospitalidad
+usuario=hospitalidad
+contrasenia=hospitalidad21
+host=localhost
+puerto=3306
+
+#host=192.168.1.239
+#puerto=3306
+### Base de datos raspberry
+#baseDatos=colsan
+#usuario=vpalomo
+#contrasenia=123456
+#host=micasa82.ddns.net
+#puerto=1106
