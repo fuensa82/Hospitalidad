@@ -23,6 +23,7 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
         cargaTabla(true);
+        cargarCombos();
     }
 
     /**
@@ -202,5 +203,9 @@ public class Principal extends javax.swing.JFrame {
                 persona.getFechaNacimiento()
             });
         }
+    }
+
+    private void cargarCombos() {
+        
     }
 }
