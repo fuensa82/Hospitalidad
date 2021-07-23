@@ -27,9 +27,9 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        
+     
         cargaTabla(true);
-        filtroViaje=comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
-        filtroTipoViajero=comboTipoViajero.getModel().getElementAt(comboTipoViajero.getSelectedIndex()).split(" - ")[1];
     }
 
     /**
@@ -100,6 +100,16 @@ public class Principal extends javax.swing.JFrame {
 
         comboViaje.setModel(GestionViajesBD.getModeloComboViajes());
         comboViaje.setSelectedIndex(comboViaje.getModel().getSize()-1);
+        comboViaje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboViajeActionPerformed(evt);
+            }
+        });
+        comboViaje.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                comboViajePropertyChange(evt);
+            }
+        });
 
         comboTipoViajero.setModel(GestionTiposViajeroBD.getModeloComboTipoViajero());
 
@@ -149,6 +159,14 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void comboViajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboViajeActionPerformed
+        cargaTabla(true);
+    }//GEN-LAST:event_comboViajeActionPerformed
+
+    private void comboViajePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_comboViajePropertyChange
+        cargaTabla(true);
+    }//GEN-LAST:event_comboViajePropertyChange
+
     /**
      * @param args the command line arguments
      */
@@ -197,7 +215,9 @@ public class Principal extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void cargaTabla(boolean tipo) {
-        listaPersonas = GestionPersonasBD.getListaPersonas(tipo);
+        filtroViaje=comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
+        filtroTipoViajero=comboTipoViajero.getModel().getElementAt(comboTipoViajero.getSelectedIndex()).split(" - ")[1];
+        listaPersonas = GestionPersonasBD.getListaPersonas(tipo,filtroViaje,filtroTipoViajero);
         DefaultTableModel datosTabla = (DefaultTableModel) tablaPersonas.getModel();
         for (int i = datosTabla.getRowCount(); i > 0; i--) {
             datosTabla.removeRow(i - 1);
@@ -208,7 +228,7 @@ public class Principal extends javax.swing.JFrame {
                 persona.getDNI(),
                 persona.getNombre()+" "+persona.getApellidos(),
                 persona.getFechaNacimiento(),
-                
+                GestionTiposViajeroBD.getTipoViajero(filtroViaje, persona.getIdPersona()).getNombreTipo()
             });
         }
     }

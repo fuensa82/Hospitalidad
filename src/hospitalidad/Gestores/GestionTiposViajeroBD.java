@@ -28,7 +28,7 @@ public class GestionTiposViajeroBD {
      * @param idViaje ID del viaje en el que se quiere consultar el tipoo de viajero que es la persona enviada
      * @return Devuelve un Bean con los datos del tipo de Viajero (id, nombreCorto y descripcion)
      */
-    public static TipoViajeroBean getTipoViajero(String idPersona, String idViaje){
+    public static TipoViajeroBean getTipoViajero(String idViaje, String idPersona){
         TipoViajeroBean tipoViajero = null;
         Connection conexion = null;
         try {
@@ -39,7 +39,7 @@ public class GestionTiposViajeroBD {
                 "WHERE idPersona=? and idViaje=? and " +
                 "	tiposviajeros.idTipoViajero=relviajetodo.idTipoViajero");
             consulta.setString(1, idPersona);
-            consulta.setString(2, ""+idViaje);
+            consulta.setString(2, idViaje);
             
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()){

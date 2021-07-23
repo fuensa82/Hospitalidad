@@ -10,7 +10,7 @@ package hospitalidad.beans;
  * @author vPalomo
  */
 public class PersonaBean {
-    private int idPersona;
+    private String idPersona;
 private String DNI;
 private String Nombre;
 private String Apellidos;
@@ -24,13 +24,15 @@ private String Localidad;
 private String Provincia;
 private String Observaciones;
 
-    public int getIdPersona() {
+    public String getIdPersona() {
         return idPersona;
     }
 
-    public void setIdPersona(int idPersona) {
+    public void setIdPersona(String idPersona) {
         this.idPersona = idPersona;
-    } 
+    }
+
+    
 
     public String getDNI() {
         return DNI;

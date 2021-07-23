@@ -48,7 +48,50 @@ public class GestionPersonasBD {
             while (resultado.next()){
                 if("true".equals(resultado.getString(14).trim())==isActivo){
                     persona=new PersonaBean();
-                    persona.setIdPersona(resultado.getInt(1));
+                    persona.setIdPersona(resultado.getString(1));
+                    persona.setDNI(resultado.getString(2));
+                    persona.setNombre(resultado.getString(3));
+                    persona.setApellidos(resultado.getString(4));
+                    result.add(persona);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException ex) {
+            
+        }finally{
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+            }
+        }
+        return result;
+    }
+    
+    public static ArrayList<PersonaBean> getListaPersonas(boolean isActivo, String idViaje, String idTipoViajero){
+        ArrayList<PersonaBean> result;
+        result = new ArrayList();
+        Connection conexion = null;
+        try {
+            conexion=ConectorBD.getConnection();
+            PersonaBean persona;
+            PreparedStatement consulta = conexion.prepareStatement(
+            "SELECT personas.idPersona, DNI, Nombre, Apellidos, FechaNacimiento, "+
+		"Correo, Telefono1, Telefono2, Direccion, CP, Localidad, "+
+		"Provincia, Observaciones, activo, nombreCortoTipo  "+
+            "FROM personas, tiposviajeros, relviajetodo "+
+            "WHERE personas.idPersona=relviajetodo.idPersona AND "+
+                    "tiposviajeros.idTipoViajero=? AND "+
+                    "relviajetodo.idViaje=?");
+            
+            consulta.setString(1, idTipoViajero);
+            consulta.setString(2, idViaje);
+            
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()){
+                if("true".equals(resultado.getString(14).trim())==isActivo){
+                    persona=new PersonaBean();
+                    persona.setIdPersona(resultado.getString(1));
                     persona.setDNI(resultado.getString(2));
                     persona.setNombre(resultado.getString(3));
                     persona.setApellidos(resultado.getString(4));
