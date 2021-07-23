@@ -6,6 +6,8 @@
 package hospitalidad;
 
 import hospitalidad.Gestores.GestionPersonasBD;
+import hospitalidad.Gestores.GestionViajesBD;
+import hospitalidad.Gestores.GestionTiposViajeroBD;
 import hospitalidad.beans.PersonaBean;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
@@ -17,13 +19,17 @@ import javax.swing.table.DefaultTableModel;
 public class Principal extends javax.swing.JFrame {
 
     private ArrayList<PersonaBean> listaPersonas;
+    private String filtroViaje;
+    private String filtroTipoViajero;
+    
     /**
      * Creates new form Principal
      */
     public Principal() {
         initComponents();
         cargaTabla(true);
-        cargarCombos();
+        filtroViaje=comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
+        filtroTipoViajero=comboTipoViajero.getModel().getElementAt(comboTipoViajero.getSelectedIndex()).split(" - ")[1];
     }
 
     /**
@@ -90,11 +96,12 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel2.setText("Viaje");
 
-        jLabel3.setText("Tipo trabajo");
+        jLabel3.setText("Tipo viajero");
 
-        comboViaje.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboViaje.setModel(GestionViajesBD.getModeloComboViajes());
+        comboViaje.setSelectedIndex(comboViaje.getModel().getSize()-1);
 
-        comboTipoViajero.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboTipoViajero.setModel(GestionTiposViajeroBD.getModeloComboTipoViajero());
 
         jTextField1.setText("jTextField1");
 
@@ -200,12 +207,11 @@ public class Principal extends javax.swing.JFrame {
                 ""+persona.getIdPersona(),
                 persona.getDNI(),
                 persona.getNombre()+" "+persona.getApellidos(),
-                persona.getFechaNacimiento()
+                persona.getFechaNacimiento(),
+                
             });
         }
     }
 
-    private void cargarCombos() {
-        
-    }
+    
 }

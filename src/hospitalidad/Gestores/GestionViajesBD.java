@@ -5,7 +5,6 @@
  */
 package hospitalidad.Gestores;
 
-import hospitalidad.beans.TipoViajeroBean;
 import hospitalidad.beans.ViajeBean;
 import hospitalidad.utils.ConectorBD;
 import java.sql.Connection;
@@ -91,20 +90,30 @@ public class GestionViajesBD {
         }
         return viaje;
     }
+    
+    public static javax.swing.DefaultComboBoxModel getModeloComboViajes(){
+        ArrayList<ViajeBean> lista=getListaViajes();
+        String[] viajes=new String[lista.size()];
+        for (int i=0;i<lista.size();i++){
+            viajes[i]=lista.get(i).toString();
+        }
+        
+        return new javax.swing.DefaultComboBoxModel<>(viajes);
+        
+    }
     /**
      * Devuelve la lista completa de los viajes que ha habido
 
      * @return 
      */
-    public static ArrayList<ViajeBean> getListaTipoViajero(){
+    public static ArrayList<ViajeBean> getListaViajes(){
         ArrayList<ViajeBean> result;
         result = new ArrayList<ViajeBean>();
         Connection conexion = null;
         try {
             conexion=ConectorBD.getConnection();
             PreparedStatement consulta = conexion.prepareStatement(
-            "SELECT NombreCortoTipo, Descripcion, relviajetodo.idTipoViajero " +
-                "FROM tiposviajeros");
+            "SELECT idViaje, Nombre, FechaIni, FechaFin FROM viajes");
 
             
             ResultSet resultado = consulta.executeQuery();

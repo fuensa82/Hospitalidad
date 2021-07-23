@@ -137,18 +137,16 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Tipo trabajo"/>
+        <Property name="text" type="java.lang.String" value="Tipo viajero"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="comboViaje">
       <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
-          </StringArray>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="GestionViajesBD.getModeloComboViajes()" type="code"/>
+        </Property>
+        <Property name="selectedIndex" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="comboViaje.getModel().getSize()-1" type="code"/>
         </Property>
       </Properties>
       <AuxValues>
@@ -157,13 +155,8 @@
     </Component>
     <Component class="javax.swing.JComboBox" name="comboTipoViajero">
       <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
-          </StringArray>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="GestionTiposViajeroBD.getModeloComboTipoViajero()" type="code"/>
         </Property>
       </Properties>
       <AuxValues>

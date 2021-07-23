@@ -7,6 +7,7 @@ package hospitalidad.Gestores;
 
 import hospitalidad.beans.PersonaBean;
 import hospitalidad.beans.TipoViajeroBean;
+import hospitalidad.beans.ViajeBean;
 import hospitalidad.utils.ConectorBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -71,8 +72,7 @@ public class GestionTiposViajeroBD {
         try {
             conexion=ConectorBD.getConnection();
             PreparedStatement consulta = conexion.prepareStatement(
-            "SELECT NombreCortoTipo, Descripcion, relviajetodo.idTipoViajero " +
-                "FROM tiposviajeros");
+            "SELECT idTipoViajero, NombreCortoTipo, Descripcion FROM tiposviajeros");
 
             
             ResultSet resultado = consulta.executeQuery();
@@ -94,5 +94,16 @@ public class GestionTiposViajeroBD {
             }
         }
         return result;
+    }
+    
+    public static javax.swing.DefaultComboBoxModel getModeloComboTipoViajero(){
+        ArrayList<TipoViajeroBean> lista=getListaTipoViajero();
+        String[] viajes=new String[lista.size()];
+        for (int i=0;i<lista.size();i++){
+            viajes[i]=lista.get(i).toString();
+        }
+        
+        return new javax.swing.DefaultComboBoxModel<>(viajes);
+        
     }
 }

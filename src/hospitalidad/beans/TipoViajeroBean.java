@@ -13,6 +13,10 @@ public class TipoViajeroBean {
     private String idTipoViajero;
     private String NombreTipo;
     private String Descripcion;
+    
+    public String toString(){
+        return idTipoViajero+" - "+NombreTipo;
+    }
 
     public String getIdTipoViajero() {
         return idTipoViajero;

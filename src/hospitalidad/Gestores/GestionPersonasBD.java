@@ -21,6 +21,14 @@ import javax.naming.NamingException;
  * @author vPalomo
  */
 public class GestionPersonasBD {
+    /**
+     * Devuelve la lista de todas las personas de la bade de datos filtrando por activo o no, es decir, 
+     * las personas que están dadas de baja (por el motivo que sea) no aparecerán en esta lista.
+     * 
+     * @param isActivo true si queremos la lista de las parsonas activas, false si queremos la lista de personas
+     * que hemos desactivado por algún motivo.
+     * @return 
+     */
     public static ArrayList<PersonaBean> getListaPersonas(boolean isActivo){
         ArrayList<PersonaBean> result;
         result = new ArrayList();

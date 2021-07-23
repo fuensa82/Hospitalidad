@@ -14,6 +14,10 @@ public class ViajeBean {
     private String nombre;
     private String fechaIni;
     private String fechaFin;
+    
+    public String toString(){
+        return idViaje+" - "+nombre;
+    }
 
     public String getIdViaje() {
         return idViaje;
