@@ -70,7 +70,13 @@ public class GestionPersonasBD {
         }
         return result;
     }
-    
+    /**
+     * 
+     * @param isActivo
+     * @param idViaje
+     * @param idTipoViajero (Puede ser 0 lo que implica todos los tipos de viajeros
+     * @return 
+     */
     public static ArrayList<PersonaBean> getListaPersonas(boolean isActivo, String idViaje, String idTipoViajero){
         ArrayList<PersonaBean> result;
         result = new ArrayList();
@@ -90,6 +96,19 @@ public class GestionPersonasBD {
             
             consulta.setString(1, idTipoViajero);
             consulta.setString(2, idViaje);
+            
+            if("0".equalsIgnoreCase(idTipoViajero)){
+                consulta = conexion.prepareStatement(
+                    "SELECT personas.idPersona, DNI, Nombre, Apellidos, FechaNacimiento, "+
+                        "Correo, Telefono1, Telefono2, Direccion, CP, Localidad, "+
+                        "Provincia, Observaciones, activo  "+
+                    "FROM personas, relviajetodo "+
+                    "WHERE personas.idPersona=relviajetodo.idPersona AND "+
+                            "relviajetodo.idViaje=?"+
+                    "ORDER BY Apellidos ");
+
+                consulta.setString(1, idViaje);
+            }
             
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()){
