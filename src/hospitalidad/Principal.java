@@ -226,7 +226,7 @@ public class Principal extends javax.swing.JFrame {
             datosTabla.addRow(new Object[]{
                 ""+persona.getIdPersona(),
                 persona.getDNI(),
-                persona.getNombre()+" "+persona.getApellidos(),
+                persona.getApellidos()+", "+persona.getNombre(),
                 persona.getFechaNacimiento(),
                 GestionTiposViajeroBD.getTipoViajero(filtroViaje, persona.getIdPersona()).getNombreTipo()
             });

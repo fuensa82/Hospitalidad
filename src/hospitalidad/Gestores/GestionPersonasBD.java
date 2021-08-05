@@ -25,6 +25,8 @@ public class GestionPersonasBD {
      * Devuelve la lista de todas las personas de la bade de datos filtrando por activo o no, es decir, 
      * las personas que están dadas de baja (por el motivo que sea) no aparecerán en esta lista.
      * 
+     * //AUN FALTA DESARROLLAR PARTE
+     * 
      * @param isActivo true si queremos la lista de las parsonas activas, false si queremos la lista de personas
      * que hemos desactivado por algún motivo.
      * @return 
@@ -43,7 +45,8 @@ public class GestionPersonasBD {
             "FROM personas, tiposviajeros, relviajetodo "+
             "WHERE personas.idPersona=relviajetodo.idPersona AND "+
                     "relviajetodo.idTipoViajero=tiposviajeros.idTipoViajero and "+
-                    "relviajetodo.idViaje=1 ");
+                    "relviajetodo.idViaje=1 "+
+            "ORDER BY Apellidos");
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()){
                 if("true".equals(resultado.getString(14).trim())==isActivo){
@@ -82,7 +85,8 @@ public class GestionPersonasBD {
             "FROM personas, tiposviajeros, relviajetodo "+
             "WHERE personas.idPersona=relviajetodo.idPersona AND "+
                     "tiposviajeros.idTipoViajero=? AND "+
-                    "relviajetodo.idViaje=?");
+                    "relviajetodo.idViaje=?"+
+            "ORDER BY Apellidos ");
             
             consulta.setString(1, idTipoViajero);
             consulta.setString(2, idViaje);

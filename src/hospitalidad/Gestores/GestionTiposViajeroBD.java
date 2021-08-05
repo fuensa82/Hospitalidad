@@ -98,11 +98,11 @@ public class GestionTiposViajeroBD {
     
     public static javax.swing.DefaultComboBoxModel getModeloComboTipoViajero(){
         ArrayList<TipoViajeroBean> lista=getListaTipoViajero();
-        String[] viajes=new String[lista.size()];
+        String[] viajes=new String[lista.size()+1];
+        viajes[0]="Todos - 0";
         for (int i=0;i<lista.size();i++){
-            viajes[i]=lista.get(i).toString();
+            viajes[i+1]=lista.get(i).toString();
         }
-        
         return new javax.swing.DefaultComboBoxModel<>(viajes);
         
     }
