@@ -41,11 +41,8 @@ public class GestionPersonasBD {
             PreparedStatement consulta = conexion.prepareStatement(
             "SELECT personas.idPersona, DNI, Nombre, Apellidos, FechaNacimiento, "+
 		"Correo, Telefono1, Telefono2, Direccion, CP, Localidad, "+
-		"Provincia, Observaciones, activo,nombreCortoTipo  "+
-            "FROM personas, tiposviajeros, relviajetodo "+
-            "WHERE personas.idPersona=relviajetodo.idPersona AND "+
-                    "relviajetodo.idTipoViajero=tiposviajeros.idTipoViajero and "+
-                    "relviajetodo.idViaje=1 "+
+		"Provincia, Observaciones, activo  "+
+            "FROM personas "+
             "ORDER BY Apellidos");
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()){
@@ -90,6 +87,7 @@ public class GestionPersonasBD {
 		"Provincia, Observaciones, activo, nombreCortoTipo  "+
             "FROM personas, tiposviajeros, relviajetodo "+
             "WHERE personas.idPersona=relviajetodo.idPersona AND "+
+                    "relviajetodo.idTipoViajero=tiposviajeros.idTipoViajero AND "+
                     "tiposviajeros.idTipoViajero=? AND "+
                     "relviajetodo.idViaje=?"+
             "ORDER BY Apellidos ");

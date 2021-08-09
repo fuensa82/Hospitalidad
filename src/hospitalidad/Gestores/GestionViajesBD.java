@@ -5,6 +5,7 @@
  */
 package hospitalidad.Gestores;
 
+import hospitalidad.beans.PersonaBean;
 import hospitalidad.beans.ViajeBean;
 import hospitalidad.utils.ConectorBD;
 import java.sql.Connection;
@@ -12,6 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.NamingException;
 
 /**
@@ -136,6 +139,48 @@ public class GestionViajesBD {
             }
         }
         return result;
+    }
+    /**
+     * 
+     * @param listaPersonas
+     * @param idViaje
+     * @param tipoViajero
+     * @return 
+     */
+    public static boolean guardaPersonasPeregrinacion(ArrayList<PersonaBean> listaPersonas, String idViaje, String idTipoViajero) {
+        boolean result=false;
+        
+        Connection conexion = null;
+        try {
+            if(listaPersonas.size()>0){
+                conexion = ConectorBD.getConnection();
+                String sql="INSERT INTO relviajetodo (idViaje,idPersona,idTipoViajero) VALUES";
+                boolean ejecutar=false;
+                for (PersonaBean persona : listaPersonas) {
+                    sql+="("+idViaje+","+persona.getIdPersona()+","+idTipoViajero+"),";
+                    ejecutar=true;
+                }
+                PreparedStatement insert1 = conexion.prepareStatement(sql.substring(0,sql.length()-1));
+                System.out.println("sql: "+insert1);
+                if(ejecutar){
+                    insert1.executeUpdate();
+                }
+            }
+            return true; //Correcto
+
+        } catch (SQLException | NamingException e) {
+            e.printStackTrace();
+        } finally{
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionViajesBD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        return result;
+        
+        
     }
 }
 

@@ -78,9 +78,9 @@ public class GestionTiposViajeroBD {
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()){
                 TipoViajeroBean tipoViajero=new TipoViajeroBean();
-                tipoViajero.setNombreTipo(resultado.getString(1));
-                tipoViajero.setDescripcion(resultado.getString(2));
-                tipoViajero.setIdTipoViajero(resultado.getString(3));
+                tipoViajero.setNombreTipo(resultado.getString(2));
+                tipoViajero.setDescripcion(resultado.getString(3));
+                tipoViajero.setIdTipoViajero(resultado.getString(1));
                 result.add(tipoViajero);
             }
         } catch (SQLException e) {
@@ -95,15 +95,29 @@ public class GestionTiposViajeroBD {
         }
         return result;
     }
-    
-    public static javax.swing.DefaultComboBoxModel getModeloComboTipoViajero(){
+    /**
+     * 
+     * @param conTodos true si queremos que saque la opcion "0 - Todos". False si no queremos que salga esa opcion
+     * @return 
+     */
+    public static javax.swing.DefaultComboBoxModel getModeloComboTipoViajero(boolean conTodos){
         ArrayList<TipoViajeroBean> lista=getListaTipoViajero();
-        String[] viajes=new String[lista.size()+1];
-        viajes[0]="Todos - 0";
-        for (int i=0;i<lista.size();i++){
-            viajes[i+1]=lista.get(i).toString();
+        
+        if(conTodos){
+            String[] viajes=new String[lista.size()+1];
+            viajes[0]="0 - Todos";
+            for (int i=0;i<lista.size();i++){
+                viajes[i+1]=lista.get(i).toString();
+            }
+            return new javax.swing.DefaultComboBoxModel<>(viajes);
+        }else{
+            String[] viajes=new String[lista.size()];
+            for (int i=0;i<lista.size();i++){
+                viajes[i]=lista.get(i).toString();
+            }
+             return new javax.swing.DefaultComboBoxModel<>(viajes);
         }
-        return new javax.swing.DefaultComboBoxModel<>(viajes);
+        
         
     }
 }
