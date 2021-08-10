@@ -16,6 +16,19 @@
 CREATE DATABASE IF NOT EXISTS `hospitalidad` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `hospitalidad`;
 
+-- Volcando estructura para tabla hospitalidad.autobuses
+CREATE TABLE IF NOT EXISTS `autobuses` (
+  `idAutobus` int(11) NOT NULL AUTO_INCREMENT,
+  `Plazas` int(11) NOT NULL,
+  `Observaciones` varchar(250) DEFAULT NULL,
+  `idViaje` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idAutobus`),
+  KEY `FK1 id Viaje` (`idViaje`),
+  CONSTRAINT `FK1 id Viaje` FOREIGN KEY (`idViaje`) REFERENCES `viajes` (`idViaje`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Se darán de alta los autobuses. Cada Viaje tendrá sus propios autobuses, se deberán crear nuevo enla aplicación cada año';
+
+-- La exportación de datos fue deseleccionada.
+
 -- Volcando estructura para tabla hospitalidad.personas
 CREATE TABLE IF NOT EXISTS `personas` (
   `idPersona` int(11) NOT NULL AUTO_INCREMENT,
@@ -33,7 +46,21 @@ CREATE TABLE IF NOT EXISTS `personas` (
   `Observaciones` varchar(200) DEFAULT NULL,
   `Activo` binary(5) NOT NULL DEFAULT '1\0\0\0\0',
   PRIMARY KEY (`idPersona`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Aquí daremos de alta los datos de todas las personas que se realcionen con el viaje o que haya que controlar de alguna manera, ya sean hospitalarios, pacientes, conductores (si es que hiciera falta), ...';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Aquí daremos de alta los datos de todas las personas que se realcionen con el viaje o que haya que controlar de alguna manera, ya sean hospitalarios, pacientes, conductores (si es que hiciera falta), ...';
+
+-- La exportación de datos fue deseleccionada.
+
+-- Volcando estructura para tabla hospitalidad.plazas
+CREATE TABLE IF NOT EXISTS `plazas` (
+  `idPlaza` int(11) NOT NULL AUTO_INCREMENT,
+  `idAutobus` int(11) NOT NULL DEFAULT 0,
+  `idPersona` int(11) DEFAULT 0,
+  PRIMARY KEY (`idPlaza`,`idAutobus`),
+  KEY `FK1 autobus` (`idAutobus`),
+  KEY `FK2 persona` (`idPersona`),
+  CONSTRAINT `FK1 autobus` FOREIGN KEY (`idAutobus`) REFERENCES `autobuses` (`idAutobus`),
+  CONSTRAINT `FK2 persona` FOREIGN KEY (`idPersona`) REFERENCES `personas` (`idPersona`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Plazas de autobus';
 
 -- La exportación de datos fue deseleccionada.
 
@@ -42,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `relviajetodo` (
   `idViaje` int(11) NOT NULL,
   `idPersona` int(11) NOT NULL,
   `idTipoViajero` int(11) NOT NULL,
-  PRIMARY KEY (`idViaje`,`idPersona`,`idTipoViajero`),
+  PRIMARY KEY (`idViaje`,`idPersona`),
   KEY `FK_relviajetodo_personas` (`idPersona`),
   KEY `FK_relviajetodo_tiposviajeros` (`idTipoViajero`),
   CONSTRAINT `FK_relviajetodo_personas` FOREIGN KEY (`idPersona`) REFERENCES `personas` (`idPersona`),
