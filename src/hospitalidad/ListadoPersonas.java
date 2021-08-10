@@ -15,29 +15,34 @@ import java.util.Comparator;
 import java.util.Locale;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author vPalomo
  */
-public class MantenimientoPersonas extends javax.swing.JPanel {
+public class ListadoPersonas extends javax.swing.JPanel {
 
+    private boolean seleccionFila = false;
     private ArrayList<PersonaBean> listaPersona;
+
     /**
      * Creates new form MantenimientoPersonas
      */
-    public MantenimientoPersonas() {
+    public ListadoPersonas() {
         initComponents();
         cargarListaPersonas();
+        ponListenerTabla(jTablePersonas);
     }
-    
-    
 
     private void cargarListaPersonas() {
         listaPersona = GestionPersonasBD.getListaPersonas(true);
-        listaPersona.sort(new Comparator<PersonaBean>(){
+        listaPersona.sort(new Comparator<PersonaBean>() {
             @Override
             public int compare(PersonaBean p1, PersonaBean p2) {
                 Collator c = Collator.getInstance(new Locale("es"));
@@ -60,6 +65,7 @@ public class MantenimientoPersonas extends javax.swing.JPanel {
             });
         });
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -154,33 +160,43 @@ public class MantenimientoPersonas extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         //Asignar peregrinacion
-        DefaultTableModel datosTabla=(DefaultTableModel) jTablePersonas.getModel();
-        ArrayList<PersonaBean> listaPersonas=new ArrayList<PersonaBean>();
-        for (int i=0;i<datosTabla.getRowCount();i++){
-            if((boolean)datosTabla.getValueAt(i,0)){
-                PersonaBean persona=new PersonaBean();
-                persona.setIdPersona((String)datosTabla.getValueAt(i,4));
+        if(!seleccionFila){
+            JOptionPane.showMessageDialog(null, "Primero debe seleccionar al menos una persona");
+            return;
+        }
+        DefaultTableModel datosTabla = (DefaultTableModel) jTablePersonas.getModel();
+        ArrayList<PersonaBean> listaPersonas = new ArrayList<PersonaBean>();
+        for (int i = 0; i < datosTabla.getRowCount(); i++) {
+            if ((boolean) datosTabla.getValueAt(i, 0)) {
+                PersonaBean persona = new PersonaBean();
+                persona.setIdPersona((String) datosTabla.getValueAt(i, 4));
                 listaPersonas.add(persona);
             }
         }
-        JDialog frame = new JDialog((JFrame)null, "Guardar", true);
+        if(listaPersonas.size()<1){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar al menos una persona");
+            return;
+        
+        }
+        JDialog frame = new JDialog((JFrame) null, "Guardar", true);
         frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-        OpcionesGuardarViajeModal ventana=new OpcionesGuardarViajeModal();
+        OpcionesGuardarViajeModal ventana = new OpcionesGuardarViajeModal();
         frame.getContentPane().add(ventana);
         frame.pack();
         frame.setLocationRelativeTo(this);
         frame.setVisible(true);
-        
-        String opcion=ventana.getBoton();
-        
-        if("G".equalsIgnoreCase(opcion)){
+
+        String opcion = ventana.getBoton();
+
+        if ("G".equalsIgnoreCase(opcion)) {
             System.out.println("Guardando");
-            GestionViajesBD.guardaPersonasPeregrinacion(listaPersonas,ventana.getPeregrinacion(), ventana.getTipoViajero());
+            GestionViajesBD.guardaPersonasPeregrinacionUnitaria(listaPersonas, ventana.getPeregrinacion(), ventana.getTipoViajero());
+            System.out.println("Ocultando");
+            Window w = SwingUtilities.getWindowAncestor(this);
+            w.setVisible(false);
         }
         //
-        System.out.println("Ocultando");
-        Window w = SwingUtilities.getWindowAncestor(this);
-        w.setVisible(false);
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -188,6 +204,15 @@ public class MantenimientoPersonas extends javax.swing.JPanel {
         w.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void ponListenerTabla(JTable tabla) {
+        tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent evento) {
+                System.out.println("Seleccionado");
+                seleccionFila = true;
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

@@ -25,21 +25,22 @@ public class GestionViajesBD {
 
     /**
      * Devuelve los datos del último viaje que se ha añadido
-     * @return 
+     *
+     * @return
      */
-    public static ViajeBean getLastViaje(){
+    public static ViajeBean getLastViaje() {
         ViajeBean viaje = null;
         Connection conexion = null;
         try {
-            conexion=ConectorBD.getConnection();
+            conexion = ConectorBD.getConnection();
             PreparedStatement consulta = conexion.prepareStatement(
-            "SELECT idViaje, Nombre, FechaIni, FechaFin n" +
-                "from viajes " +
-                "ORDER BY idViaje DESC LIMIT 1");
-            
+                    "SELECT idViaje, Nombre, FechaIni, FechaFin n"
+                    + "from viajes "
+                    + "ORDER BY idViaje DESC LIMIT 1");
+
             ResultSet resultado = consulta.executeQuery();
-            if (resultado.next()){
-                viaje=new ViajeBean();
+            if (resultado.next()) {
+                viaje = new ViajeBean();
                 viaje.setIdViaje(resultado.getString(1));
                 viaje.setNombre(resultado.getString(2));
                 viaje.setFechaIni(resultado.getString(3));
@@ -48,8 +49,8 @@ public class GestionViajesBD {
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NamingException ex) {
-            
-        }finally{
+
+        } finally {
             try {
                 conexion.close();
             } catch (SQLException ex) {
@@ -57,25 +58,27 @@ public class GestionViajesBD {
         }
         return viaje;
     }
+
     /**
      * Devuelve el Bean con los datos completos del viaje
+     *
      * @param idViaje del Viaje que se quiere consultar el resto de datos
-     * @return 
+     * @return
      */
-    public static ViajeBean getViaje(String idViaje){
+    public static ViajeBean getViaje(String idViaje) {
         ViajeBean viaje = null;
         Connection conexion = null;
         try {
-            conexion=ConectorBD.getConnection();
+            conexion = ConectorBD.getConnection();
             PreparedStatement consulta = conexion.prepareStatement(
-            "SELECT idViaje, Nombre, FechaIni, FechaFin " +
-            "from viajes " +
-            "WHERE idViaje=?");
+                    "SELECT idViaje, Nombre, FechaIni, FechaFin "
+                    + "from viajes "
+                    + "WHERE idViaje=?");
             consulta.setString(1, idViaje);
-            
+
             ResultSet resultado = consulta.executeQuery();
-            if (resultado.next()){
-                viaje=new ViajeBean();
+            if (resultado.next()) {
+                viaje = new ViajeBean();
                 viaje.setIdViaje(resultado.getString(1));
                 viaje.setNombre(resultado.getString(2));
                 viaje.setFechaIni(resultado.getString(3));
@@ -84,8 +87,8 @@ public class GestionViajesBD {
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NamingException ex) {
-            
-        }finally{
+
+        } finally {
             try {
                 conexion.close();
             } catch (SQLException ex) {
@@ -93,35 +96,35 @@ public class GestionViajesBD {
         }
         return viaje;
     }
-    
-    public static javax.swing.DefaultComboBoxModel getModeloComboViajes(){
-        ArrayList<ViajeBean> lista=getListaViajes();
-        String[] viajes=new String[lista.size()];
-        for (int i=0;i<lista.size();i++){
-            viajes[i]=lista.get(i).toString();
+
+    public static javax.swing.DefaultComboBoxModel getModeloComboViajes() {
+        ArrayList<ViajeBean> lista = getListaViajes();
+        String[] viajes = new String[lista.size()];
+        for (int i = 0; i < lista.size(); i++) {
+            viajes[i] = lista.get(i).toString();
         }
-        
+
         return new javax.swing.DefaultComboBoxModel<>(viajes);
-        
+
     }
+
     /**
      * Devuelve la lista completa de los viajes que ha habido
-
-     * @return 
+     *
+     * @return
      */
-    public static ArrayList<ViajeBean> getListaViajes(){
+    public static ArrayList<ViajeBean> getListaViajes() {
         ArrayList<ViajeBean> result;
         result = new ArrayList<ViajeBean>();
         Connection conexion = null;
         try {
-            conexion=ConectorBD.getConnection();
+            conexion = ConectorBD.getConnection();
             PreparedStatement consulta = conexion.prepareStatement(
-            "SELECT idViaje, Nombre, FechaIni, FechaFin FROM viajes");
+                    "SELECT idViaje, Nombre, FechaIni, FechaFin FROM viajes");
 
-            
             ResultSet resultado = consulta.executeQuery();
-            while (resultado.next()){
-                ViajeBean viaje=new ViajeBean();
+            while (resultado.next()) {
+                ViajeBean viaje = new ViajeBean();
                 viaje.setIdViaje(resultado.getString(1));
                 viaje.setNombre(resultado.getString(2));
                 viaje.setFechaIni(resultado.getString(3));
@@ -131,8 +134,8 @@ public class GestionViajesBD {
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NamingException ex) {
-            
-        }finally{
+
+        } finally {
             try {
                 conexion.close();
             } catch (SQLException ex) {
@@ -140,29 +143,30 @@ public class GestionViajesBD {
         }
         return result;
     }
+
     /**
-     * 
+     *
      * @param listaPersonas
      * @param idViaje
      * @param tipoViajero
-     * @return 
+     * @return
      */
     public static boolean guardaPersonasPeregrinacion(ArrayList<PersonaBean> listaPersonas, String idViaje, String idTipoViajero) {
-        boolean result=false;
-        
+        boolean result = false;
+
         Connection conexion = null;
         try {
-            if(listaPersonas.size()>0){
+            if (listaPersonas.size() > 0) {
                 conexion = ConectorBD.getConnection();
-                String sql="INSERT INTO relviajetodo (idViaje,idPersona,idTipoViajero) VALUES";
-                boolean ejecutar=false;
+                String sql = "INSERT INTO relviajetodo (idViaje,idPersona,idTipoViajero) VALUES";
+                boolean ejecutar = false;
                 for (PersonaBean persona : listaPersonas) {
-                    sql+="("+idViaje+","+persona.getIdPersona()+","+idTipoViajero+"),";
-                    ejecutar=true;
+                    sql += "(" + idViaje + "," + persona.getIdPersona() + "," + idTipoViajero + "),";
+                    ejecutar = true;
                 }
-                PreparedStatement insert1 = conexion.prepareStatement(sql.substring(0,sql.length()-1));
-                System.out.println("sql: "+insert1);
-                if(ejecutar){
+                PreparedStatement insert1 = conexion.prepareStatement(sql.substring(0, sql.length() - 1));
+                System.out.println("sql: " + insert1);
+                if (ejecutar) {
                     insert1.executeUpdate();
                 }
             }
@@ -170,17 +174,92 @@ public class GestionViajesBD {
 
         } catch (SQLException | NamingException e) {
             e.printStackTrace();
-        } finally{
+        } finally {
             try {
                 conexion.close();
             } catch (SQLException ex) {
                 Logger.getLogger(GestionViajesBD.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        
+
         return result;
-        
-        
+
+    }
+
+    /**
+     * Guarda de uno en uno las personas que se pasan en la lista, al final devuelve un mensaje que contiene los errores si los hubiera
+     * @param listaPersonas
+     * @param idViaje
+     * @param idTipoViajero
+     * @return Devuelve un mensaje con lo que ha ocurrido en la inserción
+     */
+    public static String guardaPersonasPeregrinacionUnitaria(ArrayList<PersonaBean> listaPersonas, String idViaje, String idTipoViajero) {
+        String result = "";
+        int correcto = 0;
+        int errores = 0;
+        Connection conexion = null;
+        try {
+            if (listaPersonas.size() > 0) {
+                conexion = ConectorBD.getConnection();
+                boolean ejecutar = false;
+                for (PersonaBean persona : listaPersonas) {
+                    PreparedStatement insert1 = conexion.prepareStatement(
+                            "INSERT INTO relviajetodo (idViaje,idPersona,idTipoViajero) VALUES (?,?,?)");
+                    insert1.setString(1, idViaje);
+                    insert1.setString(2, persona.getIdPersona());
+                    insert1.setString(3, idTipoViajero);
+                    System.out.println("sql: " + insert1);
+                    int filas = 0;
+                    try {
+                        filas = insert1.executeUpdate();
+                    } catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e) {
+                        System.out.println(e.getMessage());
+                        errores++;
+                    }
+                    if (filas == 0) {
+                        errores++;
+                    } else {
+                        correcto++;
+                    }
+                }
+            }
+            return ""; //Correcto
+
+        } catch (SQLException | NamingException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionViajesBD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        return result;
+    }
+
+    public static int eliminaPersonasPeregrinacion(String idPersona, String idViaje) {
+        int fila = 0;
+        Connection conexion = null;
+        try {
+            conexion = ConectorBD.getConnection();
+            PreparedStatement insert1 = conexion.prepareStatement(
+                    "DELETE FROM relviajetodo where idViaje=? and idPersona=?");
+            insert1.setString(1, idViaje);
+            insert1.setString(2, idPersona);
+            System.out.println("sql: " + insert1);
+            fila = insert1.executeUpdate();
+            return fila; //Correcto
+
+        } catch (SQLException | NamingException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionViajesBD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return fila;
     }
 }
-
