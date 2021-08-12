@@ -5,9 +5,7 @@
  */
 package hospitalidad.Gestores;
 
-import hospitalidad.beans.PersonaBean;
 import hospitalidad.beans.TipoViajeroBean;
-import hospitalidad.beans.ViajeBean;
 import hospitalidad.utils.ConectorBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

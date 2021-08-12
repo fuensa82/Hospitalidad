@@ -197,6 +197,7 @@ public class GestionViajesBD {
         String result = "";
         int correcto = 0;
         int errores = 0;
+        String personasConError="";
         Connection conexion = null;
         try {
             if (listaPersonas.size() > 0) {
@@ -212,18 +213,29 @@ public class GestionViajesBD {
                     int filas = 0;
                     try {
                         filas = insert1.executeUpdate();
+                        if (filas == 0) {
+                            errores++;
+                            personasConError+="  "+persona.getApellidos()+", "+persona.getNombre()+"\n ";
+                        } else {
+                            correcto++;
+                        }
                     } catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e) {
                         System.out.println(e.getMessage());
                         errores++;
+                        personasConError+="  "+persona.getApellidos()+", "+persona.getNombre()+"\n ";
                     }
-                    if (filas == 0) {
-                        errores++;
-                    } else {
-                        correcto++;
-                    }
+                    
+                    
                 }
             }
-            return ""; //Correcto
+            if(errores>0){
+                result="Se han dado de alta "+correcto+" personas\n"+
+                       "Han dado error "+errores+" personas\n"+
+                        personasConError;
+            }else{
+                result="Se han dado de alta "+correcto;
+            }
+            return result; //Correcto
 
         } catch (SQLException | NamingException e) {
             e.printStackTrace();

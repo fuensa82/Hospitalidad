@@ -58,8 +58,8 @@ public class ListadoPersonas extends javax.swing.JPanel {
         listaPersona.forEach((persona) -> {
             datosTabla.addRow(new Object[]{
                 false,
-                persona.getNombre(),
                 persona.getApellidos(),
+                persona.getNombre(),
                 persona.getDNI(),
                 persona.getIdPersona()
             });
@@ -81,6 +81,7 @@ public class ListadoPersonas extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         jTablePersonas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -125,6 +126,13 @@ public class ListadoPersonas extends javax.swing.JPanel {
 
         jButton4.setText("Eliminar Persona");
 
+        jButton5.setText("Asignar autobús");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -138,6 +146,8 @@ public class ListadoPersonas extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1)))
@@ -153,7 +163,8 @@ public class ListadoPersonas extends javax.swing.JPanel {
                     .addComponent(jButton1)
                     .addComponent(jButton2)
                     .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(jButton4)
+                    .addComponent(jButton5))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -170,6 +181,8 @@ public class ListadoPersonas extends javax.swing.JPanel {
             if ((boolean) datosTabla.getValueAt(i, 0)) {
                 PersonaBean persona = new PersonaBean();
                 persona.setIdPersona((String) datosTabla.getValueAt(i, 4));
+                persona.setNombre((String) datosTabla.getValueAt(i, 2));
+                persona.setApellidos((String) datosTabla.getValueAt(i, 1));
                 listaPersonas.add(persona);
             }
         }
@@ -180,7 +193,7 @@ public class ListadoPersonas extends javax.swing.JPanel {
         }
         JDialog frame = new JDialog((JFrame) null, "Guardar", true);
         frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-        OpcionesGuardarViajeModal ventana = new OpcionesGuardarViajeModal();
+        OpcionesGuardarPersonaViajeModal ventana = new OpcionesGuardarPersonaViajeModal();
         frame.getContentPane().add(ventana);
         frame.pack();
         frame.setLocationRelativeTo(this);
@@ -190,8 +203,8 @@ public class ListadoPersonas extends javax.swing.JPanel {
 
         if ("G".equalsIgnoreCase(opcion)) {
             System.out.println("Guardando");
-            GestionViajesBD.guardaPersonasPeregrinacionUnitaria(listaPersonas, ventana.getPeregrinacion(), ventana.getTipoViajero());
-            System.out.println("Ocultando");
+            String mensaje=GestionViajesBD.guardaPersonasPeregrinacionUnitaria(listaPersonas, ventana.getPeregrinacion(), ventana.getTipoViajero());
+            JOptionPane.showMessageDialog(null, mensaje);
             Window w = SwingUtilities.getWindowAncestor(this);
             w.setVisible(false);
         }
@@ -203,6 +216,11 @@ public class ListadoPersonas extends javax.swing.JPanel {
         Window w = SwingUtilities.getWindowAncestor(this);
         w.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        //Asignar autobus
+        
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     private void ponListenerTabla(JTable tabla) {
         tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -219,6 +237,7 @@ public class ListadoPersonas extends javax.swing.JPanel {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTablePersonas;
     // End of variables declaration//GEN-END:variables
