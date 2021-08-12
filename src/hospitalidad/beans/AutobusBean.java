@@ -31,6 +31,7 @@ public class AutobusBean {
                     "Plazas ocupadas en java: "+pasajeros.size()+"\n"+
                     "Plazas en base de datos: "+plazasOcupadas);
         }
+        
         boolean result=false;
         if(pasajeros.size()>=plazas)return false;
         return result;
