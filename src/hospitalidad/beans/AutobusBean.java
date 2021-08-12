@@ -5,6 +5,7 @@
  */
 package hospitalidad.beans;
 
+import hospitalidad.Gestores.GestionAutobusesBD;
 import java.util.ArrayList;
 
 /**
@@ -23,6 +24,13 @@ public class AutobusBean {
      * @return 
      */
     public boolean añadirPasajero(PersonaBean persona){
+        int plazasOcupadas=GestionAutobusesBD.getPlazasOcupadas(idAutobus);
+        if(plazasOcupadas!=pasajeros.size()){
+            throw new RuntimeException("Inconsistencia de datos grave. No cuadran las plazas del autobus con id "+idAutobus+"\n"+
+                    "Plazas del autobús: "+plazas+"\n"+
+                    "Plazas ocupadas en java: "+pasajeros.size()+"\n"+
+                    "Plazas en base de datos: "+plazasOcupadas);
+        }
         boolean result=false;
         if(pasajeros.size()>=plazas)return false;
         return result;
