@@ -7,6 +7,13 @@ package hospitalidad.Gestores;
 
 import hospitalidad.beans.AutobusBean;
 import hospitalidad.beans.PersonaBean;
+import hospitalidad.utils.ConectorBD;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.naming.NamingException;
 
 /**
  *
@@ -46,5 +53,43 @@ public class GestionAutobusesBD {
         AutobusBean autobus=new AutobusBean();
         
         return autobus;
+    }
+    
+    public static ArrayList<PersonaBean> consultaPasajeros(String idAutobus){
+        ArrayList<PersonaBean> plazas=new ArrayList<PersonaBean>();
+        
+        Connection conexion = null;
+        try {
+            conexion=ConectorBD.getConnection();
+            PersonaBean persona;
+            PreparedStatement consulta = conexion.prepareStatement(
+            "SELECT personas.idPersona, DNI, Nombre, Apellidos, FechaNacimiento, "+
+		"Correo, Telefono1, Telefono2, Direccion, CP, Localidad, "+
+		"Provincia, Observaciones, activo  "+
+            "FROM personas "+
+            "ORDER BY Apellidos");
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()){
+                if("true".equals(resultado.getString(14).trim())==isActivo){
+                    persona=new PersonaBean();
+                    persona.setIdPersona(resultado.getString(1));
+                    persona.setDNI(resultado.getString(2));
+                    persona.setNombre(resultado.getString(3));
+                    persona.setApellidos(resultado.getString(4));
+                    plazas.add(persona);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException ex) {
+            
+        }finally{
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+            }
+        }
+        
+        return plazas;
     }
 }

@@ -68,4 +68,13 @@ public class AutobusBean {
         this.observaciones = observaciones;
     }
     
+    public boolean cargaDatos(){
+        boolean result=false;
+        if(idAutobus==null || "".equalsIgnoreCase(idAutobus))return result;
+        
+        
+        
+        return result;
+    }
+    
 }
