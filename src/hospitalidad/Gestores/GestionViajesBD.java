@@ -249,8 +249,22 @@ public class GestionViajesBD {
 
         return result;
     }
-
-    public static int eliminaPersonasPeregrinacion(String idPersona, String idViaje) {
+    /**
+     * Elimina a una persona de la peregrinacion y por tanto se le ellimina tambien del autobus y del hotel (si los tuviera ya
+     * asignados)
+     * @param idPersona
+     * @param idViaje
+     * @return 
+     */
+    public static boolean eliminaPersonasPeregrinacion(String idPersona, String idViaje){
+        int result1=eliminaPersonasViaje(idPersona, idViaje);
+        int result2=GestionAutobusesBD.eliminaPersonasAutobus(idPersona, idViaje);
+        //Falta eliminar a la persona del hotel 
+        return true;
+        //int result3=
+    }
+    
+    private static int eliminaPersonasViaje(String idPersona, String idViaje) {
         int fila = 0;
         Connection conexion = null;
         try {

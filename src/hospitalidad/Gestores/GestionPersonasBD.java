@@ -131,5 +131,40 @@ public class GestionPersonasBD {
         }
         return result;
     }
+
+    public static ArrayList<PersonaBean> getListaPersonasSinAutobus(String filtroViaje) {
+        ArrayList<PersonaBean> result;
+        result = new ArrayList();
+        Connection conexion = null;
+        try {
+            conexion=ConectorBD.getConnection();
+            PersonaBean persona;
+            PreparedStatement consulta = conexion.prepareStatement(
+            "SELECT personas.idPersona, DNI, Nombre, Apellidos, FechaNacimiento, "+
+		"Correo, Telefono1, Telefono2, Direccion, CP, Localidad, "+
+		"Provincia, Observaciones, activo  "+
+            "FROM personas "+
+            "ORDER BY Apellidos");
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()){
+                    persona=new PersonaBean();
+                    persona.setIdPersona(resultado.getString(1));
+                    persona.setDNI(resultado.getString(2));
+                    persona.setNombre(resultado.getString(3));
+                    persona.setApellidos(resultado.getString(4));
+                    result.add(persona);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException ex) {
+            
+        }finally{
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+            }
+        }
+        return result;
+    }
    
 }

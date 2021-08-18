@@ -15,8 +15,26 @@ import java.util.ArrayList;
 public class AutobusBean {
     private ArrayList<PersonaBean> pasajeros;
     private String idAutobus;
+    private String idViaje;
+
+    public String getIdViaje() {
+        return idViaje;
+    }
+
+    public void setIdViaje(String idViaje) {
+        this.idViaje = idViaje;
+    }
     private int plazas;
     private String observaciones;
+    private String descripcion;
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 
     /**
      * Devuelve true si se inserta correctamente en la base de datos, false si da error o el autobus ya está completo
@@ -37,6 +55,9 @@ public class AutobusBean {
         return result;
     }
     public ArrayList<PersonaBean> getPasajeros() {
+        if(pasajeros==null){
+            pasajeros=GestionAutobusesBD.consultaPasajeros(idAutobus);
+        }
         return pasajeros;
     }
 
@@ -72,7 +93,12 @@ public class AutobusBean {
         boolean result=false;
         if(idAutobus==null || "".equalsIgnoreCase(idAutobus))return result;
         
-        
+        AutobusBean autobus=GestionAutobusesBD.getDatosAutobus(idAutobus);
+        this.descripcion=autobus.getDescripcion();
+        this.idAutobus=autobus.getIdAutobus();
+        this.idViaje=autobus.getIdViaje();
+        this.observaciones=autobus.getObservaciones();
+        this.plazas=autobus.getPlazas();
         
         return result;
     }

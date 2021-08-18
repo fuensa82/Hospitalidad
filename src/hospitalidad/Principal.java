@@ -5,17 +5,22 @@
  */
 package hospitalidad;
 
+import hospitalidad.Gestores.GestionAutobusesBD;
 import hospitalidad.Gestores.GestionPersonasBD;
 import hospitalidad.Gestores.GestionViajesBD;
 import hospitalidad.Gestores.GestionTiposViajeroBD;
+import hospitalidad.beans.AutobusBean;
 import hospitalidad.beans.PersonaBean;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,6 +30,8 @@ import javax.swing.table.DefaultTableModel;
 public class Principal extends javax.swing.JFrame {
 
     private ArrayList<PersonaBean> listaPersonas;
+    private ArrayList<PersonaBean> listaPersonasSinAutobus;
+    private ArrayList<AutobusBean> listaAutobuses;
     private String filtroViaje;
     private String filtroTipoViajero;
     
@@ -44,9 +51,9 @@ public class Principal extends javax.swing.JFrame {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
         initComponents();
-        
+        ponListenerTablaAutobuses();
      
-        cargaTabla(true);
+        cargaTablaPersonas(true);
     }
 
     /**
@@ -70,7 +77,12 @@ public class Principal extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableAutobuses = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tablaPersonasBus = new javax.swing.JTable();
+        jPanel7 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTablePersonasSinAutobus = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -83,6 +95,12 @@ public class Principal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Hospitalidad de Toledo");
+
+        jTabbedPane1.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jTabbedPane1ComponentShown(evt);
+            }
+        });
 
         tablaPersonas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -193,7 +211,13 @@ public class Principal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Peregrinaciones", jPanel1);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jPanel4.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jPanel4ComponentShown(evt);
+            }
+        });
+
+        jTableAutobuses.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -201,10 +225,83 @@ public class Principal extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Descripción", "Plazas", "Observaciones", "id"
             }
-        ));
-        jScrollPane2.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableAutobuses.getTableHeader().setReorderingAllowed(false);
+        jTableAutobuses.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jTableAutobusesPropertyChange(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTableAutobuses);
+        if (jTableAutobuses.getColumnModel().getColumnCount() > 0) {
+            jTableAutobuses.getColumnModel().getColumn(0).setResizable(false);
+            jTableAutobuses.getColumnModel().getColumn(0).setPreferredWidth(150);
+            jTableAutobuses.getColumnModel().getColumn(1).setResizable(false);
+            jTableAutobuses.getColumnModel().getColumn(1).setPreferredWidth(20);
+            jTableAutobuses.getColumnModel().getColumn(2).setResizable(false);
+            jTableAutobuses.getColumnModel().getColumn(3).setResizable(false);
+            jTableAutobuses.getColumnModel().getColumn(3).setPreferredWidth(20);
+        }
+
+        tablaPersonasBus.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Sel", "Id", "DNI", "Apellidos", "Nombre", "Tipo"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tablaPersonasBus.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        tablaPersonasBus.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tablaPersonasBus.getTableHeader().setResizingAllowed(false);
+        tablaPersonasBus.getTableHeader().setReorderingAllowed(false);
+        jScrollPane4.setViewportView(tablaPersonasBus);
+        if (tablaPersonasBus.getColumnModel().getColumnCount() > 0) {
+            tablaPersonasBus.getColumnModel().getColumn(0).setResizable(false);
+            tablaPersonasBus.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tablaPersonasBus.getColumnModel().getColumn(1).setResizable(false);
+            tablaPersonasBus.getColumnModel().getColumn(1).setPreferredWidth(35);
+            tablaPersonasBus.getColumnModel().getColumn(2).setResizable(false);
+            tablaPersonasBus.getColumnModel().getColumn(2).setPreferredWidth(100);
+            tablaPersonasBus.getColumnModel().getColumn(3).setResizable(false);
+            tablaPersonasBus.getColumnModel().getColumn(3).setPreferredWidth(200);
+            tablaPersonasBus.getColumnModel().getColumn(4).setResizable(false);
+            tablaPersonasBus.getColumnModel().getColumn(4).setPreferredWidth(100);
+            tablaPersonasBus.getColumnModel().getColumn(5).setResizable(false);
+            tablaPersonasBus.getColumnModel().getColumn(5).setPreferredWidth(100);
+        }
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -212,11 +309,14 @@ public class Principal extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 548, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
+            .addComponent(jScrollPane4)
         );
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -237,6 +337,56 @@ public class Principal extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Autobuses", jPanel4);
+
+        jPanel7.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jPanel7ComponentShown(evt);
+            }
+        });
+
+        jTablePersonasSinAutobus.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Sel.", "Apellidos", "Nombre", "DNI", "Id"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(jTablePersonasSinAutobus);
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 554, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(456, Short.MAX_VALUE))
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Personas sin autobus", jPanel7);
 
         jButton1.setText("Crear persona");
 
@@ -355,16 +505,17 @@ public class Principal extends javax.swing.JFrame {
 
     private void comboTipoViajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTipoViajeroActionPerformed
         System.out.println("Prueba combo 2");
-        cargaTabla(true);
+        cargaTablaPersonas(true);
     }//GEN-LAST:event_comboTipoViajeroActionPerformed
 
     private void comboViajePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_comboViajePropertyChange
-        cargaTabla(true);
+        cargaTablaPersonas(true);
     }//GEN-LAST:event_comboViajePropertyChange
 
     private void comboViajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboViajeActionPerformed
         //System.out.println("Prueba");
-        cargaTabla(true);
+        cargaTablaPersonas(true);
+        cargaTablaAutobuses();
     }//GEN-LAST:event_comboViajeActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -381,7 +532,7 @@ public class Principal extends javax.swing.JFrame {
         frame.setVisible(true);
         //iniciarMisComponentes();
         frame.setVisible(false);
-        cargaTabla(true);
+        cargaTablaPersonas(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -400,11 +551,68 @@ public class Principal extends javax.swing.JFrame {
         }
         for (PersonaBean persona:lista){
             GestionViajesBD.eliminaPersonasPeregrinacion(persona.getIdPersona(), filtroViaje);
+
         }
-        cargaTabla(true);
+        cargaTablaPersonas(true);
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jTabbedPane1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTabbedPane1ComponentShown
+        System.out.println("Pestaña");        // TODO add your handling code here:
+    }//GEN-LAST:event_jTabbedPane1ComponentShown
+
+    private void jPanel4ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel4ComponentShown
+        System.out.println("Pertaña 2");
+        cargaTablaAutobuses();
+    }//GEN-LAST:event_jPanel4ComponentShown
+
+    private void jTableAutobusesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTableAutobusesPropertyChange
+        
+    }//GEN-LAST:event_jTableAutobusesPropertyChange
+
+    private void jPanel7ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel7ComponentShown
+        System.out.println("Pertaña 2");
+        cargaTablaPersonasSinAutobus();        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel7ComponentShown
+
+    private void ponListenerTablaAutobuses(){
+        jTableAutobuses.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent evento) {
+                ListSelectionModel lsm = (ListSelectionModel) evento.getSource();
+                int indice = lsm.getMinSelectionIndex();
+                if (indice != -1) {
+                    String idAutobus=(String) jTableAutobuses.getModel().getValueAt(indice, 3);
+                    cargarPasajerosTabla(idAutobus);
+                }
+            }
+
+            
+        });
+    }
+    
+    private void cargarPasajerosTabla(String idAutobus) {
+        AutobusBean autobus=new AutobusBean();
+        autobus.setIdAutobus(idAutobus);
+        autobus.cargaDatos();
+        ArrayList<PersonaBean> listaPersonas=autobus.getPasajeros();
+        DefaultTableModel datosTabla = (DefaultTableModel) tablaPersonasBus.getModel();
+        for (int i = datosTabla.getRowCount(); i > 0; i--) {
+            datosTabla.removeRow(i - 1);
+        }
+        for (PersonaBean persona : listaPersonas){
+            datosTabla.addRow(new Object[]{
+                false,
+                ""+persona.getIdPersona(),
+                persona.getDNI(),
+                persona.getApellidos(),
+                persona.getNombre(),
+                persona.getFechaNacimiento()//,
+                //GestionTiposViajeroBD.getTipoViajero(autobus.getIdViaje(), persona.getIdPersona()).getNombreTipo()
+            });
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -457,18 +665,61 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableAutobuses;
+    private javax.swing.JTable jTablePersonasSinAutobus;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tablaPersonas;
+    private javax.swing.JTable tablaPersonasBus;
     // End of variables declaration//GEN-END:variables
 
-    private void cargaTabla(boolean tipo) {
+    private void cargaTablaPersonas(boolean tipo) {
         filtroViaje=comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
         filtroTipoViajero=comboTipoViajero.getModel().getElementAt(comboTipoViajero.getSelectedIndex()).split(" - ")[0];
         listaPersonas = GestionPersonasBD.getListaPersonas(tipo,filtroViaje,filtroTipoViajero);
+        DefaultTableModel datosTabla = (DefaultTableModel) tablaPersonas.getModel();
+        for (int i = datosTabla.getRowCount(); i > 0; i--) {
+            datosTabla.removeRow(i - 1);
+        }
+        for (PersonaBean persona : listaPersonas){
+            datosTabla.addRow(new Object[]{
+                false,
+                ""+persona.getIdPersona(),
+                persona.getDNI(),
+                persona.getApellidos()+", "+persona.getNombre(),
+                persona.getFechaNacimiento(),
+                GestionTiposViajeroBD.getTipoViajero(filtroViaje, persona.getIdPersona()).getNombreTipo()
+            });
+        }
+    }
+    
+    private void cargaTablaAutobuses() {
+        filtroViaje=comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
+        filtroTipoViajero=comboTipoViajero.getModel().getElementAt(comboTipoViajero.getSelectedIndex()).split(" - ")[0];
+        listaAutobuses = GestionAutobusesBD.getListaAutobuses(filtroViaje);
+        DefaultTableModel datosTabla = (DefaultTableModel) jTableAutobuses.getModel();
+        for (int i = datosTabla.getRowCount(); i > 0; i--) {
+            datosTabla.removeRow(i - 1);
+        }
+        for (AutobusBean autobus : listaAutobuses){
+            datosTabla.addRow(new Object[]{
+                autobus.getDescripcion(),
+                autobus.getPlazas(),
+                autobus.getObservaciones(),
+                autobus.getIdAutobus()
+            });
+        }
+    }
+
+    private void cargaTablaPersonasSinAutobus() {
+        filtroViaje=comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
+        filtroTipoViajero=comboTipoViajero.getModel().getElementAt(comboTipoViajero.getSelectedIndex()).split(" - ")[0];
+        listaPersonas = GestionPersonasBD.getListaPersonasSinAutobus(filtroViaje);
         DefaultTableModel datosTabla = (DefaultTableModel) tablaPersonas.getModel();
         for (int i = datosTabla.getRowCount(); i > 0; i--) {
             datosTabla.removeRow(i - 1);
