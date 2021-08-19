@@ -132,7 +132,7 @@ public class GestionPersonasBD {
         return result;
     }
 
-    public static ArrayList<PersonaBean> getListaPersonasSinAutobus(String filtroViaje) {
+    public static ArrayList<PersonaBean> getListaPersonasSinAutobus(String idViaje) {
         ArrayList<PersonaBean> result;
         result = new ArrayList();
         Connection conexion = null;
@@ -140,11 +140,19 @@ public class GestionPersonasBD {
             conexion=ConectorBD.getConnection();
             PersonaBean persona;
             PreparedStatement consulta = conexion.prepareStatement(
-            "SELECT personas.idPersona, DNI, Nombre, Apellidos, FechaNacimiento, "+
-		"Correo, Telefono1, Telefono2, Direccion, CP, Localidad, "+
-		"Provincia, Observaciones, activo  "+
-            "FROM personas "+
-            "ORDER BY Apellidos");
+            "SELECT relviajetodo.idPersona, personas.DNI, personas.Nombre, personas.Apellidos " +
+            "FROM relviajetodo, personas " +
+            "WHERE relviajetodo.idPersona=personas.idPersona and " +
+            "   relviajetodo.idViaje=? AND " +
+            "   relviajetodo.idPersona NOT IN( " +
+            "   SELECT relpersonaautobus.idPersona FROM relpersonaautobus,autobuses " +
+            "   WHERE relpersonaautobus.idAutobus=autobuses.idAutobus AND " +
+            "   	autobuses.idViaje=?" +
+            "   	)");
+            
+            consulta.setString(1, idViaje);
+            consulta.setString(2, idViaje);
+            
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()){
                     persona=new PersonaBean();

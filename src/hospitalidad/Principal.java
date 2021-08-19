@@ -68,21 +68,22 @@ public class Principal extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
+        jPanelPeregrinaciones = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaPersonas = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
+        jPanelAutobuses = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableAutobuses = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
         tablaPersonasBus = new javax.swing.JTable();
-        jPanel7 = new javax.swing.JPanel();
+        jPanelPersonasSinAutobus = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTablePersonasSinAutobus = new javax.swing.JTable();
+        jButton5 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -99,6 +100,12 @@ public class Principal extends javax.swing.JFrame {
         jTabbedPane1.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 jTabbedPane1ComponentShown(evt);
+            }
+        });
+
+        jPanelPeregrinaciones.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jPanelPeregrinacionesComponentShown(evt);
             }
         });
 
@@ -179,27 +186,27 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelPeregrinacionesLayout = new javax.swing.GroupLayout(jPanelPeregrinaciones);
+        jPanelPeregrinaciones.setLayout(jPanelPeregrinacionesLayout);
+        jPanelPeregrinacionesLayout.setHorizontalGroup(
+            jPanelPeregrinacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelPeregrinacionesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelPeregrinacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton4)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 586, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanelPeregrinacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(22, 22, 22))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jPanelPeregrinacionesLayout.setVerticalGroup(
+            jPanelPeregrinacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelPeregrinacionesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanelPeregrinacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanelPeregrinacionesLayout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -209,11 +216,11 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Peregrinaciones", jPanel1);
+        jTabbedPane1.addTab("Peregrinaciones", jPanelPeregrinaciones);
 
-        jPanel4.addComponentListener(new java.awt.event.ComponentAdapter() {
+        jPanelAutobuses.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
-                jPanel4ComponentShown(evt);
+                jPanelAutobusesComponentShown(evt);
             }
         });
 
@@ -319,28 +326,28 @@ public class Principal extends javax.swing.JFrame {
             .addComponent(jScrollPane4)
         );
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelAutobusesLayout = new javax.swing.GroupLayout(jPanelAutobuses);
+        jPanelAutobuses.setLayout(jPanelAutobusesLayout);
+        jPanelAutobusesLayout.setHorizontalGroup(
+            jPanelAutobusesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelAutobusesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+        jPanelAutobusesLayout.setVerticalGroup(
+            jPanelAutobusesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelAutobusesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Autobuses", jPanel4);
+        jTabbedPane1.addTab("Autobuses", jPanelAutobuses);
 
-        jPanel7.addComponentListener(new java.awt.event.ComponentAdapter() {
+        jPanelPersonasSinAutobus.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
-                jPanel7ComponentShown(evt);
+                jPanelPersonasSinAutobusComponentShown(evt);
             }
         });
 
@@ -369,24 +376,30 @@ public class Principal extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(jTablePersonasSinAutobus);
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
+        jButton5.setText("Asignar autobus");
+
+        javax.swing.GroupLayout jPanelPersonasSinAutobusLayout = new javax.swing.GroupLayout(jPanelPersonasSinAutobus);
+        jPanelPersonasSinAutobus.setLayout(jPanelPersonasSinAutobusLayout);
+        jPanelPersonasSinAutobusLayout.setHorizontalGroup(
+            jPanelPersonasSinAutobusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelPersonasSinAutobusLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 554, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelPersonasSinAutobusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 554, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton5))
                 .addContainerGap(456, Short.MAX_VALUE))
         );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel7Layout.createSequentialGroup()
+        jPanelPersonasSinAutobusLayout.setVerticalGroup(
+            jPanelPersonasSinAutobusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelPersonasSinAutobusLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton5)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Personas sin autobus", jPanel7);
+        jTabbedPane1.addTab("Personas sin autobus", jPanelPersonasSinAutobus);
 
         jButton1.setText("Crear persona");
 
@@ -504,18 +517,23 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void comboTipoViajeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboTipoViajeroActionPerformed
-        System.out.println("Prueba combo 2");
+        System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
         cargaTablaPersonas(true);
     }//GEN-LAST:event_comboTipoViajeroActionPerformed
 
     private void comboViajePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_comboViajePropertyChange
-        cargaTablaPersonas(true);
+
     }//GEN-LAST:event_comboViajePropertyChange
 
     private void comboViajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboViajeActionPerformed
-        //System.out.println("Prueba");
-        cargaTablaPersonas(true);
-        cargaTablaAutobuses();
+        System.out.println("Combo peregrinaciones");
+        if(jPanelPeregrinaciones.isVisible()){
+            cargaTablaPersonas(true);
+        }else if(jPanelAutobuses.isVisible()){
+            cargaTablaAutobuses();
+        }else if(jPanelPersonasSinAutobus.isVisible()){
+            cargaTablaPersonasSinAutobus();
+        }
     }//GEN-LAST:event_comboViajeActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -561,19 +579,24 @@ public class Principal extends javax.swing.JFrame {
         System.out.println("Pestaña");        // TODO add your handling code here:
     }//GEN-LAST:event_jTabbedPane1ComponentShown
 
-    private void jPanel4ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel4ComponentShown
+    private void jPanelAutobusesComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelAutobusesComponentShown
         System.out.println("Pertaña 2");
         cargaTablaAutobuses();
-    }//GEN-LAST:event_jPanel4ComponentShown
+    }//GEN-LAST:event_jPanelAutobusesComponentShown
 
     private void jTableAutobusesPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jTableAutobusesPropertyChange
         
     }//GEN-LAST:event_jTableAutobusesPropertyChange
 
-    private void jPanel7ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanel7ComponentShown
-        System.out.println("Pertaña 2");
+    private void jPanelPersonasSinAutobusComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelPersonasSinAutobusComponentShown
+        System.out.println("Pertaña 3");
         cargaTablaPersonasSinAutobus();        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel7ComponentShown
+    }//GEN-LAST:event_jPanelPersonasSinAutobusComponentShown
+
+    private void jPanelPeregrinacionesComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelPeregrinacionesComponentShown
+        System.out.println("Pertaña 1");
+        cargaTablaPersonas(true);
+    }//GEN-LAST:event_jPanelPeregrinacionesComponentShown
 
     private void ponListenerTablaAutobuses(){
         jTableAutobuses.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -592,6 +615,7 @@ public class Principal extends javax.swing.JFrame {
     }
     
     private void cargarPasajerosTabla(String idAutobus) {
+        System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
         AutobusBean autobus=new AutobusBean();
         autobus.setIdAutobus(idAutobus);
         autobus.cargaDatos();
@@ -656,16 +680,17 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanelAutobuses;
+    private javax.swing.JPanel jPanelPeregrinaciones;
+    private javax.swing.JPanel jPanelPersonasSinAutobus;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -679,6 +704,7 @@ public class Principal extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void cargaTablaPersonas(boolean tipo) {
+        System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
         filtroViaje=comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
         filtroTipoViajero=comboTipoViajero.getModel().getElementAt(comboTipoViajero.getSelectedIndex()).split(" - ")[0];
         listaPersonas = GestionPersonasBD.getListaPersonas(tipo,filtroViaje,filtroTipoViajero);
@@ -699,6 +725,7 @@ public class Principal extends javax.swing.JFrame {
     }
     
     private void cargaTablaAutobuses() {
+        System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
         filtroViaje=comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
         filtroTipoViajero=comboTipoViajero.getModel().getElementAt(comboTipoViajero.getSelectedIndex()).split(" - ")[0];
         listaAutobuses = GestionAutobusesBD.getListaAutobuses(filtroViaje);
@@ -717,10 +744,11 @@ public class Principal extends javax.swing.JFrame {
     }
 
     private void cargaTablaPersonasSinAutobus() {
+        System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
         filtroViaje=comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
         filtroTipoViajero=comboTipoViajero.getModel().getElementAt(comboTipoViajero.getSelectedIndex()).split(" - ")[0];
         listaPersonas = GestionPersonasBD.getListaPersonasSinAutobus(filtroViaje);
-        DefaultTableModel datosTabla = (DefaultTableModel) tablaPersonas.getModel();
+        DefaultTableModel datosTabla = (DefaultTableModel) jTablePersonasSinAutobus.getModel();
         for (int i = datosTabla.getRowCount(); i > 0; i--) {
             datosTabla.removeRow(i - 1);
         }
@@ -730,8 +758,8 @@ public class Principal extends javax.swing.JFrame {
                 ""+persona.getIdPersona(),
                 persona.getDNI(),
                 persona.getApellidos()+", "+persona.getNombre(),
-                persona.getFechaNacimiento(),
-                GestionTiposViajeroBD.getTipoViajero(filtroViaje, persona.getIdPersona()).getNombreTipo()
+                persona.getFechaNacimiento()//,
+                //GestionTiposViajeroBD.getTipoViajero(filtroViaje, persona.getIdPersona()).getNombreTipo()
             });
         }
     }

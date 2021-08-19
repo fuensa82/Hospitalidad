@@ -264,6 +264,47 @@ public class GestionViajesBD {
         //int result3=
     }
     
+    public static ArrayList<PersonaBean> getPersonaSinAutobus(String idViaje){
+        ArrayList<PersonaBean> result;
+        result = new ArrayList();
+        Connection conexion = null;
+        try {
+            conexion=ConectorBD.getConnection();
+            PersonaBean persona;
+            PreparedStatement consulta = conexion.prepareStatement(
+            "SELECT idPersona,DNI,Nombre,Apellidos FROM relviajetodo  " +
+            "WHERE idViaje=? AND  " +
+            "idPersona NOT IN( " +
+            "   SELECT relpersonaautobus.idPersona FROM relpersonaautobus,autobuses " +
+            "   WHERE relpersonaautobus.idAutobus=autobuses.idAutobus AND " +
+            "       autobuses.idViaje=? " +
+            "       )");
+            
+            consulta.setString(1, idViaje);
+            consulta.setString(2, idViaje);
+            
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()){
+                    persona=new PersonaBean();
+                    persona.setIdPersona(resultado.getString(1));
+                    persona.setDNI(resultado.getString(2));
+                    persona.setNombre(resultado.getString(3));
+                    persona.setApellidos(resultado.getString(4));
+                    result.add(persona);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException ex) {
+            
+        }finally{
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+            }
+        }
+        return result;
+    }
+    
     private static int eliminaPersonasViaje(String idPersona, String idViaje) {
         int fila = 0;
         Connection conexion = null;

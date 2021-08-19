@@ -63,7 +63,7 @@ public class OpcionesGuardarPersonaAutobusModal extends javax.swing.JPanel {
 
         jComboPeregrinacion.setModel(GestionViajesBD.getModeloComboViajes());
 
-        jLabel2.setText("Tipo:");
+        jLabel2.setText("Autobus:");
 
         jComboTipoViajero.setModel(GestionTiposViajeroBD.getModeloComboTipoViajero(false));
 
