@@ -219,7 +219,7 @@ public class GestionViajesBD {
                         } else {
                             correcto++;
                         }
-                    } catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e) {
+                    } catch (Exception e) {
                         System.out.println(e.getMessage());
                         errores++;
                         personasConError+="  "+persona.getApellidos()+", "+persona.getNombre()+"\n ";
