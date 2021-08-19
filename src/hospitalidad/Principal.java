@@ -606,6 +606,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         //Boton asignar autobus
+        
         ArrayList<PersonaBean> lista = new ArrayList<PersonaBean>();
         for (int i = 0; i < jTablePersonasSinAutobus.getRowCount(); i++) {
             if ((boolean) jTablePersonasSinAutobus.getValueAt(i, 0)) {
