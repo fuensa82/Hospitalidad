@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
@@ -377,6 +378,11 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane3.setViewportView(jTablePersonasSinAutobus);
 
         jButton5.setText("Asignar autobus");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelPersonasSinAutobusLayout = new javax.swing.GroupLayout(jPanelPersonasSinAutobus);
         jPanelPersonasSinAutobus.setLayout(jPanelPersonasSinAutobusLayout);
@@ -598,6 +604,49 @@ public class Principal extends javax.swing.JFrame {
         cargaTablaPersonas(true);
     }//GEN-LAST:event_jPanelPeregrinacionesComponentShown
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        //Boton asignar autobus
+        ArrayList<PersonaBean> lista = new ArrayList<PersonaBean>();
+        for (int i = 0; i < jTablePersonasSinAutobus.getRowCount(); i++) {
+            if ((boolean) jTablePersonasSinAutobus.getValueAt(i, 0)) {
+                PersonaBean persona = new PersonaBean();
+                persona.setIdPersona((String) jTablePersonasSinAutobus.getValueAt(i, 1));
+                lista.add(persona);
+            }
+        }
+        if(lista.size()<1){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar al menos una persona");
+            return;
+        
+        }
+        JDialog frame = new JDialog((JFrame) null, "Guardar", true);
+        frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+        OpcionesGuardarPersonaAutobusModal ventana = new OpcionesGuardarPersonaAutobusModal();
+        frame.getContentPane().add(ventana);
+        frame.pack();
+        frame.setLocationRelativeTo(this);
+        frame.setVisible(true);
+        
+        String opcion=ventana.getBoton();
+        if("G".equals(opcion)){
+            int plazasLibre=GestionAutobusesBD.getNumPlazas(ventana.getAutobus());
+            if(plazasLibre<=0){
+                JOptionPane.showMessageDialog(null, "El autobus seleccionado no tiene plazas libres");
+                return;
+            }else if(plazasLibre<lista.size()){
+                JOptionPane.showMessageDialog(null, "El autobus seleccionado no tiene suficientes plazas libres");
+                return;
+            }else{
+                for(PersonaBean persona:lista){
+                    GestionAutobusesBD.setPasajeroAutobus(ventana.getAutobus(), persona.getIdPersona());
+                }
+            }
+        }
+        
+        
+        cargaTablaPersonasSinAutobus();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     private void ponListenerTablaAutobuses(){
         jTableAutobuses.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -726,10 +775,15 @@ public class Principal extends javax.swing.JFrame {
     
     private void cargaTablaAutobuses() {
         System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
+        DefaultTableModel datosTabla = (DefaultTableModel) tablaPersonasBus.getModel();
+        for (int i = datosTabla.getRowCount(); i > 0; i--) {
+            datosTabla.removeRow(i - 1);
+        }
+        
         filtroViaje=comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
         filtroTipoViajero=comboTipoViajero.getModel().getElementAt(comboTipoViajero.getSelectedIndex()).split(" - ")[0];
         listaAutobuses = GestionAutobusesBD.getListaAutobuses(filtroViaje);
-        DefaultTableModel datosTabla = (DefaultTableModel) jTableAutobuses.getModel();
+        datosTabla = (DefaultTableModel) jTableAutobuses.getModel();
         for (int i = datosTabla.getRowCount(); i > 0; i--) {
             datosTabla.removeRow(i - 1);
         }
@@ -746,7 +800,6 @@ public class Principal extends javax.swing.JFrame {
     private void cargaTablaPersonasSinAutobus() {
         System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
         filtroViaje=comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
-        filtroTipoViajero=comboTipoViajero.getModel().getElementAt(comboTipoViajero.getSelectedIndex()).split(" - ")[0];
         listaPersonas = GestionPersonasBD.getListaPersonasSinAutobus(filtroViaje);
         DefaultTableModel datosTabla = (DefaultTableModel) jTablePersonasSinAutobus.getModel();
         for (int i = datosTabla.getRowCount(); i > 0; i--) {

@@ -6,6 +6,8 @@
 package hospitalidad.beans;
 
 import hospitalidad.Gestores.GestionAutobusesBD;
+import hospitalidad.Gestores.GestionViajesBD;
+import static hospitalidad.Gestores.GestionViajesBD.getListaViajes;
 import java.util.ArrayList;
 
 /**
@@ -16,7 +18,14 @@ public class AutobusBean {
     private ArrayList<PersonaBean> pasajeros;
     private String idAutobus;
     private String idViaje;
+    private int plazas;
+    private String observaciones;
+    private String descripcion;
 
+    public String toString(){
+        return idViaje+" - "+descripcion+" - "+observaciones;
+    }
+    
     public String getIdViaje() {
         return idViaje;
     }
@@ -24,10 +33,7 @@ public class AutobusBean {
     public void setIdViaje(String idViaje) {
         this.idViaje = idViaje;
     }
-    private int plazas;
-    private String observaciones;
-    private String descripcion;
-
+    
     public String getDescripcion() {
         return descripcion;
     }
@@ -35,6 +41,8 @@ public class AutobusBean {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+    
+    
 
     /**
      * Devuelve true si se inserta correctamente en la base de datos, false si da error o el autobus ya está completo

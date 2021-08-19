@@ -7,6 +7,7 @@ package hospitalidad.Gestores;
 
 import hospitalidad.beans.AutobusBean;
 import hospitalidad.beans.PersonaBean;
+import hospitalidad.beans.ViajeBean;
 import hospitalidad.utils.ConectorBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -22,63 +23,147 @@ import javax.naming.NamingException;
  * @author vPalomo
  */
 public class GestionAutobusesBD {
-    
-    public static boolean guardarPasajero(AutobusBean autobus, PersonaBean persona){
-        boolean result=false;
-        
-        return result;
-    }
     /**
-     * Devuelve el numero de plazas ocupadas de un autobus
-     * @param idAutobus
+     * Guarda (si el autobus tiene sitio libre) la persona en el autobus. Si no hay sitio devuelve false
+     * y no se asigna la persona al autobus
+     * @param autobus
+     * @param persona
      * @return 
      */
-    public static int getPlazasOcupadas(String idAutobus){
-        int plazas=0;
-        
-        return plazas;
+    public static boolean guardarPasajero(AutobusBean autobus, PersonaBean persona) {
+        if(getPlazasLibres(autobus.getIdAutobus())<=0) return false;
+        return setPasajeroAutobus(autobus.getIdAutobus(), persona.getIdPersona());
     }
-    
-    public static int getNumPlazas(String idAutobus){
-        int plazas=0;
-        
-        return plazas;
-    }
-    
-    public static boolean guardaAutobus(AutobusBean autobus){
-        boolean result=false;
-        
-        return result;
-    }
-    
-    public static AutobusBean consultaAutobus(String idAutobus){
-        AutobusBean autobus=new AutobusBean();
-        
-        return autobus;
-    }
+
     /**
-     * 
+     * Devuelve el numero de plazas ocupadas de un autobus
+     *
      * @param idAutobus
-     * @return devuelve el arrayList de PersonaBean con los datos de los pasajeros
+     * @return
      */
-    public static ArrayList<PersonaBean> consultaPasajeros(String idAutobus){
-        ArrayList<PersonaBean> plazas=new ArrayList<PersonaBean>();
-        
+    public static int getPlazasOcupadas(String idAutobus) {
+        int plazas = 0;
         Connection conexion = null;
         try {
-            conexion=ConectorBD.getConnection();
+            conexion = ConectorBD.getConnection();
+            PreparedStatement consulta = conexion.prepareStatement(
+                    "SELECT COUNT(*) AS plazas FROM relpersonaautobus WHERE idAutobus=?");
+            consulta.setString(1, idAutobus);
+
+            ResultSet resultado = consulta.executeQuery();
+            if (resultado.next()) {
+               plazas=resultado.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException ex) {
+
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+            }
+        }
+        return plazas;
+    }
+
+    public static int getPlazasLibres(String idAutobus) {
+        int plazasO = getPlazasOcupadas(idAutobus);
+        int plazasT = getNumPlazas(idAutobus);
+        return plazasT - plazasO;
+    }
+
+    public static int getNumPlazas(String idAutobus) {
+        int plazas = 0;
+        Connection conexion = null;
+        try {
+            conexion = ConectorBD.getConnection();
+            PreparedStatement consulta = conexion.prepareStatement(
+                    "select Plazas "
+                    + "FROM autobuses "
+                    + "WHERE idAutobus=?");
+
+            consulta.setString(1, idAutobus);
+
+            ResultSet resultado = consulta.executeQuery();
+            if (resultado.next()) {
+               plazas=resultado.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException ex) {
+
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+            }
+        }
+        return plazas;
+    }
+
+    public static boolean setPasajeroAutobus(String idAutobus, String idPersona) {
+        if(getPlazasLibres(idAutobus)<=0) return false;
+        boolean result = false;
+        Connection conexion = null;
+
+        try {
+            conexion = ConectorBD.getConnection();
+        
+            PreparedStatement insert1 = conexion.prepareStatement(
+                    "INSERT INTO relpersonaautobus VALUES (?,?)");
+            insert1.setString(1, idAutobus);
+            insert1.setString(2, idPersona);
+
+            insert1.executeUpdate();
+            
+            return true;
+            
+        } catch (NamingException ex) {
+            Logger.getLogger(GestionAutobusesBD.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionAutobusesBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return result;
+    }
+
+    public static boolean guardaAutobus(AutobusBean autobus) {
+        boolean result = false;
+
+        return result;
+    }
+
+    public static AutobusBean consultaAutobus(String idAutobus) {
+        AutobusBean autobus = new AutobusBean();
+
+        return autobus;
+    }
+
+    /**
+     *
+     * @param idAutobus
+     * @return devuelve el arrayList de PersonaBean con los datos de los
+     * pasajeros
+     */
+    public static ArrayList<PersonaBean> consultaPasajeros(String idAutobus) {
+        ArrayList<PersonaBean> plazas = new ArrayList<PersonaBean>();
+
+        Connection conexion = null;
+        try {
+            conexion = ConectorBD.getConnection();
             PersonaBean persona;
             PreparedStatement consulta = conexion.prepareStatement(
-            "SELECT personas.idPersona, DNI, Nombre, Apellidos " +
-            "FROM personas, relpersonaautobus " +
-            "WHERE personas.idPersona=relpersonaautobus.idPersona AND " +
-            "		relpersonaautobus.idAutobus=? "+
-            "ORDER BY Apellidos");
+                    "SELECT personas.idPersona, DNI, Nombre, Apellidos "
+                    + "FROM personas, relpersonaautobus "
+                    + "WHERE personas.idPersona=relpersonaautobus.idPersona AND "
+                    + "		relpersonaautobus.idAutobus=? "
+                    + "ORDER BY Apellidos");
             consulta.setString(1, idAutobus);
-            
+
             ResultSet resultado = consulta.executeQuery();
-            while (resultado.next()){
-                persona=new PersonaBean();
+            while (resultado.next()) {
+                persona = new PersonaBean();
                 persona.setIdPersona(resultado.getString(1));
                 persona.setDNI(resultado.getString(2));
                 persona.setNombre(resultado.getString(3));
@@ -88,33 +173,41 @@ public class GestionAutobusesBD {
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NamingException ex) {
-            
-        }finally{
+
+        } finally {
             try {
                 conexion.close();
             } catch (SQLException ex) {
             }
         }
-        
         return plazas;
     }
-    
-    public static ArrayList<AutobusBean> getListaAutobuses(String idViaje){
-        ArrayList<AutobusBean> lista= new ArrayList();
+
+    public static javax.swing.DefaultComboBoxModel getModeloComboAutobuses(String idViaje) {
+        ArrayList<AutobusBean> lista = getListaAutobuses(idViaje);
+        String[] autobuses = new String[lista.size()];
+        for (int i = 0; i < lista.size(); i++) {
+            autobuses[i] = lista.get(i).toString();
+        }
+        return new javax.swing.DefaultComboBoxModel<>(autobuses);
+
+    }
+    public static ArrayList<AutobusBean> getListaAutobuses(String idViaje) {
+        ArrayList<AutobusBean> lista = new ArrayList();
         Connection conexion = null;
         try {
-            conexion=ConectorBD.getConnection();
+            conexion = ConectorBD.getConnection();
             AutobusBean autobus;
             PreparedStatement consulta = conexion.prepareStatement(
-            "select idAutobus, Descripcion, Plazas, Observaciones, idViaje " +
-            "FROM autobuses " +
-            "WHERE idViaje=?");
-            
+                    "select idAutobus, Descripcion, Plazas, Observaciones, idViaje "
+                    + "FROM autobuses "
+                    + "WHERE idViaje=?");
+
             consulta.setString(1, idViaje);
-            
+
             ResultSet resultado = consulta.executeQuery();
-            while (resultado.next()){
-                autobus=new AutobusBean();
+            while (resultado.next()) {
+                autobus = new AutobusBean();
                 autobus.setIdAutobus(resultado.getString(1));
                 autobus.setDescripcion(resultado.getString(2));
                 autobus.setPlazas(resultado.getInt(3));
@@ -125,36 +218,38 @@ public class GestionAutobusesBD {
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NamingException ex) {
-            
-        }finally{
+
+        } finally {
             try {
                 conexion.close();
             } catch (SQLException ex) {
             }
         }
         return lista;
-        
+
     }
+
     /**
      * Devuelve un AutobusBean con los datos del autobus pasado como id
+     *
      * @param idAutobus
-     * @return 
+     * @return
      */
-    public static AutobusBean getDatosAutobus(String idAutobus){
-        AutobusBean autobus=new AutobusBean();
+    public static AutobusBean getDatosAutobus(String idAutobus) {
+        AutobusBean autobus = new AutobusBean();
         Connection conexion = null;
         try {
-            conexion=ConectorBD.getConnection();
+            conexion = ConectorBD.getConnection();
             PreparedStatement consulta = conexion.prepareStatement(
-            "select idAutobus, Descripcion, Plazas, Observaciones, idViaje " +
-            "FROM autobuses " +
-            "WHERE idAutobus=?");
-            
+                    "select idAutobus, Descripcion, Plazas, Observaciones, idViaje "
+                    + "FROM autobuses "
+                    + "WHERE idAutobus=?");
+
             consulta.setString(1, idAutobus);
-            
+
             ResultSet resultado = consulta.executeQuery();
-            if (resultado.next()){
-                autobus=new AutobusBean();
+            if (resultado.next()) {
+                autobus = new AutobusBean();
                 autobus.setIdAutobus(resultado.getString(1));
                 autobus.setDescripcion(resultado.getString(2));
                 autobus.setPlazas(resultado.getInt(3));
@@ -164,8 +259,8 @@ public class GestionAutobusesBD {
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NamingException ex) {
-            
-        }finally{
+
+        } finally {
             try {
                 conexion.close();
             } catch (SQLException ex) {
@@ -173,13 +268,16 @@ public class GestionAutobusesBD {
         }
         return autobus;
     }
+
     /**
-     * Para eliminar bien a una persona de una peregrinacion hay que borrarle de la peregrinacion, pero 
-     * tambien del autobus y del hotel/habitación.
-     * Este método borra a la persona del autobus donde esté asignado en esa peregrinacion
+     * Para eliminar bien a una persona de una peregrinacion hay que borrarle de
+     * la peregrinacion, pero tambien del autobus y del hotel/habitación. Este
+     * método borra a la persona del autobus donde esté asignado en esa
+     * peregrinacion
+     *
      * @param idPersona
      * @param idViaje
-     * @return 
+     * @return
      */
     public static int eliminaPersonasAutobus(String idPersona, String idViaje) {
         int fila = 0;
@@ -187,13 +285,13 @@ public class GestionAutobusesBD {
         try {
             conexion = ConectorBD.getConnection();
             PreparedStatement insert1 = conexion.prepareStatement(
-                    "DELETE FROM relpersonaautobus " +
-                    "WHERE idPersona=? AND idAutobus=( " +
-                        "SELECT autobuses.idAutobus " +
-                        "FROM relpersonaautobus,autobuses " +
-                        "WHERE relpersonaautobus.idAutobus=autobuses.idAutobus AND " +
-                        "		autobuses.idViaje=? and " +
-                        "		idPersona=?)");
+                    "DELETE FROM relpersonaautobus "
+                    + "WHERE idPersona=? AND idAutobus=( "
+                    + "SELECT autobuses.idAutobus "
+                    + "FROM relpersonaautobus,autobuses "
+                    + "WHERE relpersonaautobus.idAutobus=autobuses.idAutobus AND "
+                    + "		autobuses.idViaje=? and "
+                    + "		idPersona=?)");
             insert1.setString(1, idPersona);
             insert1.setString(2, idViaje);
             insert1.setString(3, idPersona);
