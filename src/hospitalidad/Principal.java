@@ -11,6 +11,7 @@ import hospitalidad.Gestores.GestionViajesBD;
 import hospitalidad.Gestores.GestionTiposViajeroBD;
 import hospitalidad.beans.AutobusBean;
 import hospitalidad.beans.PersonaBean;
+import java.awt.Window;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,6 +19,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ListSelectionEvent;
@@ -74,7 +76,8 @@ public class Principal extends javax.swing.JFrame {
         tablaPersonas = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
+        jButtonEliminaDeLaPeregrinacion = new javax.swing.JButton();
+        jButtonAgregaPersonas = new javax.swing.JButton();
         jPanelAutobuses = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -85,7 +88,7 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTablePersonasSinAutobus = new javax.swing.JTable();
         jButton5 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jButtonCrearPersona = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         comboViaje = new javax.swing.JComboBox<>();
@@ -180,10 +183,17 @@ public class Principal extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jButton4.setText("Eliminar de la peregrinación");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        jButtonEliminaDeLaPeregrinacion.setText("Eliminar de la peregrinación");
+        jButtonEliminaDeLaPeregrinacion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                jButtonEliminaDeLaPeregrinacionActionPerformed(evt);
+            }
+        });
+
+        jButtonAgregaPersonas.setText("Agragar personas");
+        jButtonAgregaPersonas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAgregaPersonasActionPerformed(evt);
             }
         });
 
@@ -194,7 +204,10 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(jPanelPeregrinacionesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelPeregrinacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4)
+                    .addGroup(jPanelPeregrinacionesLayout.createSequentialGroup()
+                        .addComponent(jButtonAgregaPersonas)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonEliminaDeLaPeregrinacion))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 586, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelPeregrinacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -213,7 +226,9 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
+                .addGroup(jPanelPeregrinacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonEliminaDeLaPeregrinacion)
+                    .addComponent(jButtonAgregaPersonas))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -407,7 +422,7 @@ public class Principal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Personas sin autobus", jPanelPersonasSinAutobus);
 
-        jButton1.setText("Crear persona");
+        jButtonCrearPersona.setText("Crear persona");
 
         jButton2.setText("Autobuses");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -462,7 +477,7 @@ public class Principal extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(98, 98, 98)
-                                .addComponent(jButton1)
+                                .addComponent(jButtonCrearPersona)
                                 .addGap(18, 18, 18))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGap(17, 17, 17)
@@ -489,7 +504,7 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jButton1)
+                    .addComponent(jButtonCrearPersona)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
                 .addGap(18, 18, 18)
@@ -559,7 +574,7 @@ public class Principal extends javax.swing.JFrame {
         cargaTablaPersonas(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void jButtonEliminaDeLaPeregrinacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminaDeLaPeregrinacionActionPerformed
         ArrayList<PersonaBean> lista = new ArrayList<PersonaBean>();
         for (int i = 0; i < tablaPersonas.getRowCount(); i++) {
             if ((boolean) tablaPersonas.getValueAt(i, 0)) {
@@ -579,7 +594,7 @@ public class Principal extends javax.swing.JFrame {
         }
         cargaTablaPersonas(true);
         
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_jButtonEliminaDeLaPeregrinacionActionPerformed
 
     private void jTabbedPane1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTabbedPane1ComponentShown
         System.out.println("Pestaña");        // TODO add your handling code here:
@@ -647,6 +662,25 @@ public class Principal extends javax.swing.JFrame {
         
         cargaTablaPersonasSinAutobus();
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButtonAgregaPersonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAgregaPersonasActionPerformed
+        filtroViaje=comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
+        JDialog frame = new JDialog(this, "Gestion de personas", true);
+        frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+        ListadoPersonasAsignar ventana=new ListadoPersonasAsignar(filtroViaje);
+        frame.getContentPane().add(ventana);
+        frame.pack();
+        frame.setLocationRelativeTo(this);
+        frame.setVisible(true);
+        //iniciarMisComponentes();
+        if("G".equals(ventana.getBoton())){
+            String mensaje=GestionViajesBD.guardaPersonasPeregrinacionUnitaria(ventana.getListaPersonasSelec(), filtroViaje, ventana.getTipoViajero());
+            JOptionPane.showMessageDialog(null, mensaje);
+            cargaTablaPersonas(true);
+        }else{
+            return;
+        }
+    }//GEN-LAST:event_jButtonAgregaPersonasActionPerformed
 
     private void ponListenerTablaAutobuses(){
         jTableAutobuses.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -726,11 +760,12 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboTipoViajero;
     private javax.swing.JComboBox<String> comboViaje;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButtonAgregaPersonas;
+    private javax.swing.JButton jButtonCrearPersona;
+    private javax.swing.JButton jButtonEliminaDeLaPeregrinacion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -5,7 +5,7 @@
  */
 package hospitalidad;
 
-import hospitalidad.Gestores.GestionTiposViajeroBD;
+import hospitalidad.Gestores.GestionAutobusesBD;
 import hospitalidad.Gestores.GestionViajesBD;
 import java.awt.Window;
 import javax.swing.SwingUtilities;
@@ -14,33 +14,22 @@ import javax.swing.SwingUtilities;
  *
  * @author vPalomo
  */
-public class OpcionesGuardarPersonaViajeModal extends javax.swing.JPanel {
+public class OpcionesComboTipoViajeroModal extends javax.swing.JPanel {
 
     /**
      * Creates new form OpcionesGuardarViajeModal
      */
     private String opcionBoton="C"; //C es Cancelar y G guardar
-    private String opcion="1";//Si es el 2 se bloqueará 
-
-    public OpcionesGuardarPersonaViajeModal(String opcion) {
-        this.opcion=opcion;
-        initComponents();
-        jComboPeregrinacion.setVisible(false);
-        //jComboPeregrinacion.setSelectedIndex(jComboPeregrinacion.getModel().getSize()-1);
-    }
-    
-    
-    
     public String getBoton(){
         return opcionBoton;
     }
     public void setBoton(String opcion) {
         opcionBoton=opcion;
     }
-    public OpcionesGuardarPersonaViajeModal() {
-        this.opcion="1";
+    public OpcionesComboTipoViajeroModal() {
         initComponents();
         jComboPeregrinacion.setSelectedIndex(jComboPeregrinacion.getModel().getSize()-1);
+        cargaComboAutobuses();
     }
     /**
      * Devuelve la opcion elegida en el combo de peregrinacion
@@ -50,8 +39,8 @@ public class OpcionesGuardarPersonaViajeModal extends javax.swing.JPanel {
         return jComboPeregrinacion.getModel().getElementAt(jComboPeregrinacion.getSelectedIndex()).split(" - ")[0];
     }
     
-    public String getTipoViajero(){
-        return jComboTipoViajero.getModel().getElementAt(jComboTipoViajero.getSelectedIndex()).split(" - ")[0];
+    public String getAutobus(){
+        return jComboAutobuses.getModel().getElementAt(jComboAutobuses.getSelectedIndex()).split(" - ")[0];
     }
     
     /**
@@ -66,7 +55,7 @@ public class OpcionesGuardarPersonaViajeModal extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jComboPeregrinacion = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        jComboTipoViajero = new javax.swing.JComboBox<>();
+        jComboAutobuses = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -74,10 +63,13 @@ public class OpcionesGuardarPersonaViajeModal extends javax.swing.JPanel {
         jLabel1.setText("Peregrinación:");
 
         jComboPeregrinacion.setModel(GestionViajesBD.getModeloComboViajes());
+        jComboPeregrinacion.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jComboPeregrinacionPropertyChange(evt);
+            }
+        });
 
-        jLabel2.setText("Tipo:");
-
-        jComboTipoViajero.setModel(GestionTiposViajeroBD.getModeloComboTipoViajero(false));
+        jLabel2.setText("Autobus:");
 
         jButton1.setText("Guardar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -93,7 +85,7 @@ public class OpcionesGuardarPersonaViajeModal extends javax.swing.JPanel {
             }
         });
 
-        jLabel3.setText("Elegir peregrinación y tipo de persona a asignar a todas las personas seleccionadas");
+        jLabel3.setText("Elegir peregrinación y el autobús a asignar a todas las personas seleccionadas");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -108,24 +100,23 @@ public class OpcionesGuardarPersonaViajeModal extends javax.swing.JPanel {
                         .addComponent(jButton1))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel1))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboTipoViajero, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboPeregrinacion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                            .addComponent(jComboAutobuses, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboPeregrinacion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(19, 19, 19))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(4, 4, 4)
+                .addGap(7, 7, 7)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -134,7 +125,7 @@ public class OpcionesGuardarPersonaViajeModal extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jComboTipoViajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboAutobuses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -155,14 +146,23 @@ public class OpcionesGuardarPersonaViajeModal extends javax.swing.JPanel {
         w.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jComboPeregrinacionPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jComboPeregrinacionPropertyChange
+        cargaComboAutobuses();
+    }//GEN-LAST:event_jComboPeregrinacionPropertyChange
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox<String> jComboAutobuses;
     private javax.swing.JComboBox<String> jComboPeregrinacion;
-    private javax.swing.JComboBox<String> jComboTipoViajero;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
+
+    private void cargaComboAutobuses() {
+        String idViaje=jComboPeregrinacion.getModel().getElementAt(jComboPeregrinacion.getSelectedIndex()).split(" - ")[0];
+        jComboAutobuses.setModel(GestionAutobusesBD.getModeloComboAutobuses(idViaje));
+    }
 }

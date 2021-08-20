@@ -174,5 +174,47 @@ public class GestionPersonasBD {
         }
         return result;
     }
+    /**
+     * Devuelve la lista de personas que no están en este viaje
+     * @param idViaje
+     * @return 
+     */
+    public static ArrayList<PersonaBean> getListaPersonasSinViaje(String idViaje, boolean isActivo) {
+        ArrayList<PersonaBean> result;
+        result = new ArrayList();
+        Connection conexion = null;
+        try {
+            conexion=ConectorBD.getConnection();
+            PersonaBean persona;
+            PreparedStatement consulta = conexion.prepareStatement(
+            "SELECT idPersona, DNI, Nombre, Apellidos, FechaNacimiento, Correo, Telefono1, Telefono2, Direccion, CP, Localidad, Provincia, Observaciones, Activo " +
+            "FROM personas " +
+            "WHERE idPersona NOT IN (SELECT idPersona FROM relviajetodo WHERE idViaje=?) "+
+            "ORDER BY Apellidos");
+            consulta.setString(1, idViaje);
+            
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()){
+                if("true".equals(resultado.getString(14).trim())==isActivo){
+                    persona=new PersonaBean();
+                    persona.setIdPersona(resultado.getString(1));
+                    persona.setDNI(resultado.getString(2));
+                    persona.setNombre(resultado.getString(3));
+                    persona.setApellidos(resultado.getString(4));
+                    result.add(persona);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException ex) {
+            
+        }finally{
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+            }
+        }
+        return result;
+    }
    
 }
