@@ -19,6 +19,7 @@ USE `hospitalidad`;
 -- Volcando estructura para tabla hospitalidad.autobuses
 CREATE TABLE IF NOT EXISTS `autobuses` (
   `idAutobus` int(11) NOT NULL AUTO_INCREMENT,
+  `Descripcion` varchar(50) DEFAULT NULL,
   `Plazas` int(11) NOT NULL,
   `Observaciones` varchar(250) DEFAULT NULL,
   `idViaje` int(11) DEFAULT NULL,
@@ -27,7 +28,11 @@ CREATE TABLE IF NOT EXISTS `autobuses` (
   CONSTRAINT `FK1 id Viaje` FOREIGN KEY (`idViaje`) REFERENCES `viajes` (`idViaje`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='Se darán de alta los autobuses. Cada Viaje tendrá sus propios autobuses, se deberán crear nuevo enla aplicación cada año';
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla hospitalidad.autobuses: ~0 rows (aproximadamente)
+/*!40000 ALTER TABLE `autobuses` DISABLE KEYS */;
+INSERT IGNORE INTO `autobuses` (`idAutobus`, `Descripcion`, `Plazas`, `Observaciones`, `idViaje`) VALUES
+	(1, 'Nº 1', 3, 'Vitorino 1', 1);
+/*!40000 ALTER TABLE `autobuses` ENABLE KEYS */;
 
 -- Volcando estructura para tabla hospitalidad.personas
 CREATE TABLE IF NOT EXISTS `personas` (
@@ -48,21 +53,32 @@ CREATE TABLE IF NOT EXISTS `personas` (
   PRIMARY KEY (`idPersona`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='Aquí daremos de alta los datos de todas las personas que se realcionen con el viaje o que haya que controlar de alguna manera, ya sean hospitalarios, pacientes, conductores (si es que hiciera falta), ...';
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla hospitalidad.personas: ~4 rows (aproximadamente)
+/*!40000 ALTER TABLE `personas` DISABLE KEYS */;
+INSERT IGNORE INTO `personas` (`idPersona`, `DNI`, `Nombre`, `Apellidos`, `FechaNacimiento`, `Correo`, `Telefono1`, `Telefono2`, `Direccion`, `CP`, `Localidad`, `Provincia`, `Observaciones`, `Activo`) VALUES
+	(1, '03885536P', 'Victor', 'Palomo Silva', '1982-01-22', NULL, NULL, NULL, NULL, NULL, 'Fuensalida', NULL, NULL, _binary 0x7472756500),
+	(2, '03923452C', 'Clara', 'Garcia-Verdugo Arroyo', '1987-06-10', NULL, NULL, NULL, NULL, NULL, 'Cobisa', NULL, NULL, _binary 0x7472756500),
+	(3, '12345678F', 'Arturo', 'Lopez Perez', '1996-08-06', NULL, NULL, NULL, NULL, NULL, 'Fuensalida', NULL, NULL, _binary 0x7472756500),
+	(4, '12342334P', 'Gabriel', 'Sanchez Tenonio', '1999-07-29', NULL, NULL, NULL, NULL, NULL, 'Toledo', NULL, NULL, _binary 0x7472756500);
+/*!40000 ALTER TABLE `personas` ENABLE KEYS */;
 
--- Volcando estructura para tabla hospitalidad.plazas
-CREATE TABLE IF NOT EXISTS `plazas` (
-  `idPlaza` int(11) NOT NULL AUTO_INCREMENT,
-  `idAutobus` int(11) NOT NULL DEFAULT 0,
-  `idPersona` int(11) DEFAULT 0,
-  PRIMARY KEY (`idPlaza`,`idAutobus`),
-  KEY `FK1 autobus` (`idAutobus`),
+-- Volcando estructura para tabla hospitalidad.relpersonaautobus
+CREATE TABLE IF NOT EXISTS `relpersonaautobus` (
+  `idAutobus` int(11) NOT NULL,
+  `idPersona` int(11) NOT NULL,
+  PRIMARY KEY (`idAutobus`,`idPersona`),
   KEY `FK2 persona` (`idPersona`),
   CONSTRAINT `FK1 autobus` FOREIGN KEY (`idAutobus`) REFERENCES `autobuses` (`idAutobus`),
   CONSTRAINT `FK2 persona` FOREIGN KEY (`idPersona`) REFERENCES `personas` (`idPersona`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Plazas de autobus';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla hospitalidad.relpersonaautobus: ~2 rows (aproximadamente)
+/*!40000 ALTER TABLE `relpersonaautobus` DISABLE KEYS */;
+INSERT IGNORE INTO `relpersonaautobus` (`idAutobus`, `idPersona`) VALUES
+	(1, 1),
+	(1, 2),
+	(1, 3);
+/*!40000 ALTER TABLE `relpersonaautobus` ENABLE KEYS */;
 
 -- Volcando estructura para tabla hospitalidad.relviajetodo
 CREATE TABLE IF NOT EXISTS `relviajetodo` (
@@ -77,7 +93,18 @@ CREATE TABLE IF NOT EXISTS `relviajetodo` (
   CONSTRAINT `FK_relviajetodo_viajes` FOREIGN KEY (`idViaje`) REFERENCES `viajes` (`idViaje`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Esta es la tabla que contiene todas las relaciones, viaje, perosonas, cama, asiento ... es toda la información de una persona en un viaje en concreto';
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla hospitalidad.relviajetodo: ~6 rows (aproximadamente)
+/*!40000 ALTER TABLE `relviajetodo` DISABLE KEYS */;
+INSERT IGNORE INTO `relviajetodo` (`idViaje`, `idPersona`, `idTipoViajero`) VALUES
+	(1, 1, 1),
+	(1, 2, 1),
+	(2, 1, 1),
+	(1, 3, 2),
+	(1, 4, 2),
+	(2, 2, 2),
+	(2, 3, 2),
+	(2, 4, 2);
+/*!40000 ALTER TABLE `relviajetodo` ENABLE KEYS */;
 
 -- Volcando estructura para tabla hospitalidad.tiposviajeros
 CREATE TABLE IF NOT EXISTS `tiposviajeros` (
@@ -87,7 +114,12 @@ CREATE TABLE IF NOT EXISTS `tiposviajeros` (
   PRIMARY KEY (`idTipoViajero`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Como en los viajes hay diferentes tipos de viajeros, aquí podremos darlos de alta para poder manejarlos en el programa';
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla hospitalidad.tiposviajeros: ~2 rows (aproximadamente)
+/*!40000 ALTER TABLE `tiposviajeros` DISABLE KEYS */;
+INSERT IGNORE INTO `tiposviajeros` (`idTipoViajero`, `NombreCortoTipo`, `Descripcion`) VALUES
+	(1, 'Hospitalario', 'Hospitalario'),
+	(2, 'Enfermo', 'Enfermo');
+/*!40000 ALTER TABLE `tiposviajeros` ENABLE KEYS */;
 
 -- Volcando estructura para tabla hospitalidad.viajes
 CREATE TABLE IF NOT EXISTS `viajes` (
@@ -98,7 +130,12 @@ CREATE TABLE IF NOT EXISTS `viajes` (
   PRIMARY KEY (`idViaje`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='Aquí iran los datos generales de cada uno de los viajes';
 
--- La exportación de datos fue deseleccionada.
+-- Volcando datos para la tabla hospitalidad.viajes: ~2 rows (aproximadamente)
+/*!40000 ALTER TABLE `viajes` DISABLE KEYS */;
+INSERT IGNORE INTO `viajes` (`idViaje`, `Nombre`, `FechaIni`, `FechaFin`) VALUES
+	(1, 'Peregrinación 2022', '2021-07-19', '2021-07-22'),
+	(2, 'Peregrinación 2023', '2021-07-19', '2021-07-19');
+/*!40000 ALTER TABLE `viajes` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

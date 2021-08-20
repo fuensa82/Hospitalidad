@@ -84,6 +84,7 @@ public class Principal extends javax.swing.JFrame {
         jTableAutobuses = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
         tablaPersonasBus = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
         jPanelPersonasSinAutobus = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTablePersonasSinAutobus = new javax.swing.JTable();
@@ -326,20 +327,33 @@ public class Principal extends javax.swing.JFrame {
             tablaPersonasBus.getColumnModel().getColumn(5).setPreferredWidth(100);
         }
 
+        jButton1.setText("Agregar pasajeros");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
-            .addComponent(jScrollPane4)
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 544, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanelAutobusesLayout = new javax.swing.GroupLayout(jPanelAutobuses);
@@ -667,7 +681,7 @@ public class Principal extends javax.swing.JFrame {
         filtroViaje=comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
         JDialog frame = new JDialog(this, "Gestion de personas", true);
         frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-        ListadoPersonasAsignar ventana=new ListadoPersonasAsignar(filtroViaje);
+        ListadoPersonasAsignar ventana=new ListadoPersonasAsignar(filtroViaje,ListadoPersonasAsignar.AsignarAViaje);
         frame.getContentPane().add(ventana);
         frame.pack();
         frame.setLocationRelativeTo(this);
@@ -682,6 +696,31 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonAgregaPersonasActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(jTableAutobuses.getSelectedRow()<0){
+            JOptionPane.showMessageDialog(null, "Debe seleccionar un autobús");
+            return;
+        }
+        String idAutobus=(String)jTableAutobuses.getModel().getValueAt(jTableAutobuses.getSelectedRow(), 3);
+        AutobusBean autobus=new AutobusBean(idAutobus);
+        autobus.cargaDatos();
+        JDialog frame = new JDialog(this, "Gestion de personas", true);
+        frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+        ListadoPersonasAsignar ventana=new ListadoPersonasAsignar(autobus.getIdViaje(), ListadoPersonasAsignar.AsignarABus);
+        frame.getContentPane().add(ventana);
+        frame.pack();
+        frame.setLocationRelativeTo(this);
+        frame.setVisible(true);
+        //iniciarMisComponentes();
+        if("G".equals(ventana.getBoton())){
+            String mensaje=GestionAutobusesBD.añadirPasajerosAutobus(ventana.getListaPersonasSelec(), idAutobus);
+            JOptionPane.showMessageDialog(null, mensaje);
+            cargarTablaPasajeros(idAutobus);
+        }else{
+            return;
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void ponListenerTablaAutobuses(){
         jTableAutobuses.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -690,7 +729,7 @@ public class Principal extends javax.swing.JFrame {
                 int indice = lsm.getMinSelectionIndex();
                 if (indice != -1) {
                     String idAutobus=(String) jTableAutobuses.getModel().getValueAt(indice, 3);
-                    cargarPasajerosTabla(idAutobus);
+                    cargarTablaPasajeros(idAutobus);
                 }
             }
 
@@ -698,7 +737,7 @@ public class Principal extends javax.swing.JFrame {
         });
     }
     
-    private void cargarPasajerosTabla(String idAutobus) {
+    private void cargarTablaPasajeros(String idAutobus) {
         System.out.println(new Object(){}.getClass().getEnclosingMethod().getName());
         AutobusBean autobus=new AutobusBean();
         autobus.setIdAutobus(idAutobus);
@@ -760,6 +799,7 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboTipoViajero;
     private javax.swing.JComboBox<String> comboViaje;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
@@ -826,7 +866,7 @@ public class Principal extends javax.swing.JFrame {
         for (AutobusBean autobus : listaAutobuses){
             datosTabla.addRow(new Object[]{
                 autobus.getDescripcion(),
-                autobus.getPlazas(),
+                autobus.getPlazasLibres(),
                 autobus.getObservaciones(),
                 autobus.getIdAutobus()
             });

@@ -7,7 +7,6 @@ package hospitalidad.Gestores;
 
 import hospitalidad.beans.AutobusBean;
 import hospitalidad.beans.PersonaBean;
-import hospitalidad.beans.ViajeBean;
 import hospitalidad.utils.ConectorBD;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -102,6 +101,33 @@ public class GestionAutobusesBD {
         return plazas;
     }
 
+    public static String añadirPasajerosAutobus(ArrayList<PersonaBean> listaPasajeros, String idAutobus){
+        String result="";
+        if(getPlazasLibres(idAutobus)<listaPasajeros.size()){
+            return "No hay sufucuentes plazas libres\n"+
+                    "Plazas libres: "+getPlazasLibres(idAutobus)+
+                    "\nPlazas solicitadas: "+listaPasajeros.size();
+        }
+        int correctos=0;
+        int errores=0;
+        String nombresErrores="";
+        for (PersonaBean persona: listaPasajeros){
+            if(setPasajeroAutobus(idAutobus, persona.getIdPersona())){
+                correctos++;
+            }else{
+                errores++;
+                nombresErrores+="  "+persona.getApellidos()+", "+persona.getNombre()+"\n";
+            }
+        }
+        if(errores==0){
+            return "Asignación realizada correctamente";
+        }else{
+            return "Se han realizado "+correctos+" asignaciones correctamente\n"+
+                    "Han dado error "+errores+" asignaciones\n"+
+                    nombresErrores;
+        }
+        
+    }
     public static boolean setPasajeroAutobus(String idAutobus, String idPersona) {
         if(getPlazasLibres(idAutobus)<=0) return false;
         boolean result = false;

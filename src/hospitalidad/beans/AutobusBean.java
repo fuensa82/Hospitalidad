@@ -6,8 +6,6 @@
 package hospitalidad.beans;
 
 import hospitalidad.Gestores.GestionAutobusesBD;
-import hospitalidad.Gestores.GestionViajesBD;
-import static hospitalidad.Gestores.GestionViajesBD.getListaViajes;
 import java.util.ArrayList;
 
 /**
@@ -22,6 +20,14 @@ public class AutobusBean {
     private String observaciones;
     private String descripcion;
 
+    public AutobusBean(String idAutobus) {
+        this.idAutobus = idAutobus;
+        this.cargaDatos();
+    }
+    public AutobusBean() {
+
+    }
+    
     public String toString(){
         return idViaje+" - "+descripcion+" - "+observaciones;
     }
@@ -57,10 +63,9 @@ public class AutobusBean {
                     "Plazas ocupadas en java: "+pasajeros.size()+"\n"+
                     "Plazas en base de datos: "+plazasOcupadas);
         }
-        
-        boolean result=false;
         if(pasajeros.size()>=plazas)return false;
-        return result;
+        return GestionAutobusesBD.setPasajeroAutobus(idAutobus, persona.getIdPersona());
+
     }
     public ArrayList<PersonaBean> getPasajeros() {
         if(pasajeros==null){
@@ -81,7 +86,7 @@ public class AutobusBean {
         this.idAutobus = idAutobus;
     }
 
-    public int getPlazas() {
+    public int getPlazasLibres() {
         return plazas;
     }
 
@@ -106,7 +111,7 @@ public class AutobusBean {
         this.idAutobus=autobus.getIdAutobus();
         this.idViaje=autobus.getIdViaje();
         this.observaciones=autobus.getObservaciones();
-        this.plazas=autobus.getPlazas();
+        this.plazas=autobus.getPlazasLibres();
         
         return result;
     }
