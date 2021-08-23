@@ -20,12 +20,23 @@ public class OpcionesGuardarPersonaViajeModal extends javax.swing.JPanel {
      * Creates new form OpcionesGuardarViajeModal
      */
     private String opcionBoton="C"; //C es Cancelar y G guardar
-    private String opcion="1";//Si es el 2 se bloqueará 
+    private String opcion="1";//Si es el 2 se bloqueará
+    private String peregrinacion="";
 
-    public OpcionesGuardarPersonaViajeModal(String opcion) {
+    /**
+     * 
+     * @param opcion 1 si queremos que esté activo el combo para elegir peregrinacion y
+     * 2 para que el combo no aparezca.
+     * @param peregrinacion  Nombre de la peregrinacion. Debe enviarse cuando se envía la opcion 2.
+     */
+    public OpcionesGuardarPersonaViajeModal(String opcion, String peregrinacion) {
         this.opcion=opcion;
+        this.peregrinacion=peregrinacion;
         initComponents();
         jComboPeregrinacion.setVisible(false);
+        jLabel1.setVisible(false);
+        jLabel4.setVisible(true);
+        jLabel4.setText(peregrinacion);
         //jComboPeregrinacion.setSelectedIndex(jComboPeregrinacion.getModel().getSize()-1);
     }
     
@@ -39,8 +50,10 @@ public class OpcionesGuardarPersonaViajeModal extends javax.swing.JPanel {
     }
     public OpcionesGuardarPersonaViajeModal() {
         this.opcion="1";
+        
         initComponents();
         jComboPeregrinacion.setSelectedIndex(jComboPeregrinacion.getModel().getSize()-1);
+        jLabel4.setVisible(false);
     }
     /**
      * Devuelve la opcion elegida en el combo de peregrinacion
@@ -70,6 +83,7 @@ public class OpcionesGuardarPersonaViajeModal extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         jLabel1.setText("Peregrinación:");
 
@@ -95,6 +109,8 @@ public class OpcionesGuardarPersonaViajeModal extends javax.swing.JPanel {
 
         jLabel3.setText("Elegir peregrinación y tipo de persona a asignar a todas las personas seleccionadas");
 
+        jLabel4.setText("jLabel4");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -119,7 +135,10 @@ public class OpcionesGuardarPersonaViajeModal extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jComboTipoViajero, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboPeregrinacion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jComboPeregrinacion, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))))
                 .addGap(19, 19, 19))
         );
         layout.setVerticalGroup(
@@ -130,7 +149,8 @@ public class OpcionesGuardarPersonaViajeModal extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jComboPeregrinacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboPeregrinacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -164,5 +184,6 @@ public class OpcionesGuardarPersonaViajeModal extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
 }
