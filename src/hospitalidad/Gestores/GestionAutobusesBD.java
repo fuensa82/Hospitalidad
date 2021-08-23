@@ -236,7 +236,7 @@ public class GestionAutobusesBD {
                 autobus = new AutobusBean();
                 autobus.setIdAutobus(resultado.getString(1));
                 autobus.setDescripcion(resultado.getString(2));
-                autobus.setPlazas(resultado.getInt(3));
+                autobus.setPlazasTotales(resultado.getInt(3));
                 autobus.setObservaciones(resultado.getString(4));
                 autobus.setIdViaje(resultado.getString(5));
                 lista.add(autobus);
@@ -278,7 +278,7 @@ public class GestionAutobusesBD {
                 autobus = new AutobusBean();
                 autobus.setIdAutobus(resultado.getString(1));
                 autobus.setDescripcion(resultado.getString(2));
-                autobus.setPlazas(resultado.getInt(3));
+                autobus.setPlazasTotales(resultado.getInt(3));
                 autobus.setObservaciones(resultado.getString(4));
                 autobus.setIdViaje(resultado.getString(5));
             }

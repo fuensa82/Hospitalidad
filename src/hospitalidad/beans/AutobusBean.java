@@ -16,7 +16,8 @@ public class AutobusBean {
     private ArrayList<PersonaBean> pasajeros;
     private String idAutobus;
     private String idViaje;
-    private int plazas;
+    private int plazasTotales;
+    private int plazasLibres;
     private String observaciones;
     private String descripcion;
 
@@ -59,11 +60,11 @@ public class AutobusBean {
         int plazasOcupadas=GestionAutobusesBD.getPlazasOcupadas(idAutobus);
         if(plazasOcupadas!=pasajeros.size()){
             throw new RuntimeException("Inconsistencia de datos grave. No cuadran las plazas del autobus con id "+idAutobus+"\n"+
-                    "Plazas del autobús: "+plazas+"\n"+
+                    "Plazas del autobús: "+plazasTotales+"\n"+
                     "Plazas ocupadas en java: "+pasajeros.size()+"\n"+
                     "Plazas en base de datos: "+plazasOcupadas);
         }
-        if(pasajeros.size()>=plazas)return false;
+        if(pasajeros.size()>=plazasLibres)return false;
         return GestionAutobusesBD.setPasajeroAutobus(idAutobus, persona.getIdPersona());
 
     }
@@ -87,11 +88,16 @@ public class AutobusBean {
     }
 
     public int getPlazasLibres() {
-        return plazas;
+        int plazasOcupadas=GestionAutobusesBD.getPlazasOcupadas(idAutobus);
+        
+        return plazasTotales-plazasOcupadas;
+    }
+    public int getPlazasTotales() {
+        return plazasTotales;
     }
 
-    public void setPlazas(int plazas) {
-        this.plazas = plazas;
+    public void setPlazasTotales(int plazas) {
+        this.plazasTotales = plazas;
     }
 
     public String getObservaciones() {
@@ -111,7 +117,7 @@ public class AutobusBean {
         this.idAutobus=autobus.getIdAutobus();
         this.idViaje=autobus.getIdViaje();
         this.observaciones=autobus.getObservaciones();
-        this.plazas=autobus.getPlazasLibres();
+        this.plazasTotales=autobus.getPlazasTotales();
         
         return result;
     }

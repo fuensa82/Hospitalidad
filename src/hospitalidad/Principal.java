@@ -116,20 +116,20 @@ public class Principal extends javax.swing.JFrame {
 
         tablaPersonas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Sel", "Id", "DNI", "Nombre", "Fecha Nac.", "Tipo"
+                "Sel", "Id", "DNI", "Apellidos", "Nombre", "Fecha Nac.", "Tipo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false
+                true, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -140,22 +140,19 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tablaPersonas.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
         tablaPersonas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tablaPersonas.getTableHeader().setResizingAllowed(false);
         tablaPersonas.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tablaPersonas);
         if (tablaPersonas.getColumnModel().getColumnCount() > 0) {
-            tablaPersonas.getColumnModel().getColumn(0).setResizable(false);
             tablaPersonas.getColumnModel().getColumn(0).setPreferredWidth(5);
-            tablaPersonas.getColumnModel().getColumn(1).setResizable(false);
             tablaPersonas.getColumnModel().getColumn(1).setPreferredWidth(5);
-            tablaPersonas.getColumnModel().getColumn(2).setResizable(false);
             tablaPersonas.getColumnModel().getColumn(2).setPreferredWidth(20);
-            tablaPersonas.getColumnModel().getColumn(3).setResizable(false);
-            tablaPersonas.getColumnModel().getColumn(4).setResizable(false);
-            tablaPersonas.getColumnModel().getColumn(4).setPreferredWidth(20);
-            tablaPersonas.getColumnModel().getColumn(5).setResizable(false);
+            tablaPersonas.getColumnModel().getColumn(3).setPreferredWidth(75);
+            tablaPersonas.getColumnModel().getColumn(4).setPreferredWidth(75);
             tablaPersonas.getColumnModel().getColumn(5).setPreferredWidth(20);
+            tablaPersonas.getColumnModel().getColumn(6).setPreferredWidth(20);
         }
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Autobus"));
@@ -243,20 +240,20 @@ public class Principal extends javax.swing.JFrame {
 
         jTableAutobuses.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Descripción", "Plazas", "Observaciones", "id"
+                "id", "Descripción", "P Libres", "P totales", "Observaciones"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -267,6 +264,7 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTableAutobuses.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
         jTableAutobuses.getTableHeader().setReorderingAllowed(false);
         jTableAutobuses.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -276,12 +274,11 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTableAutobuses);
         if (jTableAutobuses.getColumnModel().getColumnCount() > 0) {
             jTableAutobuses.getColumnModel().getColumn(0).setResizable(false);
-            jTableAutobuses.getColumnModel().getColumn(0).setPreferredWidth(150);
-            jTableAutobuses.getColumnModel().getColumn(1).setResizable(false);
-            jTableAutobuses.getColumnModel().getColumn(1).setPreferredWidth(20);
-            jTableAutobuses.getColumnModel().getColumn(2).setResizable(false);
-            jTableAutobuses.getColumnModel().getColumn(3).setResizable(false);
-            jTableAutobuses.getColumnModel().getColumn(3).setPreferredWidth(20);
+            jTableAutobuses.getColumnModel().getColumn(0).setPreferredWidth(10);
+            jTableAutobuses.getColumnModel().getColumn(1).setPreferredWidth(100);
+            jTableAutobuses.getColumnModel().getColumn(2).setPreferredWidth(20);
+            jTableAutobuses.getColumnModel().getColumn(3).setPreferredWidth(30);
+            jTableAutobuses.getColumnModel().getColumn(4).setPreferredWidth(100);
         }
 
         tablaPersonasBus.setModel(new javax.swing.table.DefaultTableModel(
@@ -320,7 +317,7 @@ public class Principal extends javax.swing.JFrame {
             tablaPersonasBus.getColumnModel().getColumn(2).setResizable(false);
             tablaPersonasBus.getColumnModel().getColumn(2).setPreferredWidth(100);
             tablaPersonasBus.getColumnModel().getColumn(3).setResizable(false);
-            tablaPersonasBus.getColumnModel().getColumn(3).setPreferredWidth(200);
+            tablaPersonasBus.getColumnModel().getColumn(3).setPreferredWidth(165);
             tablaPersonasBus.getColumnModel().getColumn(4).setResizable(false);
             tablaPersonasBus.getColumnModel().getColumn(4).setPreferredWidth(100);
             tablaPersonasBus.getColumnModel().getColumn(5).setResizable(false);
@@ -386,14 +383,14 @@ public class Principal extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Sel.", "Apellidos", "Nombre", "DNI", "Id"
+                "Sel.", "Id", "DNI", "Apellidos", "Nombre", "Fecha Nac.", "Tipo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false
+                true, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -404,7 +401,17 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTablePersonasSinAutobus.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jScrollPane3.setViewportView(jTablePersonasSinAutobus);
+        if (jTablePersonasSinAutobus.getColumnModel().getColumnCount() > 0) {
+            jTablePersonasSinAutobus.getColumnModel().getColumn(0).setPreferredWidth(30);
+            jTablePersonasSinAutobus.getColumnModel().getColumn(1).setPreferredWidth(30);
+            jTablePersonasSinAutobus.getColumnModel().getColumn(2).setPreferredWidth(75);
+            jTablePersonasSinAutobus.getColumnModel().getColumn(3).setPreferredWidth(150);
+            jTablePersonasSinAutobus.getColumnModel().getColumn(4).setPreferredWidth(100);
+            jTablePersonasSinAutobus.getColumnModel().getColumn(5).setPreferredWidth(100);
+            jTablePersonasSinAutobus.getColumnModel().getColumn(6).setPreferredWidth(100);
+        }
 
         jButton5.setText("Asignar autobus");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -701,7 +708,7 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un autobús");
             return;
         }
-        String idAutobus=(String)jTableAutobuses.getModel().getValueAt(jTableAutobuses.getSelectedRow(), 3);
+        String idAutobus=(String)jTableAutobuses.getModel().getValueAt(jTableAutobuses.getSelectedRow(), 0);
         AutobusBean autobus=new AutobusBean(idAutobus);
         autobus.cargaDatos();
         JDialog frame = new JDialog(this, "Gestion de personas", true);
@@ -715,7 +722,10 @@ public class Principal extends javax.swing.JFrame {
         if("G".equals(ventana.getBoton())){
             String mensaje=GestionAutobusesBD.añadirPasajerosAutobus(ventana.getListaPersonasSelec(), idAutobus);
             JOptionPane.showMessageDialog(null, mensaje);
-            cargarTablaPasajeros(idAutobus);
+            //cargarTablaPasajeros(idAutobus);
+            int sel=jTableAutobuses.getSelectedRow();
+            cargaTablaAutobuses();
+            jTableAutobuses.setRowSelectionInterval(sel, sel);
         }else{
             return;
         }
@@ -728,7 +738,7 @@ public class Principal extends javax.swing.JFrame {
                 ListSelectionModel lsm = (ListSelectionModel) evento.getSource();
                 int indice = lsm.getMinSelectionIndex();
                 if (indice != -1) {
-                    String idAutobus=(String) jTableAutobuses.getModel().getValueAt(indice, 3);
+                    String idAutobus=(String) jTableAutobuses.getModel().getValueAt(indice, 0);
                     cargarTablaPasajeros(idAutobus);
                 }
             }
@@ -842,7 +852,8 @@ public class Principal extends javax.swing.JFrame {
                 false,
                 ""+persona.getIdPersona(),
                 persona.getDNI(),
-                persona.getApellidos()+", "+persona.getNombre(),
+                persona.getApellidos(),
+                persona.getNombre(),
                 persona.getFechaNacimiento(),
                 GestionTiposViajeroBD.getTipoViajero(filtroViaje, persona.getIdPersona()).getNombreTipo()
             });
@@ -865,8 +876,10 @@ public class Principal extends javax.swing.JFrame {
         }
         for (AutobusBean autobus : listaAutobuses){
             datosTabla.addRow(new Object[]{
+                autobus.getIdAutobus(),
                 autobus.getDescripcion(),
                 autobus.getPlazasLibres(),
+                autobus.getPlazasTotales(),
                 autobus.getObservaciones(),
                 autobus.getIdAutobus()
             });
@@ -886,9 +899,10 @@ public class Principal extends javax.swing.JFrame {
                 false,
                 ""+persona.getIdPersona(),
                 persona.getDNI(),
-                persona.getApellidos()+", "+persona.getNombre(),
-                persona.getFechaNacimiento()//,
-                //GestionTiposViajeroBD.getTipoViajero(filtroViaje, persona.getIdPersona()).getNombreTipo()
+                persona.getApellidos(),
+                persona.getNombre(),
+                persona.getFechaNacimiento(),
+                GestionTiposViajeroBD.getTipoViajero(filtroViaje, persona.getIdPersona()).getNombreTipo()
             });
         }
     }
