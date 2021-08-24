@@ -123,6 +123,11 @@ public class ListadoPersonas extends javax.swing.JPanel {
         });
 
         jButton3.setText("Crear persona");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Eliminar Persona");
 
@@ -221,6 +226,16 @@ public class ListadoPersonas extends javax.swing.JPanel {
         //Asignar autobus
         
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        JDialog frame = new JDialog((JFrame) null, "Nuevo", true);
+        frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+        OpcionesDePersona ventana = new OpcionesDePersona(OpcionesDePersona.nuevo);
+        frame.getContentPane().add(ventana);
+        frame.pack();
+        frame.setLocationRelativeTo(this);
+        frame.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void ponListenerTabla(JTable tabla) {
         tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener() {

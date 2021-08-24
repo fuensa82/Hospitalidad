@@ -745,6 +745,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     private void ponListenerTablaParsonas() {
+        JFrame padre=this;
         jTablePersonas.addMouseListener(new MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 if (e.getClickCount() == 1) {
@@ -752,6 +753,16 @@ public class Principal extends javax.swing.JFrame {
                 }
                 if (e.getClickCount() == 2) {
                     System.out.println("Se ha hecho doble click");
+                    String id=(String)jTablePersonas.getModel().getValueAt(jTablePersonas.getSelectedRow(),1);
+                    System.out.println("Id: "+id);
+                    
+                    JDialog frame = new JDialog(padre, "Gestion de personas", true);
+                    frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+                    frame.getContentPane().add(new OpcionesDePersona(OpcionesDePersona.mtto, id));
+                    frame.pack();
+                    frame.setLocationRelativeTo(padre);
+                    frame.setVisible(true);
+                    cargaTablaPersonas(true);
                 }
                 
             }

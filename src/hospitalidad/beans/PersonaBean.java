@@ -10,19 +10,29 @@ package hospitalidad.beans;
  * @author vPalomo
  */
 public class PersonaBean {
+
     private String idPersona;
-private String DNI;
-private String Nombre;
-private String Apellidos;
-private String FechaNacimiento;
-private String Correo;
-private String Telefono1;
-private String Telefono2;
-private String Dirección;
-private String CP;
-private String Localidad;
-private String Provincia;
-private String Observaciones;
+    private String DNI;
+    private String nombre;
+    private String apellidos;
+    private String fechaNacimiento;
+    private String correo;
+    private String telefono1;
+    private String telefono2;
+    private String direccion;
+    private String CP;
+    private String localidad;
+    private String provincia;
+    private String observaciones;
+    private String informeMedico;
+
+    public String getInformeMedico() {
+        return informeMedico;
+    }
+
+    public void setInformeMedico(String InformeMedico) {
+        this.informeMedico = InformeMedico;
+    }
 
     public String getIdPersona() {
         return idPersona;
@@ -31,8 +41,6 @@ private String Observaciones;
     public void setIdPersona(String idPersona) {
         this.idPersona = idPersona;
     }
-
-    
 
     public String getDNI() {
         return DNI;
@@ -43,59 +51,59 @@ private String Observaciones;
     }
 
     public String getNombre() {
-        return Nombre;
+        return nombre;
     }
 
-    public void setNombre(String Nombre) {
-        this.Nombre = Nombre;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getApellidos() {
-        return Apellidos;
+        return apellidos;
     }
 
-    public void setApellidos(String Apellidos) {
-        this.Apellidos = Apellidos;
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
     }
 
     public String getFechaNacimiento() {
-        return FechaNacimiento;
+        return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(String FechaNacimiento) {
-        this.FechaNacimiento = FechaNacimiento;
+    public void setFechaNacimiento(String fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     public String getCorreo() {
-        return Correo;
+        return correo;
     }
 
-    public void setCorreo(String Correo) {
-        this.Correo = Correo;
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     public String getTelefono1() {
-        return Telefono1;
+        return telefono1;
     }
 
     public void setTelefono1(String Telefono1) {
-        this.Telefono1 = Telefono1;
+        this.telefono1 = Telefono1;
     }
 
     public String getTelefono2() {
-        return Telefono2;
+        return telefono2;
     }
 
-    public void setTelefono2(String Telefono2) {
-        this.Telefono2 = Telefono2;
+    public void setTelefono2(String telefono2) {
+        this.telefono2 = telefono2;
     }
 
-    public String getDirección() {
-        return Dirección;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setDirección(String Dirección) {
-        this.Dirección = Dirección;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
     public String getCP() {
@@ -107,26 +115,26 @@ private String Observaciones;
     }
 
     public String getLocalidad() {
-        return Localidad;
+        return localidad;
     }
 
-    public void setLocalidad(String Localidad) {
-        this.Localidad = Localidad;
+    public void setLocalidad(String localidad) {
+        this.localidad = localidad;
     }
 
     public String getProvincia() {
-        return Provincia;
+        return provincia;
     }
 
-    public void setProvincia(String Provincia) {
-        this.Provincia = Provincia;
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
     }
 
     public String getObservaciones() {
-        return Observaciones;
+        return observaciones;
     }
 
-    public void setObservaciones(String Observaciones) {
-        this.Observaciones = Observaciones;
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
     }
 }

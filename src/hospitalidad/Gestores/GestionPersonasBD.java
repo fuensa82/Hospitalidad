@@ -9,11 +9,14 @@ package hospitalidad.Gestores;
 
 import hospitalidad.beans.PersonaBean;
 import hospitalidad.utils.ConectorBD;
+import hospitalidad.utils.FechasUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.NamingException;
 
 /**
@@ -214,6 +217,100 @@ public class GestionPersonasBD {
             } catch (SQLException ex) {
             }
         }
+        return result;
+    }
+    
+    public static PersonaBean getPersona(String idPersona){
+        PersonaBean personaResult=new PersonaBean();
+        Connection conexion = null;
+        try {
+            conexion=ConectorBD.getConnection();
+            PreparedStatement consulta = conexion.prepareStatement(
+            "SELECT idPersona, DNI, Nombre, Apellidos, FechaNacimiento, Correo, Telefono1, Telefono2, Direccion, CP, Localidad, Provincia, Observaciones, Activo, InformeMedico " +
+            "FROM personas " +
+            "WHERE idPersona=?");
+            consulta.setString(1, idPersona);
+            
+            ResultSet resultado = consulta.executeQuery();
+            if (resultado.next()){
+                personaResult.setIdPersona(resultado.getString(1));
+                personaResult.setDNI(resultado.getString(2));
+                personaResult.setNombre(resultado.getString(3));
+                personaResult.setApellidos(resultado.getString(4));
+                personaResult.setFechaNacimiento(FechasUtils.fecha(resultado.getString(5)));
+                personaResult.setCorreo(resultado.getString(6));
+                personaResult.setTelefono1(resultado.getString(7));
+                personaResult.setTelefono2(resultado.getString(8));
+                personaResult.setDireccion(resultado.getString(9));
+                personaResult.setCP(resultado.getString(10));
+                personaResult.setLocalidad(resultado.getString(11));
+                personaResult.setProvincia(resultado.getString(12));
+                personaResult.setObservaciones(resultado.getString(13));
+                personaResult.setInformeMedico(resultado.getString(15));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException ex) {
+            
+        }finally{
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+            }
+        }
+        return personaResult;
+    }
+    
+    public static boolean actualizarPersona(PersonaBean persona){
+        boolean result=false;
+        
+        Connection conexion = null;
+
+        try {
+            conexion = ConectorBD.getConnection();
+        
+            PreparedStatement insert1 = conexion.prepareStatement(
+                    "UPDATE personas " +
+                    "	SET DNI=?, " +
+                    "	 Nombre=?, " +
+                    "	 Apellidos=?, " +
+                    "	 FechaNacimiento=?, " +
+                    "	 Correo=?, " +
+                    "	 Telefono1=?, " +
+                    "	 Telefono2=?, " +
+                    "	 Direccion=?, " +
+                    "	 CP=?, " +
+                    "	 Localidad=?, " +
+                    "	 Provincia=?, " +
+                    "	 Observaciones=?, " +
+                    "	 InformeMedico=? " +
+                    "	WHERE idPersona=?");
+            insert1.setString(1, persona.getDNI());
+            insert1.setString(2, persona.getNombre());
+            insert1.setString(3, persona.getApellidos());
+            insert1.setString(4, FechasUtils.fechaParaMysql(persona.getFechaNacimiento()));
+            insert1.setString(5, persona.getCorreo());
+            insert1.setString(6, persona.getTelefono1());
+            insert1.setString(7, persona.getTelefono2());
+            insert1.setString(8, persona.getDireccion());
+            insert1.setString(9, persona.getCP());
+            insert1.setString(10, persona.getLocalidad());
+            insert1.setString(11, persona.getProvincia());
+            insert1.setString(12, persona.getObservaciones());
+            insert1.setString(13, persona.getInformeMedico());
+            insert1.setString(14, persona.getIdPersona());
+            
+
+            insert1.executeUpdate();
+            
+            return true;
+            
+        } catch (NamingException ex) {
+            Logger.getLogger(GestionAutobusesBD.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionAutobusesBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         return result;
     }
    
