@@ -11,6 +11,8 @@ import hospitalidad.Gestores.GestionViajesBD;
 import hospitalidad.Gestores.GestionTiposViajeroBD;
 import hospitalidad.beans.AutobusBean;
 import hospitalidad.beans.PersonaBean;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -56,6 +58,7 @@ public class Principal extends javax.swing.JFrame {
         ponListenerTablaAutobuses();
         ponListenerTablaParsonas();
         cargaTablaPersonas(true);
+        prepararVistaPasajerosAutobus();
     }
 
     /**
@@ -74,6 +77,12 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTablePersonas = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
+        jLabelIdAutobusEtiqueta = new javax.swing.JLabel();
+        jLabelDescripcionAutobus = new javax.swing.JLabel();
+        jLabelObservaciones = new javax.swing.JLabel();
+        jLabelIdAutobus = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTableAutobusPersona = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jButtonEliminaDeLaPeregrinacion = new javax.swing.JButton();
         jButtonAgregaPersonas = new javax.swing.JButton();
@@ -156,15 +165,80 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Autobus"));
 
+        jLabelIdAutobusEtiqueta.setText("Id Autobus:");
+
+        jLabelDescripcionAutobus.setText("Descripción");
+
+        jLabelObservaciones.setText("Observaciones");
+
+        jLabelIdAutobus.setText("jLabel7");
+
+        jTableAutobusPersona.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Id", "DNI", "Apellidos", "Nombre"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(jTableAutobusPersona);
+        if (jTableAutobusPersona.getColumnModel().getColumnCount() > 0) {
+            jTableAutobusPersona.getColumnModel().getColumn(0).setResizable(false);
+        }
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 397, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelObservaciones)
+                            .addComponent(jLabelDescripcionAutobus, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                        .addComponent(jLabelIdAutobusEtiqueta)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelIdAutobus)
+                        .addGap(21, 21, 21))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 244, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabelIdAutobusEtiqueta)
+                        .addComponent(jLabelIdAutobus))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabelDescripcionAutobus)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelObservaciones)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Alojamiento"));
@@ -210,7 +284,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanelPeregrinacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(22, 22, 22))
+                .addGap(51, 51, 51))
         );
         jPanelPeregrinacionesLayout.setVerticalGroup(
             jPanelPeregrinacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -544,14 +618,14 @@ public class Principal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
 
         pack();
@@ -614,7 +688,7 @@ public class Principal extends javax.swing.JFrame {
 
         }
         cargaTablaPersonas(true);
-
+        prepararVistaPasajerosAutobus();
     }//GEN-LAST:event_jButtonEliminaDeLaPeregrinacionActionPerformed
 
     private void jTabbedPane1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTabbedPane1ComponentShown
@@ -738,7 +812,7 @@ public class Principal extends javax.swing.JFrame {
                 int indice = lsm.getMinSelectionIndex();
                 if (indice != -1) {
                     String idAutobus = (String) jTableAutobuses.getModel().getValueAt(indice, 0);
-                    cargarTablaPasajeros(idAutobus);
+                    cargaTablaPasajeros(idAutobus);
                 }
             }
         });
@@ -749,6 +823,8 @@ public class Principal extends javax.swing.JFrame {
         jTablePersonas.addMouseListener(new MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 if (e.getClickCount() == 1) {
+                    String idPersona=(String)jTablePersonas.getModel().getValueAt(jTablePersonas.getSelectedRow(),1);
+                    cargarDatosAutobus(idPersona,filtroViaje);
                     System.out.println("Se ha hecho un click");
                 }
                 if (e.getClickCount() == 2) {
@@ -762,14 +838,58 @@ public class Principal extends javax.swing.JFrame {
                     frame.pack();
                     frame.setLocationRelativeTo(padre);
                     frame.setVisible(true);
+                    int sel=jTablePersonas.getSelectedRow();
                     cargaTablaPersonas(true);
+                    jTablePersonas.setRowSelectionInterval(sel, sel);
                 }
-                
             }
         });
     }
-
-    private void cargarTablaPasajeros(String idAutobus) {
+    private void cargarDatosAutobus(String idPersona, String filtroViaje) {
+        System.out.println(new Object() {}.getClass().getEnclosingMethod().getName());
+        
+        DefaultTableModel datosTabla = (DefaultTableModel) jTableAutobusPersona.getModel();
+        for (int i = datosTabla.getRowCount(); i > 0; i--) {
+            datosTabla.removeRow(i - 1);
+        }
+        AutobusBean autobus = GestionAutobusesBD.getDatosAutobus(idPersona, filtroViaje);
+        if(autobus==null){
+            //jLabelDescripcionAutobus.setVisible(true);
+            jLabelDescripcionAutobus.setText("Sin autobus asignado");
+            jLabelDescripcionAutobus.setForeground(Color.red);
+            jLabelObservaciones.setText(" ");
+            jLabelIdAutobusEtiqueta.setVisible(false);
+            jLabelIdAutobus.setText(" ");
+            //jTableAutobusPersona.setVisible(false);
+            return;
+            
+        }else{
+            jLabelDescripcionAutobus.setForeground(Color.BLACK);
+            jTableAutobusPersona.setVisible(true);
+            jLabelDescripcionAutobus.setVisible(true);
+            jLabelDescripcionAutobus.setText(autobus.getDescripcion());
+            jLabelObservaciones.setText(autobus.getObservaciones());
+            jLabelObservaciones.setVisible(true);
+            jLabelIdAutobus.setText(autobus.getIdAutobus());
+            jLabelIdAutobus.setVisible(true);
+            jLabelIdAutobusEtiqueta.setVisible(true);
+        }
+        ArrayList<PersonaBean> listaPersonas = autobus.getPasajeros();
+        //ArrayList<PersonaBean> listaPersonas = autobus.getPasajeros();
+        
+        
+        for (PersonaBean persona : listaPersonas) {
+            datosTabla.addRow(new Object[]{
+                "" + persona.getIdPersona(),
+                persona.getDNI(),
+                persona.getApellidos(),
+                persona.getNombre(),
+                persona.getFechaNacimiento()//,
+            //GestionTiposViajeroBD.getTipoViajero(autobus.getIdViaje(), persona.getIdPersona()).getNombreTipo()
+            });
+        }
+    }
+    private void cargaTablaPasajeros(String idAutobus) {
         System.out.println(new Object() {
         }.getClass().getEnclosingMethod().getName());
         AutobusBean autobus = new AutobusBean();
@@ -842,6 +962,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabelDescripcionAutobus;
+    private javax.swing.JLabel jLabelIdAutobus;
+    private javax.swing.JLabel jLabelIdAutobusEtiqueta;
+    private javax.swing.JLabel jLabelObservaciones;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
@@ -853,7 +977,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTableAutobusPersona;
     private javax.swing.JTable jTableAutobuses;
     private javax.swing.JTable jTablePersonas;
     private javax.swing.JTable jTablePersonasBus;
@@ -930,6 +1056,19 @@ public class Principal extends javax.swing.JFrame {
                 persona.getFechaNacimiento(),
                 GestionTiposViajeroBD.getTipoViajero(filtroViaje, persona.getIdPersona()).getNombreTipo()
             });
+        }
+    }
+
+    private void prepararVistaPasajerosAutobus() {
+        jPanel3.setPreferredSize(new Dimension(406, 323));
+        jLabelDescripcionAutobus.setText(" ");
+        jLabelObservaciones.setText(" ");
+        jLabelIdAutobusEtiqueta.setVisible(false);
+        jLabelIdAutobus.setText(" ");
+        //jTableAutobusPersona.setText("");
+        DefaultTableModel datosTabla = (DefaultTableModel) jTableAutobusPersona.getModel();
+        for (int i = datosTabla.getRowCount(); i > 0; i--) {
+            datosTabla.removeRow(i - 1);
         }
     }
 

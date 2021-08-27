@@ -5,11 +5,21 @@
  */
 package hospitalidad;
 
+import hospitalidad.Gestores.GestionInformesBD;
 import hospitalidad.Gestores.GestionPersonasBD;
+import hospitalidad.beans.InformePDFBean;
 import hospitalidad.beans.PersonaBean;
-import hospitalidad.utils.FechasUtils;
 import java.awt.Window;
+import java.awt.event.MouseAdapter;
+import java.io.File;
+import java.util.ArrayList;
+import static javafx.scene.input.KeyCode.J;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,32 +27,39 @@ import javax.swing.SwingUtilities;
  */
 public class OpcionesDePersona extends javax.swing.JPanel {
 
-    public static final String nuevo="NUEVO";
-    public static final String mtto="MTTO";
-    
-    private String tipoVentana=nuevo;
-    private String idPersona="";
+    public static final String nuevo = "NUEVO";
+    public static final String mtto = "MTTO";
+
+    private String tipoVentana = nuevo;
+    private String idPersona = "";
+
     /**
      * Creates new form OpcionesDePersona
      */
     public OpcionesDePersona(String tipoVentana) {
-        this.tipoVentana=tipoVentana;
+        this.tipoVentana = tipoVentana;
         initComponents();
+        
     }
+
     /**
-     * Se utilizará este constructor para general la ventana de mtto. Se pasará el id de la persona a modificar para
-     * que así se carguen los datos.
+     * Se utilizará este constructor para general la ventana de mtto. Se pasará
+     * el id de la persona a modificar para que así se carguen los datos.
+     *
      * @param tipoVentana
-     * @param idPersona 
+     * @param idPersona
      */
     public OpcionesDePersona(String tipoVentana, String idPersona) {
-        this.idPersona=idPersona;
-        this.tipoVentana=tipoVentana;
+        this.idPersona = idPersona;
+        this.tipoVentana = tipoVentana;
         initComponents();
-        if(OpcionesDePersona.mtto.equals(this.tipoVentana)){
+        if (OpcionesDePersona.mtto.equals(this.tipoVentana)) {
             cargarDatosPersona();
+            ponerListenerTablaInformes();
+            cargaTablaInformes();
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -85,7 +102,7 @@ public class OpcionesDePersona extends javax.swing.JPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextInformeMedico = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableInformes = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -274,19 +291,19 @@ public class OpcionesDePersona extends javax.swing.JPanel {
         jTextInformeMedico.setRows(5);
         jScrollPane3.setViewportView(jTextInformeMedico);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableInformes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Sel.", "Fecha", "Archivo"
+                "Sel.", "Fecha", "Nombre", "Ext.", "id"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.String.class, java.lang.String.class
+                java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false
+                true, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -297,17 +314,30 @@ public class OpcionesDePersona extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(30);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(80);
-            jTable1.getColumnModel().getColumn(2).setPreferredWidth(290);
+        jTableInformes.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jScrollPane1.setViewportView(jTableInformes);
+        if (jTableInformes.getColumnModel().getColumnCount() > 0) {
+            jTableInformes.getColumnModel().getColumn(0).setPreferredWidth(30);
+            jTableInformes.getColumnModel().getColumn(1).setPreferredWidth(80);
+            jTableInformes.getColumnModel().getColumn(2).setPreferredWidth(260);
+            jTableInformes.getColumnModel().getColumn(4).setMinWidth(0);
+            jTableInformes.getColumnModel().getColumn(4).setPreferredWidth(0);
+            jTableInformes.getColumnModel().getColumn(4).setMaxWidth(0);
         }
 
         jButton1.setText("Añadir fichero");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Eliminar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -316,15 +346,15 @@ public class OpcionesDePersona extends javax.swing.JPanel {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane3)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                                .addComponent(jButton2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -348,6 +378,11 @@ public class OpcionesDePersona extends javax.swing.JPanel {
         });
 
         jButton4.setText("Cancelar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -403,7 +438,7 @@ public class OpcionesDePersona extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        PersonaBean persona=new PersonaBean();
+        PersonaBean persona = new PersonaBean();
         persona.setIdPersona(idPersona);
         persona.setNombre(jTextNombe.getText());
         persona.setApellidos(jTextApellidos.getText());
@@ -418,13 +453,49 @@ public class OpcionesDePersona extends javax.swing.JPanel {
         persona.setProvincia(jTextProvincia.getText());
         persona.setObservaciones(jTextObservaciones.getText());
         persona.setInformeMedico(jTextInformeMedico.getText());
-        if(OpcionesDePersona.mtto.equals(tipoVentana)){
+        if (OpcionesDePersona.mtto.equals(tipoVentana)) {
             GestionPersonasBD.actualizarPersona(persona);
             Window w = SwingUtilities.getWindowAncestor(this);
-                w.setVisible(false);
+            w.setVisible(false);
+        }
+
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        JDialog frame = new JDialog(((JFrame)null), "Nombre informe", true);
+        frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+        OpcionNombreFichero ventana = new OpcionNombreFichero();
+        frame.getContentPane().add(ventana);
+        frame.pack();
+        frame.setLocationRelativeTo(this);
+        frame.setVisible(true);
+        
+        if(!"G".equals(ventana.getOpcionBoton())){
+            return;
         }
         
-    }//GEN-LAST:event_jButton3ActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        int seleccion = fileChooser.showOpenDialog(this);
+        System.out.println("Seleccion: " + seleccion);
+
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            String observaciones=ventana.getText();
+            File selectedFile = fileChooser.getSelectedFile();
+            System.out.println("Fichero: " + selectedFile.getAbsolutePath());
+            GestionInformesBD.EscribirArchivoBD(selectedFile, idPersona, observaciones);
+        }
+        cargaTablaInformes();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        Window w = SwingUtilities.getWindowAncestor(this);
+        w.setVisible(false);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -452,7 +523,7 @@ public class OpcionesDePersona extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableInformes;
     private javax.swing.JTextField jTextApellidos;
     private javax.swing.JTextField jTextCP;
     private javax.swing.JTextField jTextCorreo;
@@ -469,7 +540,7 @@ public class OpcionesDePersona extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void cargarDatosPersona() {
-        PersonaBean persona=GestionPersonasBD.getPersona(idPersona);
+        PersonaBean persona = GestionPersonasBD.getPersona(idPersona);
         jTextNombe.setText(persona.getNombre());
         jTextApellidos.setText(persona.getApellidos());
         jTextCP.setText(persona.getCP());
@@ -483,6 +554,47 @@ public class OpcionesDePersona extends javax.swing.JPanel {
         jTextProvincia.setText(persona.getProvincia());
         jTextTelefono1.setText(persona.getTelefono1());
         jTextTelefono2.setText(persona.getTelefono2());
+
+    }
+    private void cargaTablaInformes(){
+        System.out.println("cargaTablaInformes");
         
+        DefaultTableModel datosTabla = (DefaultTableModel) jTableInformes.getModel();
+        for (int i = datosTabla.getRowCount(); i > 0; i--) {
+            datosTabla.removeRow(i - 1);
+        }
+        ArrayList<InformePDFBean> listaInformes = GestionInformesBD.consultaInformes(idPersona);
+        //ArrayList<PersonaBean> listaPersonas = autobus.getPasajeros();
+        
+        
+        for (InformePDFBean informe : listaInformes) {
+            datosTabla.addRow(new Object[]{
+                false,
+                informe.getFechaAlta(),
+                informe.getObservaciones(),
+                informe.getExtension(),
+                informe.getIdInformesPDF()
+
+            //GestionTiposViajeroBD.getTipoViajero(autobus.getIdViaje(), persona.getIdPersona()).getNombreTipo()
+            });
+        }
+    }
+    private void ponerListenerTablaInformes() {
+        jTableInformes.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+
+                if (e.getClickCount() == 2) {
+                    System.out.println("Se ha hecho doble click");
+                    String id = (String) jTableInformes.getModel().getValueAt(jTableInformes.getSelectedRow(), 4);
+                    System.out.println("Id: " + id);
+                    InformePDFBean inf=new InformePDFBean();
+                    inf.setIdInformesPDF(id);
+                    inf.abrirInforme();
+                }
+
+            }
+
+        });
+
     }
 }

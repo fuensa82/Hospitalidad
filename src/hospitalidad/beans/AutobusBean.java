@@ -30,7 +30,7 @@ public class AutobusBean {
     }
     
     public String toString(){
-        return idViaje+" - "+descripcion+" - "+observaciones;
+        return idAutobus+" - "+descripcion+" - "+observaciones;
     }
     
     public String getIdViaje() {

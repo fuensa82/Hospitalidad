@@ -119,6 +119,7 @@ public class GestionPersonasBD {
                     persona.setDNI(resultado.getString(2));
                     persona.setNombre(resultado.getString(3));
                     persona.setApellidos(resultado.getString(4));
+                    persona.setFechaNacimiento(FechasUtils.fecha(resultado.getString(5)));
                     result.add(persona);
                 }
             }
@@ -143,7 +144,7 @@ public class GestionPersonasBD {
             conexion=ConectorBD.getConnection();
             PersonaBean persona;
             PreparedStatement consulta = conexion.prepareStatement(
-            "SELECT relviajetodo.idPersona, personas.DNI, personas.Nombre, personas.Apellidos " +
+            "SELECT relviajetodo.idPersona, personas.DNI, personas.Nombre, personas.Apellidos, personas.FechaNacimiento " +
             "FROM relviajetodo, personas " +
             "WHERE relviajetodo.idPersona=personas.idPersona and " +
             "   relviajetodo.idViaje=? AND " +
@@ -163,6 +164,7 @@ public class GestionPersonasBD {
                     persona.setDNI(resultado.getString(2));
                     persona.setNombre(resultado.getString(3));
                     persona.setApellidos(resultado.getString(4));
+                    persona.setFechaNacimiento(FechasUtils.fecha(resultado.getString(5)));
                     result.add(persona);
             }
         } catch (SQLException e) {

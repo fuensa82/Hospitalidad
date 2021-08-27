@@ -294,7 +294,51 @@ public class GestionAutobusesBD {
         }
         return autobus;
     }
+    /**
+     * Devuelve los datos del autobus asignado a una persona en un viaje.
+     * Si devuelve null es que la persona no tiene asignado aun ningún autobus
+     * @param idPersona
+     * @param idViaje
+     * @return Devuelve un objeto AutobusBean con los datos del autobus
+     */
+    public static AutobusBean getDatosAutobus(String idPersona, String idViaje) {
+        AutobusBean autobus = new AutobusBean();
+        Connection conexion = null;
+        try {
+            conexion = ConectorBD.getConnection();
+            PreparedStatement consulta = conexion.prepareStatement(
+                    "SELECT autobuses.idAutobus, Descripcion, Plazas, Observaciones, idViaje " +
+                    "FROM autobuses, relpersonaautobus " +
+                    "WHERE autobuses.idAutobus=relpersonaautobus.idAutobus AND " +
+                    "autobuses.idViaje=? AND " +
+                    "relpersonaautobus.idPersona=?");
+            consulta.setString(1, idViaje);
+            consulta.setString(2, idPersona);
 
+            ResultSet resultado = consulta.executeQuery();
+            if (resultado.next()) {
+                autobus = new AutobusBean();
+                autobus.setIdAutobus(resultado.getString(1));
+                autobus.setDescripcion(resultado.getString(2));
+                autobus.setPlazasTotales(resultado.getInt(3));
+                autobus.setObservaciones(resultado.getString(4));
+                autobus.setIdViaje(resultado.getString(5));
+            }else{
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException ex) {
+
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+            }
+        }
+        return autobus;
+    }
+    
     /**
      * Para eliminar bien a una persona de una peregrinacion hay que borrarle de
      * la peregrinacion, pero tambien del autobus y del hotel/habitación. Este

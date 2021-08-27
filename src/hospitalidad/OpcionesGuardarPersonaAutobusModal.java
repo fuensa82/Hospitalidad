@@ -6,12 +6,8 @@
 package hospitalidad;
 
 import hospitalidad.Gestores.GestionAutobusesBD;
-import static hospitalidad.Gestores.GestionAutobusesBD.getListaAutobuses;
-import hospitalidad.Gestores.GestionTiposViajeroBD;
 import hospitalidad.Gestores.GestionViajesBD;
-import hospitalidad.beans.AutobusBean;
 import java.awt.Window;
-import java.util.ArrayList;
 import javax.swing.SwingUtilities;
 
 /**
