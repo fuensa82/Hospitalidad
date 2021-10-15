@@ -13,7 +13,6 @@ import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.io.File;
 import java.util.ArrayList;
-import static javafx.scene.input.KeyCode.J;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
