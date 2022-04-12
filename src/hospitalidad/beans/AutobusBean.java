@@ -30,7 +30,7 @@ public class AutobusBean {
     }
     
     public String toString(){
-        return idAutobus+" - "+descripcion+" - "+observaciones;
+        return idAutobus+" - "+descripcion+" - "+observaciones+" - Plazas libres: "+GestionAutobusesBD.getPlazasLibres(idAutobus);
     }
     
     public String getIdViaje() {

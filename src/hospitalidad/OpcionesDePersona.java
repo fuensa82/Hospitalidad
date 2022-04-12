@@ -35,6 +35,7 @@ public class OpcionesDePersona extends javax.swing.JPanel {
      * Creates new form OpcionesDePersona
      */
     public OpcionesDePersona(String tipoVentana) {
+        System.out.println("Creando ventana opcion "+tipoVentana);
         this.tipoVentana = tipoVentana;
         initComponents();
         
@@ -451,13 +452,30 @@ public class OpcionesDePersona extends javax.swing.JPanel {
         persona.setProvincia(jTextProvincia.getText());
         persona.setObservaciones(jTextObservaciones.getText());
         persona.setInformeMedico(jTextInformeMedico.getText());
-        if (OpcionesDePersona.mtto.equals(tipoVentana)) {
+        if (OpcionesDePersona.mtto.equals(this.tipoVentana)) {
             GestionPersonasBD.actualizarPersona(persona);
             Window w = SwingUtilities.getWindowAncestor(this);
             w.setVisible(false);
+        }else if (OpcionesDePersona.nuevo.equals(this.tipoVentana)) {
+            if(GestionPersonasBD.setPersona(persona)){
+                Window w = SwingUtilities.getWindowAncestor(this);
+                w.setVisible(false);
+            }else{
+                System.out.println("No se ha guardado. Error");
+                
+            }
+            
         }
 
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    public String getTipoVentana() {
+        return tipoVentana;
+    }
+
+    public void setTipoVentana(String tipoVentana) {
+        this.tipoVentana = tipoVentana;
+    }
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
@@ -471,6 +489,8 @@ public class OpcionesDePersona extends javax.swing.JPanel {
         
         if(!"G".equals(ventana.getOpcionBoton())){
             return;
+        }else{
+            System.out.println("Guardando informe");
         }
         
         JFileChooser fileChooser = new JFileChooser();

@@ -263,6 +263,43 @@ public class GestionPersonasBD {
         return personaResult;
     }
     
+    public static boolean setPersona(PersonaBean persona){
+        boolean result=false;
+        Connection conexion = null;
+
+        try {
+            conexion = ConectorBD.getConnection();
+        
+            PreparedStatement insert1 = conexion.prepareStatement("INSERT INTO `hospitalidad`.`personas` (`DNI`, `Nombre`, `Apellidos`, `FechaNacimiento`, `Correo`, `Telefono1`, `Telefono2`, `Direccion`, `CP`, `Localidad`, `Provincia`, `Observaciones`, `InformeMedico`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                            
+            insert1.setString(1, persona.getDNI());
+            insert1.setString(2, persona.getNombre());
+            insert1.setString(3, persona.getApellidos());
+            insert1.setString(4, FechasUtils.fechaParaMysql(persona.getFechaNacimiento()));
+            insert1.setString(5, persona.getCorreo());
+            insert1.setString(6, persona.getTelefono1());
+            insert1.setString(7, persona.getTelefono2());
+            insert1.setString(8, persona.getDireccion());
+            insert1.setString(9, persona.getCP());
+            insert1.setString(10, persona.getLocalidad());
+            insert1.setString(11, persona.getProvincia());
+            insert1.setString(12, persona.getObservaciones());
+            insert1.setString(13, persona.getInformeMedico());
+            
+
+            insert1.executeUpdate();
+            
+            return true;
+            
+        } catch (NamingException ex) {
+            Logger.getLogger(GestionAutobusesBD.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionAutobusesBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return result;
+    }
+    
     public static boolean actualizarPersona(PersonaBean persona){
         boolean result=false;
         

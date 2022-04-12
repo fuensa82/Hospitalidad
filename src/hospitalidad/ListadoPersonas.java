@@ -231,6 +231,7 @@ public class ListadoPersonas extends javax.swing.JPanel {
         JDialog frame = new JDialog((JFrame) null, "Nuevo", true);
         frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
         OpcionesDePersona ventana = new OpcionesDePersona(OpcionesDePersona.nuevo);
+        System.out.println(ventana.getTipoVentana());
         frame.getContentPane().add(ventana);
         frame.pack();
         frame.setLocationRelativeTo(this);
