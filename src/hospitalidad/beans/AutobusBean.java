@@ -64,7 +64,7 @@ public class AutobusBean {
                     "Plazas ocupadas en java: "+pasajeros.size()+"\n"+
                     "Plazas en base de datos: "+plazasOcupadas);
         }
-        if(pasajeros.size()>=plazasLibres)return false;
+        if(pasajeros.size()>=this.getPlazasLibres())return false;
         return GestionAutobusesBD.setPasajeroAutobus(idAutobus, persona.getIdPersona());
 
     }
