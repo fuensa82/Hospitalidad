@@ -47,7 +47,7 @@ public class GestionHabitacionesBD {
         try {
             conexion = ConectorBD.getConnection();
             PreparedStatement consulta = conexion.prepareStatement(
-                    "SELECT COUNT(*) AS camas FROM relpersonahabitacion WHERE idPersona=?");
+                    "SELECT COUNT(*) AS camas FROM relpersonahabitacion WHERE idHabitacion=?");
             consulta.setString(1, idHabitacion);
 
             ResultSet resultado = consulta.executeQuery();
@@ -174,7 +174,7 @@ public class GestionHabitacionesBD {
      * huespedes de la habitacion
      */
     public static ArrayList<PersonaBean> consultaHuespedes(String idHabitacion) {
-        ArrayList<PersonaBean> camas = new ArrayList<PersonaBean>();
+        ArrayList<PersonaBean> camas = new ArrayList<>();
 
         Connection conexion = null;
         try {
@@ -184,7 +184,7 @@ public class GestionHabitacionesBD {
                     "SELECT personas.idPersona, DNI, Nombre, Apellidos "
                     + "FROM personas, relpersonahabitacion "
                     + "WHERE personas.idPersona=relpersonahabitacion.idPersona AND "
-                    + "		relpersonahabitaciones.idHabitacion=? "
+                    + "		relpersonahabitacion.idHabitacion=? "
                     + "ORDER BY Apellidos");
             consulta.setString(1, idHabitacion);
 

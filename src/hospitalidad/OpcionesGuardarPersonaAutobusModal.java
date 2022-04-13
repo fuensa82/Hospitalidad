@@ -38,8 +38,11 @@ public class OpcionesGuardarPersonaAutobusModal extends javax.swing.JPanel {
     public String getPeregrinacion(){
         return jComboPeregrinacion.getModel().getElementAt(jComboPeregrinacion.getSelectedIndex()).split(" - ")[0];
     }
-    
-    public String getAutobus(){
+    /**
+     * Devuelve el ID del autobus seleccionado en el combo
+     * @return 
+     */
+    public String getIdAutobus(){
         return jComboAutobuses.getModel().getElementAt(jComboAutobuses.getSelectedIndex()).split(" - ")[0];
     }
     

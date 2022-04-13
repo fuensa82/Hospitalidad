@@ -6,10 +6,12 @@
 package hospitalidad;
 
 import hospitalidad.Gestores.GestionAutobusesBD;
+import hospitalidad.Gestores.GestionHabitacionesBD;
 import hospitalidad.Gestores.GestionPersonasBD;
 import hospitalidad.Gestores.GestionViajesBD;
 import hospitalidad.Gestores.GestionTiposViajeroBD;
 import hospitalidad.beans.AutobusBean;
+import hospitalidad.beans.HabitacionBean;
 import hospitalidad.beans.PersonaBean;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -36,6 +38,7 @@ public class Principal extends javax.swing.JFrame {
     private ArrayList<PersonaBean> listaPersonas;
     private ArrayList<PersonaBean> listaPersonasSinAutobus;
     private ArrayList<AutobusBean> listaAutobuses;
+    private ArrayList<HabitacionBean> listaHabitaciones;
     private String filtroViaje;
     private String filtroTipoViajero;
 
@@ -57,8 +60,10 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         ponListenerTablaAutobuses();
         ponListenerTablaParsonas();
+        ponListenerTablaHabitaciones();
         cargaTablaPersonas(true);
         prepararVistaPasajerosAutobus();
+        
     }
 
     /**
@@ -85,7 +90,7 @@ public class Principal extends javax.swing.JFrame {
         jTableAutobusPersona = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTablePersonaHabitacion = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jButtonEliminaDeLaPeregrinacion = new javax.swing.JButton();
@@ -106,7 +111,7 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane6 = new javax.swing.JScrollPane();
         jTableHabitaciones = new javax.swing.JTable();
         jScrollPane7 = new javax.swing.JScrollPane();
-        jTablePersonasSinHabitacion = new javax.swing.JTable();
+        jTablePersonasHabitacion = new javax.swing.JTable();
         jPanelPersonasSinHabitacion = new javax.swing.JPanel();
         jButtonCrearPersona = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -255,7 +260,7 @@ public class Principal extends javax.swing.JFrame {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Habitación"));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTablePersonaHabitacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -266,7 +271,7 @@ public class Principal extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane8.setViewportView(jTable1);
+        jScrollPane8.setViewportView(jTablePersonaHabitacion);
 
         jLabel4.setText("jLabel4");
 
@@ -284,16 +289,17 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -342,7 +348,7 @@ public class Principal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(281, 281, 281)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelPeregrinacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonEliminaDeLaPeregrinacion)
                     .addComponent(jButtonAgregaPersonas))
@@ -579,6 +585,12 @@ public class Principal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Personas sin autobus", jPanelPersonasSinAutobus);
 
+        jPanelHabitaciones.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jPanelHabitacionesComponentShown(evt);
+            }
+        });
+
         jTableHabitaciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -608,31 +620,54 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane6.setViewportView(jTableHabitaciones);
         if (jTableHabitaciones.getColumnModel().getColumnCount() > 0) {
             jTableHabitaciones.getColumnModel().getColumn(0).setResizable(false);
-            jTableHabitaciones.getColumnModel().getColumn(0).setPreferredWidth(50);
-            jTableHabitaciones.getColumnModel().getColumn(1).setResizable(false);
-            jTableHabitaciones.getColumnModel().getColumn(1).setPreferredWidth(150);
-            jTableHabitaciones.getColumnModel().getColumn(2).setResizable(false);
-            jTableHabitaciones.getColumnModel().getColumn(2).setPreferredWidth(150);
-            jTableHabitaciones.getColumnModel().getColumn(3).setResizable(false);
+            jTableHabitaciones.getColumnModel().getColumn(0).setPreferredWidth(25);
+            jTableHabitaciones.getColumnModel().getColumn(1).setPreferredWidth(120);
+            jTableHabitaciones.getColumnModel().getColumn(2).setPreferredWidth(120);
             jTableHabitaciones.getColumnModel().getColumn(3).setPreferredWidth(100);
             jTableHabitaciones.getColumnModel().getColumn(4).setResizable(false);
-            jTableHabitaciones.getColumnModel().getColumn(4).setPreferredWidth(25);
+            jTableHabitaciones.getColumnModel().getColumn(4).setPreferredWidth(40);
             jTableHabitaciones.getColumnModel().getColumn(5).setResizable(false);
-            jTableHabitaciones.getColumnModel().getColumn(5).setPreferredWidth(25);
+            jTableHabitaciones.getColumnModel().getColumn(5).setPreferredWidth(40);
         }
 
-        jTablePersonasSinHabitacion.setModel(new javax.swing.table.DefaultTableModel(
+        jTablePersonasHabitacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Sel", "Id", "DNI", "Apellidos", "Nombre", "Tipo"
             }
-        ));
-        jScrollPane7.setViewportView(jTablePersonasSinHabitacion);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Boolean.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane7.setViewportView(jTablePersonasHabitacion);
+        if (jTablePersonasHabitacion.getColumnModel().getColumnCount() > 0) {
+            jTablePersonasHabitacion.getColumnModel().getColumn(0).setResizable(false);
+            jTablePersonasHabitacion.getColumnModel().getColumn(0).setPreferredWidth(30);
+            jTablePersonasHabitacion.getColumnModel().getColumn(1).setResizable(false);
+            jTablePersonasHabitacion.getColumnModel().getColumn(1).setPreferredWidth(35);
+            jTablePersonasHabitacion.getColumnModel().getColumn(2).setResizable(false);
+            jTablePersonasHabitacion.getColumnModel().getColumn(2).setPreferredWidth(100);
+            jTablePersonasHabitacion.getColumnModel().getColumn(3).setResizable(false);
+            jTablePersonasHabitacion.getColumnModel().getColumn(3).setPreferredWidth(165);
+            jTablePersonasHabitacion.getColumnModel().getColumn(4).setResizable(false);
+            jTablePersonasHabitacion.getColumnModel().getColumn(4).setPreferredWidth(100);
+            jTablePersonasHabitacion.getColumnModel().getColumn(5).setResizable(false);
+            jTablePersonasHabitacion.getColumnModel().getColumn(5).setPreferredWidth(100);
+        }
 
         javax.swing.GroupLayout jPanelHabitacionesLayout = new javax.swing.GroupLayout(jPanelHabitaciones);
         jPanelHabitaciones.setLayout(jPanelHabitacionesLayout);
@@ -652,7 +687,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanelHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
                     .addComponent(jScrollPane6))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Habitaciones", jPanelHabitaciones);
@@ -665,7 +700,7 @@ public class Principal extends javax.swing.JFrame {
         );
         jPanelPersonasSinHabitacionLayout.setVerticalGroup(
             jPanelPersonasSinHabitacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 595, Short.MAX_VALUE)
+            .addGap(0, 608, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Personas sin habitación", jPanelPersonasSinHabitacion);
@@ -764,7 +799,7 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 638, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -778,9 +813,7 @@ public class Principal extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -851,7 +884,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jTabbedPane1ComponentShown
 
     private void jPanelAutobusesComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelAutobusesComponentShown
-        System.out.println("Pertaña 2");
+        System.out.println("Pertaña Autobuses");
         cargaTablaAutobuses();
     }//GEN-LAST:event_jPanelAutobusesComponentShown
 
@@ -895,7 +928,8 @@ public class Principal extends javax.swing.JFrame {
 
         String opcion = ventana.getBoton();
         if ("G".equals(opcion)) {
-            int plazasLibre = GestionAutobusesBD.getNumPlazas(ventana.getAutobus());
+            AutobusBean autobus=new AutobusBean(ventana.getIdAutobus());
+            int plazasLibre = autobus.getPlazasLibres();
             if (plazasLibre <= 0) {
                 JOptionPane.showMessageDialog(null, "El autobus seleccionado no tiene plazas libres");
                 return;
@@ -904,7 +938,7 @@ public class Principal extends javax.swing.JFrame {
                 return;
             } else {
                 for (PersonaBean persona : lista) {
-                    GestionAutobusesBD.setPasajeroAutobus(ventana.getAutobus(), persona.getIdPersona());
+                    GestionAutobusesBD.setPasajeroAutobus(ventana.getIdAutobus(), persona.getIdPersona());
                 }
             }
         }
@@ -961,6 +995,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // Quitar persona del autobus
+        indiceSelJTableAutobuses=jTableAutobuses.getSelectedRow();
         ArrayList<PersonaBean> lista = new ArrayList<PersonaBean>();
         for (int i = 0; i < jTablePersonasBus.getRowCount(); i++) {
             if ((boolean) jTablePersonasBus.getValueAt(i, 0)) {
@@ -978,15 +1013,42 @@ public class Principal extends javax.swing.JFrame {
             GestionAutobusesBD.eliminaPersonasAutobus(persona.getIdPersona(), filtroViaje);
         }
         //cargaTablaPersonas(true);
+        
         cargaTablaAutobuses();
+        jTableAutobuses.setRowSelectionInterval(indiceSelJTableAutobuses, indiceSelJTableAutobuses);
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jPanelHabitacionesComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelHabitacionesComponentShown
+        System.out.println("Pestaña habitaciones");        // TODO add your handling code here:
+        cargaTablaHabitaciones();
+    }//GEN-LAST:event_jPanelHabitacionesComponentShown
+
+    /**
+     * Listener para hacer que al seleccionar una habitacion se muestre la tabla con las persona que ya hay asignadas a la habitacion
+     */
+    private void ponListenerTablaHabitaciones() {
+        jTableHabitaciones.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent evento) {
+                ListSelectionModel lsm = (ListSelectionModel) evento.getSource();
+                int indice = lsm.getMinSelectionIndex();
+                if (indice != -1) {
+                    String idHabitacion = (String) jTableHabitaciones.getModel().getValueAt(indice, 0);
+                    cargaTablaHuespedes(idHabitacion);
+                }
+            }
+        });
+    }
+    
+    int indiceSelJTableAutobuses;
     private void ponListenerTablaAutobuses() {
         jTableAutobuses.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent evento) {
                 ListSelectionModel lsm = (ListSelectionModel) evento.getSource();
                 int indice = lsm.getMinSelectionIndex();
+                
+                System.out.println("Indice seleccionado de jTableAutobuses: "+indiceSelJTableAutobuses);
                 if (indice != -1) {
                     String idAutobus = (String) jTableAutobuses.getModel().getValueAt(indice, 0);
                     cargaTablaPasajeros(idAutobus);
@@ -1089,6 +1151,30 @@ public class Principal extends javax.swing.JFrame {
             });
         }
     }
+    
+    private void cargaTablaHuespedes(String idHabitacion) {
+        System.out.println(new Object() {
+        }.getClass().getEnclosingMethod().getName());
+        HabitacionBean habitacion = new HabitacionBean();
+        habitacion.setIdHabitacion(idHabitacion);
+        habitacion.cargaDatos();
+        ArrayList<PersonaBean> listaPersonas = habitacion.getHuespedes();
+        DefaultTableModel datosTabla = (DefaultTableModel) jTablePersonasHabitacion.getModel();
+        for (int i = datosTabla.getRowCount(); i > 0; i--) {
+            datosTabla.removeRow(i - 1);
+        }
+        for (PersonaBean persona : listaPersonas) {
+            datosTabla.addRow(new Object[]{
+                false,
+                "" + persona.getIdPersona(),
+                persona.getDNI(),
+                persona.getApellidos(),
+                persona.getNombre(),
+                persona.getFechaNacimiento()//,
+            //GestionTiposViajeroBD.getTipoViajero(autobus.getIdViaje(), persona.getIdPersona()).getNombreTipo()
+            });
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -1164,14 +1250,14 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTableAutobusPersona;
     private javax.swing.JTable jTableAutobuses;
     private javax.swing.JTable jTableHabitaciones;
+    private javax.swing.JTable jTablePersonaHabitacion;
     private javax.swing.JTable jTablePersonas;
     private javax.swing.JTable jTablePersonasBus;
+    private javax.swing.JTable jTablePersonasHabitacion;
     private javax.swing.JTable jTablePersonasSinAutobus;
-    private javax.swing.JTable jTablePersonasSinHabitacion;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
@@ -1221,6 +1307,33 @@ public class Principal extends javax.swing.JFrame {
                 autobus.getPlazasTotales(),
                 autobus.getObservaciones(),
                 autobus.getIdAutobus()
+            });
+        }
+    }
+    
+    private void cargaTablaHabitaciones() {
+        System.out.println(new Object() {
+        }.getClass().getEnclosingMethod().getName());
+        DefaultTableModel datosTabla = (DefaultTableModel) jTablePersonaHabitacion.getModel();
+        for (int i = datosTabla.getRowCount(); i > 0; i--) {
+            datosTabla.removeRow(i - 1);
+        }
+
+        filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
+        filtroTipoViajero = comboTipoViajero.getModel().getElementAt(comboTipoViajero.getSelectedIndex()).split(" - ")[0];
+        listaHabitaciones = GestionHabitacionesBD.getListahabitaciones(filtroViaje);
+        datosTabla = (DefaultTableModel) jTableHabitaciones.getModel();
+        for (int i = datosTabla.getRowCount(); i > 0; i--) {
+            datosTabla.removeRow(i - 1);
+        }
+        for (HabitacionBean habitacion : listaHabitaciones) {
+            datosTabla.addRow(new Object[]{
+                habitacion.getIdHabitacion(),
+                habitacion.getDescripcion1(),
+                habitacion.getDescripcion2(),
+                habitacion.getObservaciones(),
+                habitacion.getCamasLibres(),
+                habitacion.getCamasTotales()
             });
         }
     }

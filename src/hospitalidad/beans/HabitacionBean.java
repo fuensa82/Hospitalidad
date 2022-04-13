@@ -88,11 +88,14 @@ public class HabitacionBean {
 
     public int getCamasLibres() {
         int camasOcupadas=GestionHabitacionesBD.getCamasOcupadas(idHabitacion);
-        
+        System.out.println("Camas ocupadas: ");
         return camasTotales-camasOcupadas;
     }
 
     public ArrayList<PersonaBean> getHuespedes() {
+        if(huespedes==null){
+            huespedes=GestionHabitacionesBD.consultaHuespedes(idHabitacion);
+        }
         return huespedes;
     }
 

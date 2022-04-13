@@ -72,6 +72,11 @@ public class GestionAutobusesBD {
         return plazasT - plazasO;
     }
 
+    /**
+     * Devuelve las plazas totales del Autobus
+     * @param idAutobus
+     * @return 
+     */
     public static int getNumPlazas(String idAutobus) {
         int plazas = 0;
         Connection conexion = null;
