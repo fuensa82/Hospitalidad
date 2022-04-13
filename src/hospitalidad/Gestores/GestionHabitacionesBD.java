@@ -103,6 +103,7 @@ public class GestionHabitacionesBD {
     }
 
     public static String añadirHuespedHabitacion(ArrayList<PersonaBean> listaHuespedes, String idHabitacion){
+        System.out.println("añadirHuespedHabitacion idHabitacion: "+idHabitacion);
         String result="";
         if(getCamasLibres(idHabitacion)<listaHuespedes.size()){
             return "No hay sufucuentes plazas libres\n"+
@@ -210,17 +211,17 @@ public class GestionHabitacionesBD {
         return camas;
     }
 
-    /*public static javax.swing.DefaultComboBoxModel getModeloComboAutobuses(String idViaje) {
-        ArrayList<AutobusBean> lista = getListaAutobuses(idViaje);
-        String[] autobuses = new String[lista.size()];
+    public static javax.swing.DefaultComboBoxModel getModeloComboHabitaciones(String idViaje) {
+        ArrayList<HabitacionBean> lista = getListaHabitaciones(idViaje);
+        String[] habitaciones = new String[lista.size()];
         for (int i = 0; i < lista.size(); i++) {
-            autobuses[i] = lista.get(i).toString();
+            habitaciones[i] = lista.get(i).toString();
         }
-        return new javax.swing.DefaultComboBoxModel<>(autobuses);
+        return new javax.swing.DefaultComboBoxModel<>(habitaciones);
 
-    }*/
+    }
     
-    public static ArrayList<HabitacionBean> getListahabitaciones(String idViaje) {
+    public static ArrayList<HabitacionBean> getListaHabitaciones(String idViaje) {
         ArrayList<HabitacionBean> lista = new ArrayList();
         Connection conexion = null;
         try {
@@ -241,7 +242,7 @@ public class GestionHabitacionesBD {
                 habitacion.setDescripcion2(resultado.getString(3));
                 habitacion.setCamasTotales(resultado.getInt(4));
                 habitacion.setObservaciones(resultado.getString(5));
-                habitacion.setIdViaje(resultado.getInt(6));
+                habitacion.setIdViaje(resultado.getString(6));
                 lista.add(habitacion);
             }
         } catch (SQLException e) {
@@ -284,7 +285,7 @@ public class GestionHabitacionesBD {
                 habitacion.setDescripcion2(resultado.getString(3));
                 habitacion.setCamasTotales(resultado.getInt(4));
                 habitacion.setObservaciones(resultado.getString(5));
-                habitacion.setIdViaje(resultado.getInt(6));
+                habitacion.setIdViaje(resultado.getString(6));
                 
             }
         } catch (SQLException e) {
@@ -329,7 +330,7 @@ public class GestionHabitacionesBD {
                 habitacion.setDescripcion2(resultado.getString(3));
                 habitacion.setCamasTotales(resultado.getInt(4));
                 habitacion.setObservaciones(resultado.getString(5));
-                habitacion.setIdViaje(resultado.getInt(6));
+                habitacion.setIdViaje(resultado.getString(6));
                 
             }else{
                 return null;
@@ -357,7 +358,7 @@ public class GestionHabitacionesBD {
      * @param idViaje
      * @return
      */
-    public static int eliminaPersonasAutobus(String idPersona, String idViaje) {
+    public static int eliminaPersonasHabitacion(String idPersona, String idViaje) {
         int fila = 0;
         Connection conexion = null;
         try {

@@ -39,7 +39,7 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
     
     public static final String AsignarABus="AsignarABus";
     public static final String AsignarAViaje="AsignarAViaje";
-    public static final String AsignarAAlojamiento="AsignarAAlojamiento";
+    public static final String AsignarAHabitacion="AsignarAHabitacion";
 
     public String getModoVentana() {
         return modoVentana;
@@ -85,6 +85,8 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
             listaPersona = GestionPersonasBD.getListaPersonasSinAutobus(idViaje);
         }else if(AsignarAViaje.equals(this.modoVentana)){
             listaPersona = GestionPersonasBD.getListaPersonasSinViaje(idViaje, true);
+        }else if(AsignarAHabitacion.equals(this.modoVentana)){
+            listaPersona = GestionPersonasBD.getListaPersonasSinHabitacion(idViaje);
         }
         listaPersona.sort(new Comparator<PersonaBean>() {
             @Override
@@ -217,6 +219,8 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
             return;
         }
         if(ListadoPersonasAsignar.AsignarABus.equals(this.modoVentana)){
+           boton="G";
+        }else if(ListadoPersonasAsignar.AsignarAHabitacion.equals(this.modoVentana)){
            boton="G";
         }else if(ListadoPersonasAsignar.AsignarAViaje.equals(this.modoVentana)){
             JDialog frame = new JDialog((JFrame) null, "Guardar", true);

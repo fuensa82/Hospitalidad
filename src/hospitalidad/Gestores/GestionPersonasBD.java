@@ -135,7 +135,12 @@ public class GestionPersonasBD {
         }
         return result;
     }
-
+    
+    /**
+     * Devuelve la lista de personas que no tienen asignado ningun autobus en el viaje
+     * @param idViaje
+     * @return 
+     */
     public static ArrayList<PersonaBean> getListaPersonasSinAutobus(String idViaje) {
         ArrayList<PersonaBean> result;
         result = new ArrayList();
@@ -180,6 +185,55 @@ public class GestionPersonasBD {
         return result;
     }
     /**
+     * Devuelve la lista de personas que no tienen asignado ninguna habitacion en el viaje y que sí que estan en el viaje
+     * @param idViaje
+     * @return 
+     */
+    public static ArrayList<PersonaBean> getListaPersonasSinHabitacion(String idViaje) {
+        ArrayList<PersonaBean> result;
+        result = new ArrayList();
+        Connection conexion = null;
+        try {
+            conexion=ConectorBD.getConnection();
+            PersonaBean persona;
+            PreparedStatement consulta = conexion.prepareStatement(
+            "SELECT relviajetodo.idPersona, personas.DNI, personas.Nombre, personas.Apellidos, personas.FechaNacimiento " +
+            "FROM relviajetodo, personas " +
+            "WHERE relviajetodo.idPersona=personas.idPersona and " +
+            "   relviajetodo.idViaje=? AND " +
+            "   relviajetodo.idPersona NOT IN( " +
+            "   SELECT relpersonahabitacion.idPersona FROM relpersonahabitacion,habitaciones " +
+            "   WHERE relpersonahabitacion.idhabitacion=habitaciones.idhabitacion AND " +
+            "   	habitaciones.idViaje=?" +
+            "   	)");
+            
+            consulta.setString(1, idViaje);
+            consulta.setString(2, idViaje);
+            
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()){
+                    persona=new PersonaBean();
+                    persona.setIdPersona(resultado.getString(1));
+                    persona.setDNI(resultado.getString(2));
+                    persona.setNombre(resultado.getString(3));
+                    persona.setApellidos(resultado.getString(4));
+                    persona.setFechaNacimiento(FechasUtils.fecha(resultado.getString(5)));
+                    result.add(persona);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException ex) {
+            
+        }finally{
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+            }
+        }
+        return result;
+    }
+    /**
+     *
      * Devuelve la lista de personas que no están en este viaje
      * @param idViaje
      * @return 

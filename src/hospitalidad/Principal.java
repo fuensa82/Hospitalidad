@@ -112,7 +112,12 @@ public class Principal extends javax.swing.JFrame {
         jTableHabitaciones = new javax.swing.JTable();
         jScrollPane7 = new javax.swing.JScrollPane();
         jTablePersonasHabitacion = new javax.swing.JTable();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         jPanelPersonasSinHabitacion = new javax.swing.JPanel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        jTablePersonasSinHabitacion = new javax.swing.JTable();
+        jButton8 = new javax.swing.JButton();
         jButtonCrearPersona = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -121,6 +126,7 @@ public class Principal extends javax.swing.JFrame {
         comboTipoViajero = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
+        jButton9 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -569,9 +575,9 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(jPanelPersonasSinAutobusLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelPersonasSinAutobusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 554, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5))
-                .addContainerGap(478, Short.MAX_VALUE))
+                    .addComponent(jButton5)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 703, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(329, Short.MAX_VALUE))
         );
         jPanelPersonasSinAutobusLayout.setVerticalGroup(
             jPanelPersonasSinAutobusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -669,15 +675,35 @@ public class Principal extends javax.swing.JFrame {
             jTablePersonasHabitacion.getColumnModel().getColumn(5).setPreferredWidth(100);
         }
 
+        jButton6.setText("Añadir persona");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton7.setText("Quitar persona");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelHabitacionesLayout = new javax.swing.GroupLayout(jPanelHabitaciones);
         jPanelHabitaciones.setLayout(jPanelHabitacionesLayout);
         jPanelHabitacionesLayout.setHorizontalGroup(
             jPanelHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelHabitacionesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanelHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton6))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE)
+                .addGroup(jPanelHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelHabitacionesLayout.createSequentialGroup()
+                        .addComponent(jButton7)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 520, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelHabitacionesLayout.setVerticalGroup(
@@ -687,20 +713,82 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanelHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
                     .addComponent(jScrollPane6))
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton6)
+                    .addComponent(jButton7))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Habitaciones", jPanelHabitaciones);
+
+        jPanelPersonasSinHabitacion.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jPanelPersonasSinHabitacionComponentShown(evt);
+            }
+        });
+
+        jTablePersonasSinHabitacion.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Sel.", "Id", "DNI", "Apellidos", "Nombre", "Fecha Nac.", "Tipo"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTablePersonasSinHabitacion.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jScrollPane9.setViewportView(jTablePersonasSinHabitacion);
+        if (jTablePersonasSinHabitacion.getColumnModel().getColumnCount() > 0) {
+            jTablePersonasSinHabitacion.getColumnModel().getColumn(0).setPreferredWidth(30);
+            jTablePersonasSinHabitacion.getColumnModel().getColumn(1).setPreferredWidth(30);
+            jTablePersonasSinHabitacion.getColumnModel().getColumn(2).setPreferredWidth(75);
+            jTablePersonasSinHabitacion.getColumnModel().getColumn(3).setPreferredWidth(150);
+            jTablePersonasSinHabitacion.getColumnModel().getColumn(4).setPreferredWidth(100);
+            jTablePersonasSinHabitacion.getColumnModel().getColumn(5).setPreferredWidth(100);
+            jTablePersonasSinHabitacion.getColumnModel().getColumn(6).setPreferredWidth(100);
+        }
+
+        jButton8.setText("Asignar habitación");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelPersonasSinHabitacionLayout = new javax.swing.GroupLayout(jPanelPersonasSinHabitacion);
         jPanelPersonasSinHabitacion.setLayout(jPanelPersonasSinHabitacionLayout);
         jPanelPersonasSinHabitacionLayout.setHorizontalGroup(
             jPanelPersonasSinHabitacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1044, Short.MAX_VALUE)
+            .addGroup(jPanelPersonasSinHabitacionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelPersonasSinHabitacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 808, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton8))
+                .addContainerGap(224, Short.MAX_VALUE))
         );
         jPanelPersonasSinHabitacionLayout.setVerticalGroup(
             jPanelPersonasSinHabitacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 608, Short.MAX_VALUE)
+            .addGroup(jPanelPersonasSinHabitacionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton8)
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Personas sin habitación", jPanelPersonasSinHabitacion);
@@ -747,6 +835,8 @@ public class Principal extends javax.swing.JFrame {
 
         jTextField1.setText("jTextField1");
 
+        jButton9.setText("Crear habitación");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -779,25 +869,32 @@ public class Principal extends javax.swing.JFrame {
                                 .addComponent(jButton2)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(53, 53, 53)
+                        .addComponent(jButton9)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jButtonCrearPersona)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboViaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(comboTipoViajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jButtonCrearPersona)
+                            .addComponent(jButton2)
+                            .addComponent(jButton3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(comboViaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(comboTipoViajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 638, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -903,7 +1000,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanelPeregrinacionesComponentShown
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        //Boton asignar autobus
+        //Boton asignar autobus de la ventana de personas sin autobus
 
         ArrayList<PersonaBean> lista = new ArrayList<PersonaBean>();
         for (int i = 0; i < jTablePersonasSinAutobus.getRowCount(); i++) {
@@ -965,6 +1062,10 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonAgregaPersonasActionPerformed
 
+    /**
+     * Boton de añadir personas al autobus. Está en la pestataña de autobuses
+     * @param evt 
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (jTableAutobuses.getSelectedRow() < 0) {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un autobús");
@@ -1022,6 +1123,113 @@ public class Principal extends javax.swing.JFrame {
         System.out.println("Pestaña habitaciones");        // TODO add your handling code here:
         cargaTablaHabitaciones();
     }//GEN-LAST:event_jPanelHabitacionesComponentShown
+
+    /**
+     * Boton de añadir personas a la habitacion
+     * @param evt 
+     */
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        if (jTableHabitaciones.getSelectedRow() < 0) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar una habitación");
+            return;
+        }
+        String idHabitacion = (String) jTableHabitaciones.getModel().getValueAt(jTableHabitaciones.getSelectedRow(), 0);
+        HabitacionBean habitacion = new HabitacionBean(idHabitacion);
+        habitacion.cargaDatos();
+        JDialog frame = new JDialog(this, "Gestion de personas", true);
+        frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+        ListadoPersonasAsignar ventana = new ListadoPersonasAsignar(habitacion.getIdViaje(), ListadoPersonasAsignar.AsignarAHabitacion);
+        frame.getContentPane().add(ventana);
+        frame.pack();
+        frame.setLocationRelativeTo(this);
+        frame.setVisible(true);
+        //iniciarMisComponentes();
+        if ("G".equals(ventana.getBoton())) {
+            String mensaje = GestionHabitacionesBD.añadirHuespedHabitacion(ventana.getListaPersonasSelec(), idHabitacion);
+            JOptionPane.showMessageDialog(null, mensaje);
+            //cargarTablaPasajeros(idAutobus);
+            int sel = jTableHabitaciones.getSelectedRow();
+            cargaTablaHabitaciones();
+            jTableHabitaciones.setRowSelectionInterval(sel, sel);
+        } else {
+            return;
+        }
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jPanelPersonasSinHabitacionComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelPersonasSinHabitacionComponentShown
+        System.out.println("Pertaña Personas sin habitaciones");
+        cargaTablaPersonasSinHabitacion();
+    }//GEN-LAST:event_jPanelPersonasSinHabitacionComponentShown
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        //Boton de añadir a habitacion de la ventana de personas que no tienen habitacion
+        ArrayList<PersonaBean> lista = new ArrayList<PersonaBean>();
+        for (int i = 0; i < jTablePersonasSinHabitacion.getRowCount(); i++) {
+            if ((boolean) jTablePersonasSinHabitacion.getValueAt(i, 0)) {
+                PersonaBean persona = new PersonaBean();
+                persona.setIdPersona((String) jTablePersonasSinHabitacion.getValueAt(i, 1));
+                lista.add(persona);
+            }
+        }
+        if (lista.size() < 1) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar al menos una persona");
+            return;
+
+        }
+        JDialog frame = new JDialog((JFrame) null, "Guardar", true);
+        frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+        OpcionesGuardarPersonaHabitacionModal ventana = new OpcionesGuardarPersonaHabitacionModal();
+        frame.getContentPane().add(ventana);
+        frame.pack();
+        frame.setLocationRelativeTo(this);
+        frame.setVisible(true);
+
+        String opcion = ventana.getBoton();
+        if ("G".equals(opcion)) {
+            HabitacionBean habitacion=new HabitacionBean(ventana.getIdHabitacion());
+            int plazasLibre = habitacion.getCamasLibres();
+            if (plazasLibre <= 0) {
+                JOptionPane.showMessageDialog(null, "La habitación seleccionada no tiene plazas libres");
+                return;
+            } else if (plazasLibre < lista.size()) {
+                JOptionPane.showMessageDialog(null, "La habitación seleccionada no tiene suficientes camas libres");
+                return;
+            } else {
+                for (PersonaBean persona : lista) {
+                    GestionHabitacionesBD.setHuespedHabitacion(ventana.getIdHabitacion(), persona.getIdPersona());
+                }
+            }
+        }
+
+        cargaTablaPersonasSinHabitacion();
+        
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    int indiceSelJTableHabitaciones;
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        //quitar persona de habitacion
+        indiceSelJTableHabitaciones=jTableHabitaciones.getSelectedRow();
+        ArrayList<PersonaBean> lista = new ArrayList<PersonaBean>();
+        for (int i = 0; i < jTablePersonasHabitacion.getRowCount(); i++) {
+            if ((boolean) jTablePersonasHabitacion.getValueAt(i, 0)) {
+                PersonaBean persona = new PersonaBean();
+                persona.setIdPersona((String) jTablePersonasHabitacion.getValueAt(i, 1));
+                lista.add(persona);
+            }
+        }
+        if (lista.size() < 1) {
+            JOptionPane.showMessageDialog(null, "Debe seleccionar al menos una persona");
+            return;
+
+        }
+        for (PersonaBean persona : lista) {
+            GestionHabitacionesBD.eliminaPersonasHabitacion(persona.getIdPersona(), filtroViaje);
+        }
+        //cargaTablaPersonas(true);
+        
+        cargaTablaHabitaciones();
+        jTableHabitaciones.setRowSelectionInterval(indiceSelJTableHabitaciones, indiceSelJTableHabitaciones);
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * Listener para hacer que al seleccionar una habitacion se muestre la tabla con las persona que ya hay asignadas a la habitacion
@@ -1220,6 +1428,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JButton jButtonAgregaPersonas;
     private javax.swing.JButton jButtonCrearPersona;
     private javax.swing.JButton jButtonEliminaDeLaPeregrinacion;
@@ -1249,6 +1461,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTableAutobusPersona;
     private javax.swing.JTable jTableAutobuses;
@@ -1258,6 +1471,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTable jTablePersonasBus;
     private javax.swing.JTable jTablePersonasHabitacion;
     private javax.swing.JTable jTablePersonasSinAutobus;
+    private javax.swing.JTable jTablePersonasSinHabitacion;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 
@@ -1310,7 +1524,9 @@ public class Principal extends javax.swing.JFrame {
             });
         }
     }
-    
+    /**
+     * Carga la tabla de habitacion y borra la table de personas de la habitacion
+     */
     private void cargaTablaHabitaciones() {
         System.out.println(new Object() {
         }.getClass().getEnclosingMethod().getName());
@@ -1321,7 +1537,7 @@ public class Principal extends javax.swing.JFrame {
 
         filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
         filtroTipoViajero = comboTipoViajero.getModel().getElementAt(comboTipoViajero.getSelectedIndex()).split(" - ")[0];
-        listaHabitaciones = GestionHabitacionesBD.getListahabitaciones(filtroViaje);
+        listaHabitaciones = GestionHabitacionesBD.getListaHabitaciones(filtroViaje);
         datosTabla = (DefaultTableModel) jTableHabitaciones.getModel();
         for (int i = datosTabla.getRowCount(); i > 0; i--) {
             datosTabla.removeRow(i - 1);
@@ -1332,8 +1548,8 @@ public class Principal extends javax.swing.JFrame {
                 habitacion.getDescripcion1(),
                 habitacion.getDescripcion2(),
                 habitacion.getObservaciones(),
-                habitacion.getCamasLibres(),
-                habitacion.getCamasTotales()
+                habitacion.getCamasTotales(),
+                habitacion.getCamasLibres()
             });
         }
     }
@@ -1360,6 +1576,29 @@ public class Principal extends javax.swing.JFrame {
         }
     }
 
+    private void cargaTablaPersonasSinHabitacion() {
+        System.out.println(new Object() {
+        }.getClass().getEnclosingMethod().getName());
+        filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
+        listaPersonas = GestionPersonasBD.getListaPersonasSinHabitacion(filtroViaje);
+        DefaultTableModel datosTabla = (DefaultTableModel) jTablePersonasSinHabitacion.getModel();
+        for (int i = datosTabla.getRowCount(); i > 0; i--) {
+            datosTabla.removeRow(i - 1);
+        }
+        for (PersonaBean persona : listaPersonas) {
+            datosTabla.addRow(new Object[]{
+                false,
+                "" + persona.getIdPersona(),
+                persona.getDNI(),
+                persona.getApellidos(),
+                persona.getNombre(),
+                persona.getFechaNacimiento(),
+                GestionTiposViajeroBD.getTipoViajero(filtroViaje, persona.getIdPersona()).getNombreTipo()
+            });
+        }
+    }
+    
+    
     private void prepararVistaPasajerosAutobus() {
         jPanel3.setPreferredSize(new Dimension(406, 323));
         jLabelDescripcionAutobus.setText(" ");

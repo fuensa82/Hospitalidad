@@ -20,13 +20,13 @@ public class HabitacionBean {
     private String observaciones;
     private String descripcion1;
     private String descripcion2;
-    private int idViaje;
+    private String idViaje;
 
-    public int getIdViaje() {
+    public String getIdViaje() {
         return idViaje;
     }
 
-    public void setIdViaje(int idViaje) {
+    public void setIdViaje(String idViaje) {
         this.idViaje = idViaje;
     }
     
