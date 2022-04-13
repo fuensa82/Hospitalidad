@@ -259,6 +259,7 @@ public class GestionViajesBD {
     public static boolean eliminaPersonasPeregrinacion(String idPersona, String idViaje){
         int result1=eliminaPersonasViaje(idPersona, idViaje);
         int result2=GestionAutobusesBD.eliminaPersonasAutobus(idPersona, idViaje);
+        int result3=GestionHabitacionesBD.eliminaPersonasHabitacion(idPersona, idViaje);
         //Falta eliminar a la persona del hotel 
         return true;
         //int result3=
