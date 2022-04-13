@@ -864,6 +864,11 @@ public class Principal extends javax.swing.JFrame {
         jTextField1.setText("jTextField1");
 
         jButton9.setText("Crear habitación");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -1258,6 +1263,18 @@ public class Principal extends javax.swing.JFrame {
         cargaTablaHabitaciones();
         jTableHabitaciones.setRowSelectionInterval(indiceSelJTableHabitaciones, indiceSelJTableHabitaciones);
     }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
+        JDialog frame = new JDialog(this, "Gestion de habitaciones", true);
+        frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+        HabitacionesMtto ventana = new HabitacionesMtto(filtroViaje);
+        frame.getContentPane().add(ventana);
+        frame.pack();
+        frame.setLocationRelativeTo(this);
+        frame.setVisible(true);
+        
+    }//GEN-LAST:event_jButton9ActionPerformed
 
     /**
      * Listener para hacer que al seleccionar una habitacion se muestre la tabla con las persona que ya hay asignadas a la habitacion
