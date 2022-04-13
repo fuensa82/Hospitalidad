@@ -389,4 +389,8 @@ public class GestionHabitacionesBD {
         }
         return fila;
     }
+    
+    public static int setHabitacion(HabitacionBean habitacion){
+        return 1;
+    }
 }
