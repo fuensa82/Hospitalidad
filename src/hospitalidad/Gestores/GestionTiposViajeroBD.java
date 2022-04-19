@@ -26,7 +26,7 @@ public class GestionTiposViajeroBD {
      * @param idViaje ID del viaje en el que se quiere consultar el tipoo de viajero que es la persona enviada
      * @return Devuelve un Bean con los datos del tipo de Viajero (id, nombreCorto y descripcion)
      */
-    public static TipoViajeroBean getTipoViajero(String idViaje, String idPersona){
+    public static TipoViajeroBean getTipoViajero(String idViaje, String idViaje2, String idPersona){
         TipoViajeroBean tipoViajero = null;
         Connection conexion = null;
         try {
@@ -37,7 +37,7 @@ public class GestionTiposViajeroBD {
                 "WHERE idPersona=? and idViaje=? and " +
                 "	tiposviajeros.idTipoViajero=relviajetodo.idTipoViajero");
             consulta.setString(1, idPersona);
-            consulta.setString(2, idViaje);
+            consulta.setString(2, idViaje2);
             
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()){
@@ -45,6 +45,18 @@ public class GestionTiposViajeroBD {
                 tipoViajero.setNombreTipo(resultado.getString(1));
                 tipoViajero.setDescripcion(resultado.getString(2));
                 tipoViajero.setIdTipoViajero(resultado.getString(3));
+            }
+            if(tipoViajero==null && idViaje.equalsIgnoreCase(idViaje2)){
+                int intViaje=Integer.parseInt(idViaje2);
+                System.out.println("TipoViajero=null Viaje: "+(intViaje-1));
+                
+                tipoViajero=getTipoViajero(idViaje, ""+(intViaje-1), idPersona);
+                if(tipoViajero==null){
+                    System.out.println("TipoViajero=null 2");
+                    tipoViajero=new TipoViajeroBean("","","");
+                }else{
+                    System.out.println("Encontrado en año anterior");
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

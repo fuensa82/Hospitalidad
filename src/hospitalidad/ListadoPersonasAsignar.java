@@ -6,6 +6,7 @@
 package hospitalidad;  
 
 import hospitalidad.Gestores.GestionPersonasBD;
+import hospitalidad.Gestores.GestionTiposViajeroBD;
 import hospitalidad.Gestores.GestionViajesBD;
 import hospitalidad.beans.PersonaBean;
 import java.awt.Window;
@@ -75,18 +76,18 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
         this.idViaje=idViaje;
         this.modoVentana=modoVentana;
         initComponents();
-        cargarListaPersonas();
+        cargarListaPersonas("0");
         ponListenerTabla(jTablePersonas);
     }
 
-    private void cargarListaPersonas() {
+    private void cargarListaPersonas(String filtro) {
         ArrayList<PersonaBean> listaPersona=null;
         if(AsignarABus.equals(this.modoVentana)){
-            listaPersona = GestionPersonasBD.getListaPersonasSinAutobus(idViaje);
+            listaPersona = GestionPersonasBD.getListaPersonasSinAutobus(idViaje, filtro);
         }else if(AsignarAViaje.equals(this.modoVentana)){
             listaPersona = GestionPersonasBD.getListaPersonasSinViaje(idViaje, true);
         }else if(AsignarAHabitacion.equals(this.modoVentana)){
-            listaPersona = GestionPersonasBD.getListaPersonasSinHabitacion(idViaje);
+            listaPersona = GestionPersonasBD.getListaPersonasSinHabitacion(idViaje, filtro);
         }
         listaPersona.sort(new Comparator<PersonaBean>() {
             @Override
@@ -107,7 +108,8 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
                 persona.getApellidos(),
                 persona.getNombre(),
                 persona.getDNI(),
-                persona.getIdPersona()
+                persona.getIdPersona(),
+                persona.getTipo(idViaje).getNombreTipo()
             });
         });
     }
@@ -125,20 +127,22 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
         jTablePersonas = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         jTablePersonas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Sel.", "Apellidos", "Nombre", "DNI", "Id"
+                "Sel.", "Apellidos", "Nombre", "DNI", "Id", "Tipo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false
+                true, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -165,6 +169,15 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
             }
         });
 
+        jLabel1.setText("Filtro: ");
+
+        jComboBox1.setModel(GestionTiposViajeroBD.getModeloComboTipoViajero(true));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -177,14 +190,23 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -241,6 +263,12 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
         w.setVisible(false);
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        //actuador del Combo
+        String filtro = jComboBox1.getModel().getElementAt(jComboBox1.getSelectedIndex()).split(" - ")[0];
+        cargarListaPersonas(filtro);
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
     private void ponListenerTabla(JTable tabla) {
         tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -254,6 +282,8 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton6;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTablePersonas;
     // End of variables declaration//GEN-END:variables

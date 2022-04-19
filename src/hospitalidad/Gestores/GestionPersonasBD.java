@@ -137,30 +137,40 @@ public class GestionPersonasBD {
     }
     
     /**
-     * Devuelve la lista de personas que no tienen asignado ningun autobus en el viaje
+     * Devuelve la lista de personas que no tienen asignado ningun autobus en el viaje. Se puede filtrar por equipo
      * @param idViaje
+     * @param filtro
      * @return 
      */
-    public static ArrayList<PersonaBean> getListaPersonasSinAutobus(String idViaje) {
+    public static ArrayList<PersonaBean> getListaPersonasSinAutobus(String idViaje, String filtro) {
         ArrayList<PersonaBean> result;
         result = new ArrayList();
         Connection conexion = null;
         try {
             conexion=ConectorBD.getConnection();
             PersonaBean persona;
-            PreparedStatement consulta = conexion.prepareStatement(
-            "SELECT relviajetodo.idPersona, personas.DNI, personas.Nombre, personas.Apellidos, personas.FechaNacimiento " +
+            String sql="SELECT relviajetodo.idPersona, personas.DNI, personas.Nombre, personas.Apellidos, personas.FechaNacimiento " +
             "FROM relviajetodo, personas " +
             "WHERE relviajetodo.idPersona=personas.idPersona and " +
-            "   relviajetodo.idViaje=? AND " +
-            "   relviajetodo.idPersona NOT IN( " +
+            "   relviajetodo.idViaje=? AND ";
+            if(!"0".equals(filtro)){
+                sql+="   relviajetodo.idTipoViajero=? AND ";
+            }
+            sql+="   relviajetodo.idPersona NOT IN( " +
             "   SELECT relpersonaautobus.idPersona FROM relpersonaautobus,autobuses " +
             "   WHERE relpersonaautobus.idAutobus=autobuses.idAutobus AND " +
             "   	autobuses.idViaje=?" +
-            "   	)");
-            
+            "   	)";
+            //System.out.println(sql);
+            PreparedStatement consulta = conexion.prepareStatement(sql);
             consulta.setString(1, idViaje);
-            consulta.setString(2, idViaje);
+            if("0".equals(filtro)){
+                consulta.setString(2, idViaje);
+            }else{
+                consulta.setString(3, idViaje);
+                consulta.setString(2, filtro);
+            }
+            System.out.println(consulta.toString());
             
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()){
@@ -185,30 +195,40 @@ public class GestionPersonasBD {
         return result;
     }
     /**
-     * Devuelve la lista de personas que no tienen asignado ninguna habitacion en el viaje y que sí que estan en el viaje
+     * Devuelve la lista de personas que no tienen asignado ninguna habitacion en el viaje y que sí que estan en el viaje. Se puede filtrar por equipo (tipo de viajero/filtro)
      * @param idViaje
+     * @param filtro
      * @return 
      */
-    public static ArrayList<PersonaBean> getListaPersonasSinHabitacion(String idViaje) {
+    public static ArrayList<PersonaBean> getListaPersonasSinHabitacion(String idViaje, String filtro) {
         ArrayList<PersonaBean> result;
         result = new ArrayList();
         Connection conexion = null;
         try {
             conexion=ConectorBD.getConnection();
             PersonaBean persona;
-            PreparedStatement consulta = conexion.prepareStatement(
-            "SELECT relviajetodo.idPersona, personas.DNI, personas.Nombre, personas.Apellidos, personas.FechaNacimiento " +
-            "FROM relviajetodo, personas " +
-            "WHERE relviajetodo.idPersona=personas.idPersona and " +
-            "   relviajetodo.idViaje=? AND " +
-            "   relviajetodo.idPersona NOT IN( " +
-            "   SELECT relpersonahabitacion.idPersona FROM relpersonahabitacion,habitaciones " +
-            "   WHERE relpersonahabitacion.idhabitacion=habitaciones.idhabitacion AND " +
-            "   	habitaciones.idViaje=?" +
-            "   	)");
+            
+            String sql="SELECT relviajetodo.idPersona, personas.DNI, personas.Nombre, personas.Apellidos, personas.FechaNacimiento " +
+                "FROM relviajetodo, personas " +
+                "WHERE relviajetodo.idPersona=personas.idPersona and " +
+                "   relviajetodo.idViaje=? AND ";
+            if(!"0".equals(filtro)){
+                sql+="   relviajetodo.idTipoViajero=? AND ";
+            }
+            sql+="  relviajetodo.idPersona NOT IN( " +
+                "   SELECT relpersonahabitacion.idPersona FROM relpersonahabitacion,habitaciones " +
+                "   WHERE relpersonahabitacion.idhabitacion=habitaciones.idhabitacion AND " +
+                "   	habitaciones.idViaje=?" +
+                "   	)";
+            PreparedStatement consulta = conexion.prepareStatement(sql);
             
             consulta.setString(1, idViaje);
-            consulta.setString(2, idViaje);
+            if("0".equals(filtro)){
+                consulta.setString(2, idViaje);
+            }else{
+                consulta.setString(3, idViaje);
+                consulta.setString(2, filtro);
+            }
             
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()){
@@ -246,12 +266,18 @@ public class GestionPersonasBD {
             conexion=ConectorBD.getConnection();
             PersonaBean persona;
             PreparedStatement consulta = conexion.prepareStatement(
-            "SELECT idPersona, DNI, Nombre, Apellidos, FechaNacimiento, Correo, Telefono1, Telefono2, Direccion, CP, Localidad, Provincia, Observaciones, Activo " +
-            "FROM personas " +
-            "WHERE idPersona NOT IN (SELECT idPersona FROM relviajetodo WHERE idViaje=?) "+
-            "ORDER BY Apellidos");
+            "SELECT personas.idPersona, DNI, Nombre, Apellidos, FechaNacimiento, Correo, Telefono1, Telefono2, Direccion, CP, Localidad, Provincia, Observaciones, Activo,  personas.ActualTipoViajero, tiposviajeros.Descripcion AS Descripcion " +
+            "FROM personas, tiposviajeros " +
+            "WHERE tiposviajeros.idTipoViajero=personas.ActualTipoViajero AND " +
+            "personas.idPersona NOT IN (SELECT idPersona FROM relviajetodo WHERE idViaje=?) " +
+            "UNION "+
+            "SELECT personas.idPersona, DNI, Nombre, Apellidos, FechaNacimiento, Correo, Telefono1, Telefono2, Direccion, CP, Localidad, Provincia, Observaciones, Activo,  personas.ActualTipoViajero, 'Sin equipo' AS Descripcion "+
+            "FROM personas "+
+            "WHERE personas.ActualTipoViajero=0 "+        
+            "ORDER BY Descripcion, Apellidos");
             consulta.setString(1, idViaje);
             
+            System.out.println("SQL: "+consulta);
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()){
                 if("true".equals(resultado.getString(14).trim())==isActivo){

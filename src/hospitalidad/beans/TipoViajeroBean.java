@@ -10,6 +10,15 @@ package hospitalidad.beans;
  * @author vPalomo
  */
 public class TipoViajeroBean {
+
+    public TipoViajeroBean(String idTipoViajero, String NombreTipo, String Descripcion) {
+        this.idTipoViajero = idTipoViajero;
+        this.NombreTipo = NombreTipo;
+        this.Descripcion = Descripcion;
+    }
+
+    public TipoViajeroBean() {
+    }
     private String idTipoViajero;
     private String NombreTipo;
     private String Descripcion;

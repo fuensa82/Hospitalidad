@@ -1448,8 +1448,8 @@ public class Principal extends javax.swing.JFrame {
                 persona.getDNI(),
                 persona.getApellidos(),
                 persona.getNombre(),
-                persona.getFechaNacimiento()//,
-            //GestionTiposViajeroBD.getTipoViajero(autobus.getIdViaje(), persona.getIdPersona()).getNombreTipo()
+                GestionTiposViajeroBD.getTipoViajero(autobus.getIdViaje(),autobus.getIdViaje(),
+                persona.getIdPersona()).getNombreTipo()
             });
         }
     }
@@ -1472,8 +1472,7 @@ public class Principal extends javax.swing.JFrame {
                 persona.getDNI(),
                 persona.getApellidos(),
                 persona.getNombre(),
-                persona.getFechaNacimiento()//,
-            //GestionTiposViajeroBD.getTipoViajero(autobus.getIdViaje(), persona.getIdPersona()).getNombreTipo()
+                GestionTiposViajeroBD.getTipoViajero(habitacion.getIdViaje(), habitacion.getIdViaje(), persona.getIdPersona()).getNombreTipo()
             });
         }
     }
@@ -1589,7 +1588,7 @@ public class Principal extends javax.swing.JFrame {
                 persona.getApellidos(),
                 persona.getNombre(),
                 persona.getFechaNacimiento(),
-                GestionTiposViajeroBD.getTipoViajero(filtroViaje, persona.getIdPersona()).getNombreTipo()
+                GestionTiposViajeroBD.getTipoViajero(filtroViaje,filtroViaje, persona.getIdPersona()).getNombreTipo()
             });
         }
     }
@@ -1654,7 +1653,7 @@ public class Principal extends javax.swing.JFrame {
         System.out.println(new Object() {
         }.getClass().getEnclosingMethod().getName());
         filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
-        listaPersonas = GestionPersonasBD.getListaPersonasSinAutobus(filtroViaje);
+        listaPersonas = GestionPersonasBD.getListaPersonasSinAutobus(filtroViaje, "0");
         DefaultTableModel datosTabla = (DefaultTableModel) jTablePersonasSinAutobus.getModel();
         for (int i = datosTabla.getRowCount(); i > 0; i--) {
             datosTabla.removeRow(i - 1);
@@ -1667,7 +1666,7 @@ public class Principal extends javax.swing.JFrame {
                 persona.getApellidos(),
                 persona.getNombre(),
                 persona.getFechaNacimiento(),
-                GestionTiposViajeroBD.getTipoViajero(filtroViaje, persona.getIdPersona()).getNombreTipo()
+                GestionTiposViajeroBD.getTipoViajero(filtroViaje,filtroViaje, persona.getIdPersona()).getNombreTipo()
             });
         }
     }
@@ -1676,7 +1675,7 @@ public class Principal extends javax.swing.JFrame {
         System.out.println(new Object() {
         }.getClass().getEnclosingMethod().getName());
         filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
-        listaPersonas = GestionPersonasBD.getListaPersonasSinHabitacion(filtroViaje);
+        listaPersonas = GestionPersonasBD.getListaPersonasSinHabitacion(filtroViaje,"0");
         DefaultTableModel datosTabla = (DefaultTableModel) jTablePersonasSinHabitacion.getModel();
         for (int i = datosTabla.getRowCount(); i > 0; i--) {
             datosTabla.removeRow(i - 1);
@@ -1689,7 +1688,7 @@ public class Principal extends javax.swing.JFrame {
                 persona.getApellidos(),
                 persona.getNombre(),
                 persona.getFechaNacimiento(),
-                GestionTiposViajeroBD.getTipoViajero(filtroViaje, persona.getIdPersona()).getNombreTipo()
+                GestionTiposViajeroBD.getTipoViajero(filtroViaje,filtroViaje, persona.getIdPersona()).getNombreTipo()
             });
         }
     }

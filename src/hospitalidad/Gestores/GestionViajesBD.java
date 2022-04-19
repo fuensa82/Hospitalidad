@@ -145,11 +145,12 @@ public class GestionViajesBD {
     }
 
     /**
-     *
+     * 
      * @param listaPersonas
      * @param idViaje
      * @param tipoViajero
      * @return
+     *  @deprecated
      */
     public static boolean guardaPersonasPeregrinacion(ArrayList<PersonaBean> listaPersonas, String idViaje, String idTipoViajero) {
         boolean result = false;
@@ -165,9 +166,19 @@ public class GestionViajesBD {
                     ejecutar = true;
                 }
                 PreparedStatement insert1 = conexion.prepareStatement(sql.substring(0, sql.length() - 1));
-                System.out.println("sql: " + insert1);
+                System.out.println("sql1: " + insert1);
                 if (ejecutar) {
+                    System.out.println("Ejecucion");
                     insert1.executeUpdate();
+                    System.out.println("Lista personas: "+listaPersonas.size());
+                    for (PersonaBean persona : listaPersonas) {
+                        System.out.println("Actualizando la tabla personas");
+                        sql="UPDATE personas SET ActualTipoViajero=? where idPersona=?";
+                        insert1=conexion.prepareStatement(sql);
+                        insert1.setString(1, idTipoViajero);
+                        insert1.setString(2, persona.getIdPersona());
+                        insert1.executeUpdate();
+                    }
                 }
             }
             return true; //Correcto
@@ -209,7 +220,7 @@ public class GestionViajesBD {
                     insert1.setString(1, idViaje);
                     insert1.setString(2, persona.getIdPersona());
                     insert1.setString(3, idTipoViajero);
-                    System.out.println("sql: " + insert1);
+                    System.out.println("sql2: " + insert1);
                     int filas = 0;
                     try {
                         filas = insert1.executeUpdate();
@@ -218,6 +229,10 @@ public class GestionViajesBD {
                             personasConError+="  "+persona.getApellidos()+", "+persona.getNombre()+"\n ";
                         } else {
                             correcto++;
+                            insert1 = conexion.prepareStatement("UPDATE personas SET ActualTipoViajero=? where idPersona=?");
+                            insert1.setString(1, idTipoViajero);
+                            insert1.setString(2, persona.getIdPersona());
+                            insert1.executeUpdate();
                         }
                     } catch (Exception e) {
                         System.out.println(e.getMessage());

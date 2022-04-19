@@ -5,6 +5,8 @@
  */
 package hospitalidad.beans;
 
+import hospitalidad.Gestores.GestionTiposViajeroBD;
+
 /**
  *
  * @author vPalomo
@@ -25,6 +27,13 @@ public class PersonaBean {
     private String provincia;
     private String observaciones;
     private String informeMedico;
+
+    public TipoViajeroBean getTipo(String idViaje) {
+        System.out.println("idViaje: "+idViaje);
+        return GestionTiposViajeroBD.getTipoViajero(idViaje, idViaje, idPersona);
+    }
+
+    
 
     public String getInformeMedico() {
         return informeMedico;
