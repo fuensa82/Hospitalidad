@@ -105,6 +105,33 @@ public class GestionTiposViajeroBD {
         }
         return result;
     }
+    
+    public static String getNombreTipoViajero(String idEquipo){
+        String result="Sin tipo";
+        Connection conexion = null;
+        try {
+            conexion=ConectorBD.getConnection();
+            PreparedStatement consulta = conexion.prepareStatement(
+            "SELECT NombreCortoTipo FROM tiposviajeros Where idTipoViajero=?");
+            consulta.setString(1, idEquipo);
+
+            ResultSet resultado = consulta.executeQuery();
+            if (resultado.next()){
+                result=resultado.getString(1);
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException ex) {
+            
+        }finally{
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+            }
+        }
+        return result;
+    }
     /**
      * 
      * @param conTodos true si queremos que saque la opcion "0 - Todos". False si no queremos que salga esa opcion

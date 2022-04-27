@@ -27,11 +27,32 @@ public class PersonaBean {
     private String provincia;
     private String observaciones;
     private String informeMedico;
+    private String idTipoViajero;
+    private String nombreCortoTipoViajero;
 
     public TipoViajeroBean getTipo(String idViaje) {
         System.out.println("idViaje: "+idViaje);
+        
         return GestionTiposViajeroBD.getTipoViajero(idViaje, idViaje, idPersona);
     }
+
+    public String getIdTipoViajero() {
+        return idTipoViajero;
+    }
+
+    public void setIdTipoViajero(String idTipoViajero) {
+        this.idTipoViajero = idTipoViajero;
+    }
+
+    public String getNombreCortoTipoViajero() {
+        return nombreCortoTipoViajero;
+    }
+
+    public void setNombreCortoTipoViajero(String nombreCortoTipoViajero) {
+        this.nombreCortoTipoViajero = nombreCortoTipoViajero;
+    }
+    
+    
 
     
 

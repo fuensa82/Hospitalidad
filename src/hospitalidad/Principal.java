@@ -97,6 +97,8 @@ public class Principal extends javax.swing.JFrame {
         jLabelCamasLibres = new javax.swing.JLabel();
         jButtonEliminaDeLaPeregrinacion = new javax.swing.JButton();
         jButtonAgregaPersonas = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        labelTotal = new javax.swing.JLabel();
         jPanelAutobuses = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -332,7 +334,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelDesc2)
                     .addComponent(jLabelCamasLibres))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(136, Short.MAX_VALUE))
             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel5Layout.createSequentialGroup()
                     .addGap(57, 57, 57)
@@ -354,6 +356,10 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Total lista:");
+
+        labelTotal.setText("jLabel5");
+
         javax.swing.GroupLayout jPanelPeregrinacionesLayout = new javax.swing.GroupLayout(jPanelPeregrinaciones);
         jPanelPeregrinaciones.setLayout(jPanelPeregrinacionesLayout);
         jPanelPeregrinacionesLayout.setHorizontalGroup(
@@ -365,8 +371,12 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(jButtonAgregaPersonas)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonEliminaDeLaPeregrinacion))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 586, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 586, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelPeregrinacionesLayout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelTotal)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addGroup(jPanelPeregrinacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -376,17 +386,21 @@ public class Principal extends javax.swing.JFrame {
             jPanelPeregrinacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelPeregrinacionesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelPeregrinacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanelPeregrinacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelPeregrinacionesLayout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 545, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelPeregrinacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(labelTotal))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelPeregrinacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonEliminaDeLaPeregrinacion)
                     .addComponent(jButtonAgregaPersonas))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jPanel5.getAccessibleContext().setAccessibleName("Habitacion");
@@ -1531,6 +1545,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabelCamasLibres;
     private javax.swing.JLabel jLabelDesc1;
     private javax.swing.JLabel jLabelDesc2;
@@ -1568,6 +1583,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTable jTablePersonasSinAutobus;
     private javax.swing.JTable jTablePersonasSinHabitacion;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel labelTotal;
     // End of variables declaration//GEN-END:variables
 
     private void cargaTablaPersonas(boolean tipo) {
@@ -1591,6 +1607,7 @@ public class Principal extends javax.swing.JFrame {
                 GestionTiposViajeroBD.getTipoViajero(filtroViaje,filtroViaje, persona.getIdPersona()).getNombreTipo()
             });
         }
+        labelTotal.setText(""+listaPersonas.size());
     }
 
     private void cargaTablaAutobuses() {

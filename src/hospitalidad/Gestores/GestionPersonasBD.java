@@ -149,10 +149,11 @@ public class GestionPersonasBD {
         try {
             conexion=ConectorBD.getConnection();
             PersonaBean persona;
-            String sql="SELECT relviajetodo.idPersona, personas.DNI, personas.Nombre, personas.Apellidos, personas.FechaNacimiento " +
-            "FROM relviajetodo, personas " +
+            String sql="SELECT relviajetodo.idPersona, personas.DNI, personas.Nombre, personas.Apellidos, personas.FechaNacimiento, tiposviajeros.NombreCortoTipo " +
+            "FROM relviajetodo, personas, tiposviajeros " +
             "WHERE relviajetodo.idPersona=personas.idPersona and " +
-            "   relviajetodo.idViaje=? AND ";
+            "   relviajetodo.idViaje=? AND "
+                    + "tiposviajeros.idTipoViajero=personas.ActualTipoViajero AND ";
             if(!"0".equals(filtro)){
                 sql+="   relviajetodo.idTipoViajero=? AND ";
             }
@@ -180,6 +181,7 @@ public class GestionPersonasBD {
                     persona.setNombre(resultado.getString(3));
                     persona.setApellidos(resultado.getString(4));
                     persona.setFechaNacimiento(FechasUtils.fecha(resultado.getString(5)));
+                    persona.setNombreCortoTipoViajero(resultado.getString(6));
                     result.add(persona);
             }
         } catch (SQLException e) {
@@ -286,6 +288,58 @@ public class GestionPersonasBD {
                     persona.setDNI(resultado.getString(2));
                     persona.setNombre(resultado.getString(3));
                     persona.setApellidos(resultado.getString(4));
+                    persona.setNombreCortoTipoViajero(resultado.getString("Descripcion"));
+                    result.add(persona);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException ex) {
+            
+        }finally{
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+            }
+        }
+        return result;
+    }
+    
+    
+    /**
+     *
+     * Devuelve la lista de personas que no están en este viaje
+     * @param idViaje
+     * @return 
+     */
+    public static ArrayList<PersonaBean> getListaPersonasSinViajeConEquipoDefinido(String idViaje, boolean isActivo, String idEquipo) {
+        ArrayList<PersonaBean> result;
+        result = new ArrayList();
+        Connection conexion = null;
+        try {
+            conexion=ConectorBD.getConnection();
+            PersonaBean persona;
+            PreparedStatement consulta = conexion.prepareStatement(
+            "SELECT personas.idPersona, DNI, Nombre, Apellidos, FechaNacimiento, Correo, Telefono1, Telefono2, Direccion, CP, Localidad, Provincia, Observaciones, Activo,  personas.ActualTipoViajero, tiposviajeros.Descripcion AS Descripcion " +
+            "FROM personas, tiposviajeros " +
+            "WHERE tiposviajeros.idTipoViajero=personas.ActualTipoViajero AND " +
+            "personas.ActualTipoViajero=? AND " +
+            "personas.idPersona NOT IN (SELECT idPersona FROM relviajetodo WHERE idViaje=?) "
+                    + "order by personas.apellidos");
+            
+            consulta.setString(1, idEquipo);
+            consulta.setString(2, idViaje);
+            
+            System.out.println("SQL: "+consulta);
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()){
+                if("true".equals(resultado.getString(14).trim())==isActivo){
+                    persona=new PersonaBean();
+                    persona.setIdPersona(resultado.getString(1));
+                    persona.setDNI(resultado.getString(2));
+                    persona.setNombre(resultado.getString(3));
+                    persona.setApellidos(resultado.getString(4));
+                    persona.setNombreCortoTipoViajero(resultado.getString("Descripcion"));
                     result.add(persona);
                 }
             }

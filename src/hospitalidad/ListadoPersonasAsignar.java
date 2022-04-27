@@ -85,7 +85,11 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
         if(AsignarABus.equals(this.modoVentana)){
             listaPersona = GestionPersonasBD.getListaPersonasSinAutobus(idViaje, filtro);
         }else if(AsignarAViaje.equals(this.modoVentana)){
-            listaPersona = GestionPersonasBD.getListaPersonasSinViaje(idViaje, true);
+            if("0".equals(filtro)){
+                listaPersona = GestionPersonasBD.getListaPersonasSinViaje(idViaje, true);
+            }else{
+                listaPersona = GestionPersonasBD.getListaPersonasSinViajeConEquipoDefinido(idViaje, true, filtro);
+            }
         }else if(AsignarAHabitacion.equals(this.modoVentana)){
             listaPersona = GestionPersonasBD.getListaPersonasSinHabitacion(idViaje, filtro);
         }
@@ -102,16 +106,29 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
         for (int i = datosTabla.getRowCount(); i > 0; i--) {
             datosTabla.removeRow(i - 1);
         }
-        listaPersona.forEach((persona) -> {
-            datosTabla.addRow(new Object[]{
-                false,
-                persona.getApellidos(),
-                persona.getNombre(),
-                persona.getDNI(),
-                persona.getIdPersona(),
-                persona.getTipo(idViaje).getNombreTipo()
+        if(!AsignarAViaje.equals(this.modoVentana)){
+            listaPersona.forEach((persona) -> {
+                datosTabla.addRow(new Object[]{
+                    false,
+                    persona.getApellidos(),
+                    persona.getNombre(),
+                    persona.getDNI(),
+                    persona.getIdPersona(),
+                    persona.getNombreCortoTipoViajero()
+                });
             });
-        });
+        }else{
+            listaPersona.forEach((persona) -> {
+                datosTabla.addRow(new Object[]{
+                    false,
+                    persona.getApellidos(),
+                    persona.getNombre(),
+                    persona.getDNI(),
+                    persona.getIdPersona(),
+                    persona.getNombreCortoTipoViajero()
+                });
+            });
+        }
     }
 
     /**

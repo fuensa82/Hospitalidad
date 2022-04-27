@@ -5,26 +5,28 @@
  */
 package hospitalidad.beans;
 
+import hospitalidad.Gestores.GestionTiposViajeroBD;
+
 /**
  *
  * @author vPalomo
  */
 public class TipoViajeroBean {
 
-    public TipoViajeroBean(String idTipoViajero, String NombreTipo, String Descripcion) {
+    public TipoViajeroBean(String idTipoViajero, String nombreTipo, String descripcion) {
         this.idTipoViajero = idTipoViajero;
-        this.NombreTipo = NombreTipo;
-        this.Descripcion = Descripcion;
+        this.nombreTipo = nombreTipo;
+        this.descripcion = descripcion;
     }
 
     public TipoViajeroBean() {
     }
     private String idTipoViajero;
-    private String NombreTipo;
-    private String Descripcion;
+    private String nombreTipo;
+    private String descripcion;
     
     public String toString(){
-        return idTipoViajero+" - "+NombreTipo;
+        return idTipoViajero+" - "+nombreTipo;
     }
 
     public String getIdTipoViajero() {
@@ -36,18 +38,21 @@ public class TipoViajeroBean {
     }
 
     public String getNombreTipo() {
-        return NombreTipo;
+        if("".equals(nombreTipo) && !"".equals(idTipoViajero)){
+            nombreTipo=GestionTiposViajeroBD.getNombreTipoViajero(idTipoViajero);
+        }
+        return nombreTipo;
     }
 
-    public void setNombreTipo(String NombreTipo) {
-        this.NombreTipo = NombreTipo;
+    public void setNombreTipo(String nombreTipo) {
+        this.nombreTipo = nombreTipo;
     }
 
     public String getDescripcion() {
-        return Descripcion;
+        return descripcion;
     }
 
-    public void setDescripcion(String Descripcion) {
-        this.Descripcion = Descripcion;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }
