@@ -149,8 +149,10 @@ public class GestionPersonasBD {
         try {
             conexion=ConectorBD.getConnection();
             PersonaBean persona;
-            String sql="SELECT relviajetodo.idPersona, personas.DNI, personas.Nombre, personas.Apellidos, personas.FechaNacimiento, tiposviajeros.NombreCortoTipo " +
-            "FROM relviajetodo, personas, tiposviajeros " +
+            String sql="SELECT relviajetodo.idPersona, personas.DNI, personas.Nombre, personas.Apellidos, personas.FechaNacimiento, tiposviajeros.NombreCortoTipo, relviajetodo.idTipoViajero " +
+            " "+
+                    
+                    "FROM relviajetodo, personas, tiposviajeros " +
             "WHERE relviajetodo.idPersona=personas.idPersona and " +
             "   relviajetodo.idViaje=? AND "
                     + "tiposviajeros.idTipoViajero=personas.ActualTipoViajero AND ";
@@ -182,6 +184,7 @@ public class GestionPersonasBD {
                     persona.setApellidos(resultado.getString(4));
                     persona.setFechaNacimiento(FechasUtils.fecha(resultado.getString(5)));
                     persona.setNombreCortoTipoViajero(resultado.getString(6));
+                    persona.setIdTipoViajero(resultado.getString(7));
                     result.add(persona);
             }
         } catch (SQLException e) {

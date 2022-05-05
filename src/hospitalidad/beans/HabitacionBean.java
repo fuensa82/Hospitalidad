@@ -71,7 +71,7 @@ public class HabitacionBean {
      * @param persona
      * @return 
      */
-    public boolean añadirHuesped(PersonaBean persona){
+    /*public boolean añadirHuesped(PersonaBean persona){
         int camasOcupadas=GestionHabitacionesBD.getCamasOcupadas(idHabitacion);
         if(camasOcupadas!=huespedes.size()){
             throw new RuntimeException("Inconsistencia de datos grave. No cuadran las plazas de la habitacion con id "+idHabitacion+"\n"+
@@ -82,7 +82,7 @@ public class HabitacionBean {
         if(huespedes.size()>=this.getCamasLibres())return false;
         return GestionAutobusesBD.setPasajeroAutobus(idHabitacion, persona.getIdPersona());
 
-    }
+    }*/
 
    
 

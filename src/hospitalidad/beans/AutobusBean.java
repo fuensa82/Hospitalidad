@@ -16,8 +16,8 @@ public class AutobusBean {
     private ArrayList<PersonaBean> pasajeros;
     private String idAutobus;
     private String idViaje;
-    private int plazasTotales;
-    private int plazasLibres;
+    private int plazasEnfermos;
+    private int plazasNoEnfermos;
     private String observaciones;
     private String descripcion;
 
@@ -30,7 +30,7 @@ public class AutobusBean {
     }
     
     public String toString(){
-        return idAutobus+" - "+descripcion+" - "+observaciones+" - Plazas libres: "+GestionAutobusesBD.getPlazasLibres(idAutobus);
+        return idAutobus+" - "+descripcion+" - "+observaciones+" - Enf.: "+GestionAutobusesBD.getPlazasLibres(idAutobus,true)+" - No Enf.: "+GestionAutobusesBD.getPlazasLibres(idAutobus,false);
     }
     
     public String getIdViaje() {
@@ -56,7 +56,7 @@ public class AutobusBean {
      * @param persona
      * @return 
      */
-    public boolean añadirPasajero(PersonaBean persona){
+    /*public boolean añadirPasajero(PersonaBean persona){
         int plazasOcupadas=GestionAutobusesBD.getPlazasOcupadas(idAutobus);
         if(plazasOcupadas!=pasajeros.size()){
             throw new RuntimeException("Inconsistencia de datos grave. No cuadran las plazas del autobus con id "+idAutobus+"\n"+
@@ -66,8 +66,7 @@ public class AutobusBean {
         }
         if(pasajeros.size()>=this.getPlazasLibres())return false;
         return GestionAutobusesBD.setPasajeroAutobus(idAutobus, persona.getIdPersona());
-
-    }
+    }*/
     public ArrayList<PersonaBean> getPasajeros() {
         if(pasajeros==null){
             pasajeros=GestionAutobusesBD.consultaPasajeros(idAutobus);
@@ -87,17 +86,33 @@ public class AutobusBean {
         this.idAutobus = idAutobus;
     }
 
-    public int getPlazasLibres() {
-        int plazasOcupadas=GestionAutobusesBD.getPlazasOcupadas(idAutobus);
-        
-        return plazasTotales-plazasOcupadas;
+    public int getPlazasLibres(boolean enfermo) {
+        int plazasOcupadas=GestionAutobusesBD.getPlazasOcupadas(idAutobus, enfermo);
+        if(enfermo)
+            return plazasEnfermos-plazasOcupadas;
+        else
+            return plazasNoEnfermos-plazasOcupadas;
     }
-    public int getPlazasTotales() {
-        return plazasTotales;
+    public int getPlazas(boolean enfermo) {
+        if(enfermo)
+            return plazasEnfermos;
+        else
+            return plazasNoEnfermos;
     }
 
-    public void setPlazasTotales(int plazas) {
-        this.plazasTotales = plazas;
+    public void setPlazas(int plazas, boolean enfermo) {
+        if(enfermo)
+            plazasEnfermos=plazas;
+        else
+            plazasNoEnfermos=plazas;
+    }
+    
+    public void setPlazasEnfermos(int plazas) {
+        plazasEnfermos=plazas;
+    }
+    
+    public void setPlazasNoEnfermos(int plazas) {
+        plazasNoEnfermos=plazas;
     }
 
     public String getObservaciones() {
@@ -117,7 +132,8 @@ public class AutobusBean {
         this.idAutobus=autobus.getIdAutobus();
         this.idViaje=autobus.getIdViaje();
         this.observaciones=autobus.getObservaciones();
-        this.plazasTotales=autobus.getPlazasTotales();
+        this.plazasEnfermos=autobus.getPlazas(true);
+        this.plazasNoEnfermos=autobus.getPlazas(false);
         
         return result;
     }

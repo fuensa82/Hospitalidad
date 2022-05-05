@@ -114,7 +114,8 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
                     persona.getNombre(),
                     persona.getDNI(),
                     persona.getIdPersona(),
-                    persona.getNombreCortoTipoViajero()
+                    persona.getNombreCortoTipoViajero(),
+                    persona.getIdTipoViajero()
                 });
             });
         }else{
@@ -125,7 +126,8 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
                     persona.getNombre(),
                     persona.getDNI(),
                     persona.getIdPersona(),
-                    persona.getNombreCortoTipoViajero()
+                    persona.getNombreCortoTipoViajero(),
+                    persona.getIdTipoViajero()
                 });
             });
         }
@@ -152,14 +154,14 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Sel.", "Apellidos", "Nombre", "DNI", "Id", "Tipo"
+                "Sel.", "Apellidos", "Nombre", "DNI", "Id", "Tipo", "IdTipo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false
+                true, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -170,7 +172,11 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        jTablePersonas.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTablePersonas);
+        if (jTablePersonas.getColumnModel().getColumnCount() > 0) {
+            jTablePersonas.getColumnModel().getColumn(6).setResizable(false);
+        }
 
         jButton1.setText("Salir");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -239,6 +245,11 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         if(!seleccionFila){
+//            jTablePersonas.getColumnModel().getColumn(5).setWidth(0);
+//            jTablePersonas.getColumnModel().getColumn(5).setMaxWidth(0);
+//            jTablePersonas.getColumnModel().getColumn(5).setMinWidth(0);
+            jTablePersonas.removeColumn(jTablePersonas.getColumnModel().getColumn(5));
+            
             JOptionPane.showMessageDialog(null, "Primero debe seleccionar al menos una persona");
             return;
         }
@@ -250,6 +261,7 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
                 persona.setIdPersona((String) datosTabla.getValueAt(i, 4));
                 persona.setNombre((String) datosTabla.getValueAt(i, 2));
                 persona.setApellidos((String) datosTabla.getValueAt(i, 1));
+                persona.setIdTipoViajero((String) datosTabla.getValueAt(i, 6));
                 listaPersonasSelec.add(persona);
             }
         }

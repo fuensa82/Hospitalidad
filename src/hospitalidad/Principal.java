@@ -6,6 +6,7 @@
 package hospitalidad;
 
 import hospitalidad.Gestores.GestionAutobusesBD;
+import static hospitalidad.Gestores.GestionAutobusesBD.getPlazasLibres;
 import hospitalidad.Gestores.GestionHabitacionesBD;
 import hospitalidad.Gestores.GestionPersonasBD;
 import hospitalidad.Gestores.GestionViajesBD;
@@ -422,7 +423,7 @@ public class Principal extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "id", "Descripción", "P Libres", "P totales", "Observaciones"
+                "id", "Descripción", "Plazas Enf", "Plazas Hos", "Observaciones"
             }
         ) {
             Class[] types = new Class [] {
@@ -451,10 +452,10 @@ public class Principal extends javax.swing.JFrame {
         if (jTableAutobuses.getColumnModel().getColumnCount() > 0) {
             jTableAutobuses.getColumnModel().getColumn(0).setResizable(false);
             jTableAutobuses.getColumnModel().getColumn(0).setPreferredWidth(10);
-            jTableAutobuses.getColumnModel().getColumn(1).setPreferredWidth(100);
-            jTableAutobuses.getColumnModel().getColumn(2).setPreferredWidth(20);
+            jTableAutobuses.getColumnModel().getColumn(1).setPreferredWidth(80);
+            jTableAutobuses.getColumnModel().getColumn(2).setPreferredWidth(30);
             jTableAutobuses.getColumnModel().getColumn(3).setPreferredWidth(30);
-            jTableAutobuses.getColumnModel().getColumn(4).setPreferredWidth(100);
+            jTableAutobuses.getColumnModel().getColumn(4).setPreferredWidth(80);
         }
 
         jTablePersonasBus.setModel(new javax.swing.table.DefaultTableModel(
@@ -573,14 +574,14 @@ public class Principal extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Sel.", "Id", "DNI", "Apellidos", "Nombre", "Fecha Nac.", "Tipo"
+                "Sel.", "Id", "DNI", "Apellidos", "Nombre", "Fecha Nac.", "Tipo", "IdTipo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false, false
+                true, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -601,6 +602,8 @@ public class Principal extends javax.swing.JFrame {
             jTablePersonasSinAutobus.getColumnModel().getColumn(4).setPreferredWidth(100);
             jTablePersonasSinAutobus.getColumnModel().getColumn(5).setPreferredWidth(100);
             jTablePersonasSinAutobus.getColumnModel().getColumn(6).setPreferredWidth(100);
+            jTablePersonasSinAutobus.getColumnModel().getColumn(7).setResizable(false);
+            jTablePersonasSinAutobus.getColumnModel().getColumn(7).setPreferredWidth(0);
         }
 
         jButton5.setText("Asignar autobus");
@@ -1054,6 +1057,7 @@ public class Principal extends javax.swing.JFrame {
             if ((boolean) jTablePersonasSinAutobus.getValueAt(i, 0)) {
                 PersonaBean persona = new PersonaBean();
                 persona.setIdPersona((String) jTablePersonasSinAutobus.getValueAt(i, 1));
+                persona.setIdTipoViajero((String) jTablePersonasSinAutobus.getValueAt(i, 7));
                 lista.add(persona);
             }
         }
@@ -1062,6 +1066,7 @@ public class Principal extends javax.swing.JFrame {
             return;
 
         }
+        //kkk
         JDialog frame = new JDialog((JFrame) null, "Guardar", true);
         frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
         OpcionesGuardarPersonaAutobusModal ventana = new OpcionesGuardarPersonaAutobusModal();
@@ -1073,7 +1078,25 @@ public class Principal extends javax.swing.JFrame {
         String opcion = ventana.getBoton();
         if ("G".equals(opcion)) {
             AutobusBean autobus=new AutobusBean(ventana.getIdAutobus());
-            int plazasLibre = autobus.getPlazasLibres();
+            String result=GestionAutobusesBD.añadirPasajerosAutobus(lista, autobus.getIdAutobus());
+            JOptionPane.showMessageDialog(null, result);
+            /*
+            int plazasLibresEnfermos=getPlazasLibres(autobus.getIdAutobus(), true);
+            int plazasLibresNoEnfermos=getPlazasLibres(autobus.getIdAutobus(), false);
+            int plazasSolicitadasEnfernos=0;
+            int plazasSolicitadasNoEnfernos=0;
+            for (PersonaBean pasajero : listaPasajeros) {
+                if("1".equals(pasajero.getIdTipoViajero())){
+                    plazasSolicitadasEnfernos++;
+                }else{
+                    plazasSolicitadasNoEnfernos++;
+                }
+            }
+            
+            
+            
+            
+            int plazasLibre = autobus.getPlazasLibres(false);
             if (plazasLibre <= 0) {
                 JOptionPane.showMessageDialog(null, "El autobus seleccionado no tiene plazas libres");
                 return;
@@ -1084,7 +1107,7 @@ public class Principal extends javax.swing.JFrame {
                 for (PersonaBean persona : lista) {
                     GestionAutobusesBD.setPasajeroAutobus(ventana.getIdAutobus(), persona.getIdPersona());
                 }
-            }
+            }*/
         }
 
         cargaTablaPersonasSinAutobus();
@@ -1130,6 +1153,7 @@ public class Principal extends javax.swing.JFrame {
         frame.setVisible(true);
         //iniciarMisComponentes();
         if ("G".equals(ventana.getBoton())) {
+            //kkk
             String mensaje = GestionAutobusesBD.añadirPasajerosAutobus(ventana.getListaPersonasSelec(), idAutobus);
             JOptionPane.showMessageDialog(null, mensaje);
             //cargarTablaPasajeros(idAutobus);
@@ -1629,8 +1653,8 @@ public class Principal extends javax.swing.JFrame {
             datosTabla.addRow(new Object[]{
                 autobus.getIdAutobus(),
                 autobus.getDescripcion(),
-                autobus.getPlazasLibres(),
-                autobus.getPlazasTotales(),
+                autobus.getPlazasLibres(true),
+                autobus.getPlazasLibres(false),
                 autobus.getObservaciones(),
                 autobus.getIdAutobus()
             });
@@ -1683,7 +1707,9 @@ public class Principal extends javax.swing.JFrame {
                 persona.getApellidos(),
                 persona.getNombre(),
                 persona.getFechaNacimiento(),
-                GestionTiposViajeroBD.getTipoViajero(filtroViaje,filtroViaje, persona.getIdPersona()).getNombreTipo()
+                //GestionTiposViajeroBD.getTipoViajero(filtroViaje,filtroViaje, persona.getIdPersona()).getNombreTipo()
+                persona.getNombreCortoTipoViajero(),
+                persona.getIdTipoViajero()
             });
         }
     }

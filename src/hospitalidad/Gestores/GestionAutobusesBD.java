@@ -30,28 +30,39 @@ public class GestionAutobusesBD {
      * @return 
      */
     public static boolean guardarPasajero(AutobusBean autobus, PersonaBean persona) {
-        if(getPlazasLibres(autobus.getIdAutobus())<=0) return false;
+        if(getPlazasLibres(autobus.getIdAutobus(), "1".equals(persona.getIdTipoViajero()))<=0) return false;
         return setPasajeroAutobus(autobus.getIdAutobus(), persona.getIdPersona());
     }
 
     /**
-     * Devuelve el numero de plazas ocupadas de un autobus
+     * Devuelve el numero de plazas ocupadas de un autobus según el tipo de pasajero
      *
      * @param idAutobus
      * @return
      */
-    public static int getPlazasOcupadas(String idAutobus) {
+    public static int getPlazasOcupadas(String idAutobus, boolean enfermo) {
         int plazas = 0;
         Connection conexion = null;
         try {
             conexion = ConectorBD.getConnection();
-            PreparedStatement consulta = conexion.prepareStatement(
-                    "SELECT COUNT(*) AS plazas FROM relpersonaautobus WHERE idAutobus=?");
+            PreparedStatement consulta;
+            if(enfermo)
+                consulta= conexion.prepareStatement(
+                    "SELECT COUNT(*) AS plazas FROM personas, relpersonaautobus WHERE idAutobus=? and "
+                            + " personas.idPersona=relpersonaautobus.idPersona and"
+                            + " personas.ActualTipoViajero=1 ");
+            else
+                consulta= conexion.prepareStatement(
+                    "SELECT COUNT(*) AS plazas FROM personas, relpersonaautobus WHERE idAutobus=? and "
+                            + " personas.idPersona=relpersonaautobus.idPersona and"
+                            + " personas.ActualTipoViajero!=1 ");
+            
             consulta.setString(1, idAutobus);
 
             ResultSet resultado = consulta.executeQuery();
             if (resultado.next()) {
                plazas=resultado.getInt(1);
+                System.out.println("Plazas libres enfermos "+enfermo+": "+plazas);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -66,24 +77,38 @@ public class GestionAutobusesBD {
         return plazas;
     }
 
-    public static int getPlazasLibres(String idAutobus) {
-        int plazasO = getPlazasOcupadas(idAutobus);
-        int plazasT = getNumPlazas(idAutobus);
+    /**
+     * Devuelve el numero de plazas para enfermo o para no enfermos
+     * @param idAutobus
+     * @param enfermo
+     * @return 
+     */
+    public static int getPlazasLibres(String idAutobus, boolean enfermo) {
+        int plazasO = getPlazasOcupadas(idAutobus, enfermo);
+        int plazasT = getNumPlazas(idAutobus, enfermo);
         return plazasT - plazasO;
     }
 
     /**
-     * Devuelve las plazas totales del Autobus
+     * 
      * @param idAutobus
+     * @param enfermo
      * @return 
      */
-    public static int getNumPlazas(String idAutobus) {
+    public static int getNumPlazas(String idAutobus, boolean enfermo) {
         int plazas = 0;
         Connection conexion = null;
         try {
             conexion = ConectorBD.getConnection();
-            PreparedStatement consulta = conexion.prepareStatement(
-                    "select Plazas "
+            PreparedStatement consulta;
+            if(!enfermo)
+            consulta = conexion.prepareStatement(
+                    "select PlazasNoEnfermos "
+                    + "FROM autobuses "
+                    + "WHERE idAutobus=?");
+            else
+                consulta = conexion.prepareStatement(
+                    "select PlazasEnfermos "
                     + "FROM autobuses "
                     + "WHERE idAutobus=?");
 
@@ -105,13 +130,38 @@ public class GestionAutobusesBD {
         }
         return plazas;
     }
-
+    
+/**
+ * Añade una lista de personas a un autobus, Hay que indicar si son enfermos o no
+ * @param listaPasajeros
+ * @param idAutobus
+ * @param enfermo
+ * @return 
+ */
     public static String añadirPasajerosAutobus(ArrayList<PersonaBean> listaPasajeros, String idAutobus){
+        //boolean enfermo=true;
         String result="";
-        if(getPlazasLibres(idAutobus)<listaPasajeros.size()){
-            return "No hay sufucuentes plazas libres\n"+
-                    "Plazas libres: "+getPlazasLibres(idAutobus)+
-                    "\nPlazas solicitadas: "+listaPasajeros.size();
+        int plazasLibresEnfermos=getPlazasLibres(idAutobus, true);
+        int plazasLibresNoEnfermos=getPlazasLibres(idAutobus, false);
+        int plazasSolicitadasEnfernos=0;
+        int plazasSolicitadasNoEnfernos=0;
+        for (PersonaBean pasajero : listaPasajeros) {
+            if("1".equals(pasajero.getIdTipoViajero())){
+                plazasSolicitadasEnfernos++;
+            }else{
+                plazasSolicitadasNoEnfernos++;
+            }
+        }
+        
+        if(plazasLibresEnfermos<plazasSolicitadasEnfernos){
+            return "No hay sufucuentes plazas libres para enfremos\n"+
+                    "Plazas libres: "+plazasLibresEnfermos+
+                    "\nPlazas solicitadas: "+plazasSolicitadasEnfernos;
+        }
+        if(plazasLibresNoEnfermos<plazasSolicitadasNoEnfernos){
+            return "No hay sufucuentes plazas libres para hospitalarios\n"+
+                    "Plazas libres: "+plazasLibresNoEnfermos+
+                    "\nPlazas solicitadas: "+plazasSolicitadasNoEnfernos;
         }
         int correctos=0;
         int errores=0;
@@ -133,8 +183,14 @@ public class GestionAutobusesBD {
         }
         
     }
+    /**
+     * Añade los passajeros al autobus, aunque ya no comprueba que tenga plazas libres suficientes, eso ya debe venir comprobado
+     * @param idAutobus
+     * @param idPersona
+     * @return 
+     */
     public static boolean setPasajeroAutobus(String idAutobus, String idPersona) {
-        if(getPlazasLibres(idAutobus)<=0) return false;
+        //if(getPlazasLibres(idAutobus, enfermo)<=0) return false;
         boolean result = false;
         Connection conexion = null;
 
@@ -230,7 +286,7 @@ public class GestionAutobusesBD {
             conexion = ConectorBD.getConnection();
             AutobusBean autobus;
             PreparedStatement consulta = conexion.prepareStatement(
-                    "select idAutobus, Descripcion, Plazas, Observaciones, idViaje "
+                    "select idAutobus, Descripcion, PlazasNoEnfermos, PlazasEnfermos, Observaciones, idViaje "
                     + "FROM autobuses "
                     + "WHERE idViaje=?");
 
@@ -241,9 +297,10 @@ public class GestionAutobusesBD {
                 autobus = new AutobusBean();
                 autobus.setIdAutobus(resultado.getString(1));
                 autobus.setDescripcion(resultado.getString(2));
-                autobus.setPlazasTotales(resultado.getInt(3));
-                autobus.setObservaciones(resultado.getString(4));
-                autobus.setIdViaje(resultado.getString(5));
+                autobus.setPlazasNoEnfermos(resultado.getInt(3));
+                autobus.setPlazasEnfermos(resultado.getInt(4));
+                autobus.setObservaciones(resultado.getString(5));
+                autobus.setIdViaje(resultado.getString(6));
                 lista.add(autobus);
             }
         } catch (SQLException e) {
@@ -272,7 +329,7 @@ public class GestionAutobusesBD {
         try {
             conexion = ConectorBD.getConnection();
             PreparedStatement consulta = conexion.prepareStatement(
-                    "select idAutobus, Descripcion, Plazas, Observaciones, idViaje "
+                    "select idAutobus, Descripcion, PlazasEnfermos, PlazasNoEnfermos, Observaciones, idViaje "
                     + "FROM autobuses "
                     + "WHERE idAutobus=?");
 
@@ -283,9 +340,10 @@ public class GestionAutobusesBD {
                 autobus = new AutobusBean();
                 autobus.setIdAutobus(resultado.getString(1));
                 autobus.setDescripcion(resultado.getString(2));
-                autobus.setPlazasTotales(resultado.getInt(3));
-                autobus.setObservaciones(resultado.getString(4));
-                autobus.setIdViaje(resultado.getString(5));
+                autobus.setPlazasEnfermos(resultado.getInt(3));
+                autobus.setPlazasNoEnfermos(resultado.getInt(4));
+                autobus.setObservaciones(resultado.getString(5));
+                autobus.setIdViaje(resultado.getString(6));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -312,7 +370,7 @@ public class GestionAutobusesBD {
         try {
             conexion = ConectorBD.getConnection();
             PreparedStatement consulta = conexion.prepareStatement(
-                    "SELECT autobuses.idAutobus, Descripcion, Plazas, Observaciones, idViaje " +
+                    "SELECT autobuses.idAutobus, Descripcion, PlazasEnfermos, PlazasNoEnfermos, Observaciones, idViaje " +
                     "FROM autobuses, relpersonaautobus " +
                     "WHERE autobuses.idAutobus=relpersonaautobus.idAutobus AND " +
                     "autobuses.idViaje=? AND " +
@@ -325,9 +383,10 @@ public class GestionAutobusesBD {
                 autobus = new AutobusBean();
                 autobus.setIdAutobus(resultado.getString(1));
                 autobus.setDescripcion(resultado.getString(2));
-                autobus.setPlazasTotales(resultado.getInt(3));
-                autobus.setObservaciones(resultado.getString(4));
-                autobus.setIdViaje(resultado.getString(5));
+                autobus.setPlazasEnfermos(resultado.getInt(3));
+                autobus.setPlazasNoEnfermos(resultado.getInt(4));
+                autobus.setObservaciones(resultado.getString(5));
+                autobus.setIdViaje(resultado.getString(6));
             }else{
                 return null;
             }
