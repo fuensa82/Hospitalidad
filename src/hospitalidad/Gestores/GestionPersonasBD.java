@@ -292,6 +292,7 @@ public class GestionPersonasBD {
                     persona.setNombre(resultado.getString(3));
                     persona.setApellidos(resultado.getString(4));
                     persona.setNombreCortoTipoViajero(resultado.getString("Descripcion"));
+                    persona.setIdTipoViajero(resultado.getString("ActualTipoViajero"));
                     result.add(persona);
                 }
             }
@@ -343,6 +344,7 @@ public class GestionPersonasBD {
                     persona.setNombre(resultado.getString(3));
                     persona.setApellidos(resultado.getString(4));
                     persona.setNombreCortoTipoViajero(resultado.getString("Descripcion"));
+                    persona.setIdTipoViajero(resultado.getString("ActualTipoViajero"));
                     result.add(persona);
                 }
             }

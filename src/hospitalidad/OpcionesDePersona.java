@@ -38,6 +38,9 @@ public class OpcionesDePersona extends javax.swing.JPanel {
         System.out.println("Creando ventana opcion "+tipoVentana);
         this.tipoVentana = tipoVentana;
         initComponents();
+        if(nuevo.equals(tipoVentana)){
+            jButtonAñadirFichero.setEnabled(false);
+        }
         
     }
 
@@ -102,9 +105,9 @@ public class OpcionesDePersona extends javax.swing.JPanel {
         jTextInformeMedico = new javax.swing.JTextArea();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableInformes = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        jButtonAñadirFichero = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jButtonGuardar = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
 
         jLabel2.setText("Datos de persona");
@@ -324,10 +327,10 @@ public class OpcionesDePersona extends javax.swing.JPanel {
             jTableInformes.getColumnModel().getColumn(4).setMaxWidth(0);
         }
 
-        jButton1.setText("Añadir fichero");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAñadirFichero.setText("Añadir fichero");
+        jButtonAñadirFichero.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonAñadirFicheroActionPerformed(evt);
             }
         });
 
@@ -352,7 +355,7 @@ public class OpcionesDePersona extends javax.swing.JPanel {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                                 .addComponent(jButton2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1))
+                                .addComponent(jButtonAñadirFichero))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
@@ -364,15 +367,15 @@ public class OpcionesDePersona extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(jButtonAñadirFichero)
                     .addComponent(jButton2))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jButton3.setText("Guardar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        jButtonGuardar.setText("Guardar");
+        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                jButtonGuardarActionPerformed(evt);
             }
         });
 
@@ -405,7 +408,7 @@ public class OpcionesDePersona extends javax.swing.JPanel {
                         .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3)
+                .addComponent(jButtonGuardar)
                 .addGap(18, 18, 18)
                 .addComponent(jButton4)
                 .addContainerGap())
@@ -431,12 +434,12 @@ public class OpcionesDePersona extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton4)
-                            .addComponent(jButton3))
+                            .addComponent(jButtonGuardar))
                         .addContainerGap())))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
         PersonaBean persona = new PersonaBean();
         persona.setIdPersona(idPersona);
         persona.setNombre(jTextNombe.getText());
@@ -467,7 +470,7 @@ public class OpcionesDePersona extends javax.swing.JPanel {
             
         }
 
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jButtonGuardarActionPerformed
 
     public String getTipoVentana() {
         return tipoVentana;
@@ -477,7 +480,7 @@ public class OpcionesDePersona extends javax.swing.JPanel {
         this.tipoVentana = tipoVentana;
     }
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonAñadirFicheroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirFicheroActionPerformed
         
         JDialog frame = new JDialog(((JFrame)null), "Nombre informe", true);
         frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
@@ -504,7 +507,7 @@ public class OpcionesDePersona extends javax.swing.JPanel {
             GestionInformesBD.EscribirArchivoBD(selectedFile, idPersona, observaciones);
         }
         cargaTablaInformes();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonAñadirFicheroActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         Window w = SwingUtilities.getWindowAncestor(this);
@@ -517,10 +520,10 @@ public class OpcionesDePersona extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButtonAñadirFichero;
+    private javax.swing.JButton jButtonGuardar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
