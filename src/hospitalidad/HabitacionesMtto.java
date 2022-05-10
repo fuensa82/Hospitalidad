@@ -6,7 +6,9 @@ package hospitalidad;
 
 import hospitalidad.Gestores.GestionHabitacionesBD;
 import hospitalidad.beans.HabitacionBean;
+import java.awt.Frame;
 import java.awt.Window;
+import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 
 /**
@@ -53,6 +55,7 @@ public class HabitacionesMtto extends javax.swing.JPanel {
         Guardar = new javax.swing.JButton();
         Cancelar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         jLabel1.setText("Descripción 1:");
 
@@ -96,6 +99,13 @@ public class HabitacionesMtto extends javax.swing.JPanel {
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("Habitaciones - Alta y mantenimiento");
 
+        jButton1.setText("Crear hotel");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -122,7 +132,8 @@ public class HabitacionesMtto extends javax.swing.JPanel {
                             .addComponent(jTextCamas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jComboPeregrinaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Cancelar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(Guardar)))
@@ -133,7 +144,7 @@ public class HabitacionesMtto extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(9, 9, 9)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboPeregrinaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
@@ -153,10 +164,11 @@ public class HabitacionesMtto extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTextCamas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Guardar)
-                    .addComponent(Cancelar))
+                    .addComponent(Cancelar)
+                    .addComponent(jButton1))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -183,10 +195,26 @@ public class HabitacionesMtto extends javax.swing.JPanel {
         w.setVisible(false);
     }//GEN-LAST:event_GuardarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JDialog frame = new JDialog((Frame) null, "Gestion de hoteles", true);
+        frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+        CrearHotel ventanaHotel=new CrearHotel();
+        frame.getContentPane().add(ventanaHotel);
+        frame.pack();
+        frame.setLocationRelativeTo(this);
+        frame.setVisible(true);
+        if(CrearHotel.GUARDAR.equals(ventanaHotel.getOpcionBoton())){
+            GestionHabitacionesBD.crearHotel(ventanaHotel.getTexto());
+        }
+        //iniciarMisComponentes();
+        //frame.setVisible(false);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Cancelar;
     private javax.swing.JButton Guardar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboPeregrinaciones;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

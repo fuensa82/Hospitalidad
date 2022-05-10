@@ -5,7 +5,6 @@
  */
 package hospitalidad.Gestores;
 
-import hospitalidad.beans.AutobusBean;
 import hospitalidad.beans.HabitacionBean;
 import hospitalidad.beans.PersonaBean;
 import hospitalidad.utils.ConectorBD;
@@ -155,19 +154,7 @@ public class GestionHabitacionesBD {
 
         return result;
     }
-    /*
-    public static boolean guardaHabitacion(HabitacionBean autobus) {
-        boolean result = false;
-
-        return result;
-    }
-
-    public static AutobusBean consultaAutobus(String idAutobus) {
-        AutobusBean autobus = new AutobusBean();
-
-        return autobus;
-    }
-*/
+    
     /**
      *
      * @param idHabitacion
@@ -392,5 +379,26 @@ public class GestionHabitacionesBD {
     
     public static int setHabitacion(HabitacionBean habitacion){
         return 1;
+    }
+    
+    public static int crearHotel(String nombre){
+        Connection conexion = null;
+        try {
+            conexion = ConectorBD.getConnection();
+            PreparedStatement insert1 = conexion.prepareStatement("INSERT INTO hospitalidad.hoteles(nombreHotel) VALUES (?);");
+            insert1.setString(1, nombre);
+            int fila = insert1.executeUpdate();
+            return fila; //Correcto
+
+        } catch (SQLException | NamingException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionViajesBD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return 0;
     }
 }
