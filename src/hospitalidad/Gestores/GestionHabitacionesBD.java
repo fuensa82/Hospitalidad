@@ -6,8 +6,10 @@
 package hospitalidad.Gestores;
 
 import hospitalidad.beans.HabitacionBean;
+import hospitalidad.beans.HotelBean;
 import hospitalidad.beans.PersonaBean;
 import hospitalidad.utils.ConectorBD;
+import hospitalidad.utils.FechasUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -199,7 +201,7 @@ public class GestionHabitacionesBD {
     }
 
     public static javax.swing.DefaultComboBoxModel getModeloComboHabitaciones(String idViaje) {
-        ArrayList<HabitacionBean> lista = getListaHabitaciones(idViaje);
+        ArrayList<HabitacionBean> lista = getListaHabitaciones(idViaje,""+0);
         String[] habitaciones = new String[lista.size()];
         for (int i = 0; i < lista.size(); i++) {
             habitaciones[i] = lista.get(i).toString();
@@ -208,18 +210,48 @@ public class GestionHabitacionesBD {
 
     }
     
-    public static ArrayList<HabitacionBean> getListaHabitaciones(String idViaje) {
+    public static javax.swing.DefaultComboBoxModel getModeloComboHotelesConOpcionTodos() {
+        ArrayList<HotelBean> lista = getListaHoteles();
+        String[] habitaciones = new String[lista.size()+1];
+        habitaciones[0]="0 - Todos los hoteles";
+        for (int i = 1; i < (lista.size()+1); i++) {
+            habitaciones[i] = lista.get(i-1).toString();
+        }
+        return new javax.swing.DefaultComboBoxModel<>(habitaciones);
+    }
+    
+    public static javax.swing.DefaultComboBoxModel getModeloComboHoteles() {
+        ArrayList<HotelBean> lista = getListaHoteles();
+        String[] habitaciones = new String[lista.size()];
+        for (int i = 0; i < lista.size(); i++) {
+            habitaciones[i] = lista.get(i).toString();
+        }
+        return new javax.swing.DefaultComboBoxModel<>(habitaciones);
+
+    }
+    
+    public static ArrayList<HabitacionBean> getListaHabitaciones(String idViaje, String idHotel) {
         ArrayList<HabitacionBean> lista = new ArrayList();
         Connection conexion = null;
         try {
             conexion = ConectorBD.getConnection();
             HabitacionBean habitacion;
-            PreparedStatement consulta = conexion.prepareStatement(
-                    "select idHabitacion, descripcion1, descripcion2, camas, Observaciones, idViaje "
+            String sql;
+            if("0".equals(idHotel)){
+                sql="select idHabitacion, descripcion1, descripcion2, camas, Observaciones, idViaje "
                     + "FROM habitaciones "
-                    + "WHERE idViaje=?");
+                    + "WHERE idViaje=?";
+            }else{
+                sql="select idHabitacion, descripcion1, descripcion2, camas, Observaciones, idViaje "
+                    + "FROM habitaciones "
+                    + "WHERE idViaje=? and idHotel=?";
+            }
+            PreparedStatement consulta = conexion.prepareStatement(sql);
 
             consulta.setString(1, idViaje);
+            if(!"0".equals(idHotel)){
+                consulta.setString(2, idHotel);
+            }
 
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
@@ -376,9 +408,63 @@ public class GestionHabitacionesBD {
         }
         return fila;
     }
-    
+    public static boolean setHabitacionMtto(HabitacionBean habitacion){
+        boolean result=false;
+        
+        Connection conexion = null;
+
+        try {
+            conexion = ConectorBD.getConnection();
+        
+            PreparedStatement insert1 = conexion.prepareStatement(
+                    "UPDATE habitaciones " +
+                    "	SET camas=?, " +
+                    "	 descripcion1=?, " +
+                    "	 descripcion2=?, " +
+                    "	 observaciones=?  " +
+                    "	WHERE idHabitacion=?");
+            insert1.setString(1, ""+habitacion.getCamasTotales());
+            insert1.setString(2, habitacion.getDescripcion1());
+            insert1.setString(3, habitacion.getDescripcion2());
+            insert1.setString(4, habitacion.getObservaciones());
+            insert1.setString(5, habitacion.getIdHabitacion());
+            insert1.executeUpdate();
+            
+            return true;
+            
+        } catch (NamingException ex) {
+            Logger.getLogger(GestionAutobusesBD.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionAutobusesBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return result;
+    }
     public static int setHabitacion(HabitacionBean habitacion){
-        return 1;
+        Connection conexion = null;
+        try {
+            conexion = ConectorBD.getConnection();
+            // INSERT INTO `hospitalidad`.`habitaciones` (`Camas`, `Descripcion1`, `Descripcion2`, `Observaciones`, `idViaje`, `idHotel`) VALUES ('2', 'Hab', '3', 'sin', '2', '4');
+            PreparedStatement insert1 = conexion.prepareStatement("INSERT INTO hospitalidad.habitaciones(Camas, Descripcion1, Descripcion2, Observaciones, idViaje, idHotel) VALUES (?,?,?,?,?,?);");
+            insert1.setString(1, ""+habitacion.getCamasTotales());
+            insert1.setString(2, habitacion.getDescripcion1());
+            insert1.setString(3, habitacion.getDescripcion2());
+            insert1.setString(4, habitacion.getObservaciones());
+            insert1.setString(5, habitacion.getIdViaje());
+            insert1.setString(6, habitacion.getIdHotel());
+            int fila = insert1.executeUpdate();
+            return fila; //Correcto
+
+        } catch (SQLException | NamingException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionViajesBD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return 0;
     }
     
     public static int crearHotel(String nombre){
@@ -400,5 +486,36 @@ public class GestionHabitacionesBD {
             }
         }
         return 0;
+    }
+
+    private static ArrayList<HotelBean> getListaHoteles() {
+        ArrayList<HotelBean> lista = new ArrayList();
+        HotelBean hotel;
+        Connection conexion = null;
+        try {
+            conexion = ConectorBD.getConnection();
+            HabitacionBean habitacion;
+            PreparedStatement consulta = conexion.prepareStatement(
+                    "select idHotel, nombreHotel "
+                    + "FROM hoteles ");
+
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()) {
+                hotel = new HotelBean();
+                hotel.setIdHotel(resultado.getString(1));
+                hotel.setNombreHotel(resultado.getString(2));
+                lista.add(hotel);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException ex) {
+
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+            }
+        }
+        return lista;
     }
 }

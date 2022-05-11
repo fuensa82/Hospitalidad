@@ -5,10 +5,13 @@
 package hospitalidad;
 
 import hospitalidad.Gestores.GestionHabitacionesBD;
+import hospitalidad.Gestores.GestionViajesBD;
 import hospitalidad.beans.HabitacionBean;
 import java.awt.Frame;
 import java.awt.Window;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -17,22 +20,46 @@ import javax.swing.SwingUtilities;
  */
 public class HabitacionesMtto extends javax.swing.JPanel {
 
+    
+    private String idViaje;
+    private Principal padre;
+    private String modoVentana;
+    private String idHabitacion;
+    
+    public static final String nuevo = "NUEVO";
+    public static final String mtto = "MTTO";
+    
     /**
-     * Creates new form HabitacionesMtto
+     * 
+     * @param idViaje
+     * @param selectComboPeregrinaciones Indice de la opcion soleccionada en el combo de la ventana padre, para así seleccionar el mismo
      */
-    public HabitacionesMtto() {
-        initComponents();
-    }
-    public HabitacionesMtto(String idViaje) {
+    public HabitacionesMtto(String modoVentana, String filtroViaje, int selectComboPeregrinaciones, Principal ventanaPadre, String idHabitacion) {
+        this.modoVentana=modoVentana;
+        this.padre=ventanaPadre;
         this.idViaje=idViaje;
+        this.idHabitacion=idHabitacion;
         initComponents();
+        jComboPeregrinaciones.setSelectedIndex(selectComboPeregrinaciones);
         prepararVentana();
     }
 
     private void prepararVentana(){
+        if(HabitacionesMtto.mtto.equals(this.modoVentana)){
+            HabitacionBean habitacion=GestionHabitacionesBD.getDatosHabitacion(idHabitacion);
+            jTextCamas.setText(""+habitacion.getCamasTotales());
+            jTextDesc1.setText(habitacion.getDescripcion1());
+            jTextDesc2.setText(habitacion.getDescripcion2());
+            jTextObser.setText(habitacion.getObservaciones());
+        }else{
+            jTextCamas.setText("");
+            jTextDesc1.setText("");
+            jTextDesc2.setText("");
+            jTextObser.setText("");
+        }
         
     }
-    private String idViaje;
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -56,6 +83,8 @@ public class HabitacionesMtto extends javax.swing.JPanel {
         Cancelar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jComboHoteles = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
 
         jLabel1.setText("Descripción 1:");
 
@@ -65,13 +94,6 @@ public class HabitacionesMtto extends javax.swing.JPanel {
 
         jLabel4.setText("Camas:");
 
-        jTextObser.setText("jTextField1");
-
-        jTextDesc2.setText("jTextField2");
-
-        jTextDesc1.setText("jTextField3");
-
-        jTextCamas.setText("jTextField4");
         jTextCamas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextCamasActionPerformed(evt);
@@ -80,7 +102,7 @@ public class HabitacionesMtto extends javax.swing.JPanel {
 
         jLabel5.setText("Peregrinación:");
 
-        jComboPeregrinaciones.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboPeregrinaciones.setModel(GestionViajesBD.getModeloComboViajes());
 
         Guardar.setText("Guardar");
         Guardar.addActionListener(new java.awt.event.ActionListener() {
@@ -89,7 +111,7 @@ public class HabitacionesMtto extends javax.swing.JPanel {
             }
         });
 
-        Cancelar.setText("Cancelar");
+        Cancelar.setText("Cancelar/Salir");
         Cancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CancelarActionPerformed(evt);
@@ -106,6 +128,10 @@ public class HabitacionesMtto extends javax.swing.JPanel {
             }
         });
 
+        jComboHoteles.setModel(GestionHabitacionesBD.getModeloComboHoteles());
+
+        jLabel7.setText("Hotel:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -116,28 +142,35 @@ public class HabitacionesMtto extends javax.swing.JPanel {
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel5)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGap(8, 8, 8)))
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextDesc2, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextDesc1, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextObser, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextCamas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboPeregrinaciones, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Cancelar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Guardar)))
-                .addContainerGap())
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 144, Short.MAX_VALUE)
+                                .addComponent(Cancelar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(Guardar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel5)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addGap(8, 8, 8)))
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel7))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jComboHoteles, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboPeregrinaciones, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTextDesc1)
+                                    .addComponent(jTextDesc2)
+                                    .addComponent(jTextObser)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jTextCamas)
+                                        .addGap(235, 235, 235)))))
+                        .addGap(13, 13, 13)))
+                .addGap(14, 14, 14))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,6 +181,10 @@ public class HabitacionesMtto extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboPeregrinaciones, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboHoteles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -164,7 +201,7 @@ public class HabitacionesMtto extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jTextCamas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Guardar)
                     .addComponent(Cancelar)
@@ -178,7 +215,8 @@ public class HabitacionesMtto extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextCamasActionPerformed
 
     private void CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CancelarActionPerformed
-        // TODO add your handling code here:
+        Window w = SwingUtilities.getWindowAncestor(this);
+        w.setVisible(false);
     }//GEN-LAST:event_CancelarActionPerformed
 
     private void GuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GuardarActionPerformed
@@ -187,12 +225,40 @@ public class HabitacionesMtto extends javax.swing.JPanel {
         habitacion.setDescripcion1(jTextDesc1.getText());
         habitacion.setDescripcion2(jTextDesc2.getText());
         habitacion.setObservaciones(jTextObser.getText());
+        if("".equals(jTextCamas.getText())){
+            JOptionPane.showMessageDialog(null, "Debe rellenar el número de camas");
+            return;
+        }
         habitacion.setCamasTotales(Integer.parseInt(jTextCamas.getText()));
-        
-        GestionHabitacionesBD.setHabitacion(habitacion);
-        
-        Window w = SwingUtilities.getWindowAncestor(this);
-        w.setVisible(false);
+        if(HabitacionesMtto.mtto.equals(this.modoVentana)){
+            habitacion.setIdHabitacion(idHabitacion);
+            GestionHabitacionesBD.setHabitacionMtto(habitacion);
+            
+            padre.cargaTablaHabitaciones();
+            JOptionPane.showMessageDialog(null, "Habitación modificada correctamente");
+            Window w = SwingUtilities.getWindowAncestor(this);
+            w.setVisible(false);
+            return;
+        }else{
+            
+            if("".equals(habitacion.getDescripcion1())){
+                JOptionPane.showMessageDialog(null, "Debe rellenar al menos la descripción 1");
+                return;
+            }else if(0==habitacion.getCamasTotales()){
+                JOptionPane.showMessageDialog(null, "El número de camas no pueden ser 0");
+                return;
+            }
+            String idViaje = jComboPeregrinaciones.getModel().getElementAt(jComboPeregrinaciones.getSelectedIndex()).split(" - ")[0];
+            String idHotel = jComboHoteles.getModel().getElementAt(jComboHoteles.getSelectedIndex()).split(" - ")[0];
+            habitacion.setIdHotel(idHotel);
+            habitacion.setIdViaje(idViaje);
+            GestionHabitacionesBD.setHabitacion(habitacion);
+            prepararVentana();
+            padre.cargaTablaHabitaciones();
+            JOptionPane.showMessageDialog(null, "Habitación creada");
+            //Window w = SwingUtilities.getWindowAncestor(this);
+            //w.setVisible(false);
+        }
     }//GEN-LAST:event_GuardarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -215,6 +281,7 @@ public class HabitacionesMtto extends javax.swing.JPanel {
     private javax.swing.JButton Cancelar;
     private javax.swing.JButton Guardar;
     private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboHoteles;
     private javax.swing.JComboBox<String> jComboPeregrinaciones;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -222,6 +289,7 @@ public class HabitacionesMtto extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField jTextCamas;
     private javax.swing.JTextField jTextDesc1;
     private javax.swing.JTextField jTextDesc2;

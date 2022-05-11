@@ -15,7 +15,10 @@ public class HotelBean {
     public String getIdHotel() {
         return idHotel;
     }
-
+    public String toString(){
+        return idHotel+" - "+nombreHotel;
+    }
+    
     public void setIdHotel(String idHotel) {
         this.idHotel = idHotel;
     }

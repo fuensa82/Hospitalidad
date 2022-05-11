@@ -6,7 +6,6 @@
 package hospitalidad;
 
 import hospitalidad.Gestores.GestionAutobusesBD;
-import static hospitalidad.Gestores.GestionAutobusesBD.getPlazasLibres;
 import hospitalidad.Gestores.GestionHabitacionesBD;
 import hospitalidad.Gestores.GestionPersonasBD;
 import hospitalidad.Gestores.GestionViajesBD;
@@ -29,7 +28,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -60,6 +58,7 @@ public class Principal extends javax.swing.JFrame {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         }
         initComponents();
+        //ponListenerTablaHabitaciones();
         ponListenerTablaAutobuses();
         ponListenerTablaParsonas();
         ponListenerTablaHabitaciones();
@@ -122,6 +121,8 @@ public class Principal extends javax.swing.JFrame {
         jTablePersonasHabitacion = new javax.swing.JTable();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jComboHotel = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
         jPanelPersonasSinHabitacion = new javax.swing.JPanel();
         jScrollPane9 = new javax.swing.JScrollPane();
         jTablePersonasSinHabitacion = new javax.swing.JTable();
@@ -390,7 +391,7 @@ public class Principal extends javax.swing.JFrame {
                     .addGroup(jPanelPeregrinacionesLayout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(50, 50, 50)
-                        .addComponent(comboTipoViajero, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(comboTipoViajero, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addGroup(jPanelPeregrinacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -753,6 +754,15 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jComboHotel.setModel(GestionHabitacionesBD.getModeloComboHotelesConOpcionTodos());
+        jComboHotel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboHotelActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Filtrar por hotel:");
+
         javax.swing.GroupLayout jPanelHabitacionesLayout = new javax.swing.GroupLayout(jPanelHabitaciones);
         jPanelHabitaciones.setLayout(jPanelHabitacionesLayout);
         jPanelHabitacionesLayout.setHorizontalGroup(
@@ -761,7 +771,11 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanelHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 482, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6))
+                    .addComponent(jButton6)
+                    .addGroup(jPanelHabitacionesLayout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(24, 24, 24)
+                        .addComponent(jComboHotel, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelHabitacionesLayout.createSequentialGroup()
@@ -774,14 +788,19 @@ public class Principal extends javax.swing.JFrame {
             jPanelHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelHabitacionesLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
-                    .addComponent(jScrollPane6))
+                .addGroup(jPanelHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelHabitacionesLayout.createSequentialGroup()
+                        .addGroup(jPanelHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboHotel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 512, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6)
                     .addComponent(jButton7))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Habitaciones", jPanelHabitaciones);
@@ -1282,7 +1301,7 @@ public class Principal extends javax.swing.JFrame {
         filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
         JDialog frame = new JDialog(this, "Gestion de habitaciones", true);
         frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-        HabitacionesMtto ventana = new HabitacionesMtto(filtroViaje);
+        HabitacionesMtto ventana = new HabitacionesMtto(HabitacionesMtto.nuevo, filtroViaje, comboViaje.getSelectedIndex(), this, ""+0);
         frame.getContentPane().add(ventana);
         frame.pack();
         frame.setLocationRelativeTo(this);
@@ -1290,10 +1309,16 @@ public class Principal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton9ActionPerformed
 
+    private void jComboHotelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboHotelActionPerformed
+        cargaTablaHabitaciones();
+        
+    }//GEN-LAST:event_jComboHotelActionPerformed
+
     /**
      * Listener para hacer que al seleccionar una habitacion se muestre la tabla con las persona que ya hay asignadas a la habitacion
      */
     private void ponListenerTablaHabitaciones() {
+        JFrame padre=this;
         jTableHabitaciones.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent evento) {
@@ -1302,6 +1327,28 @@ public class Principal extends javax.swing.JFrame {
                 if (indice != -1) {
                     String idHabitacion = (String) jTableHabitaciones.getModel().getValueAt(indice, 0);
                     cargaTablaHuespedes(idHabitacion);
+                }
+            }
+        });
+        jTableHabitaciones.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    System.out.println("Se ha hecho doble click");
+                    
+                    String idHabitacion=(String)jTableHabitaciones.getModel().getValueAt(jTableHabitaciones.getSelectedRow(),0);
+                    String idHotel = jComboHotel.getModel().getElementAt(jComboHotel.getSelectedIndex()).split(" - ")[0];
+                    filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
+                    //System.out.println("Id: "+id);
+                    
+                    JDialog frame = new JDialog(padre, "Gestion de habitaciones", true);
+                    frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+                    frame.getContentPane().add(new HabitacionesMtto(HabitacionesMtto.mtto,filtroViaje, comboViaje.getSelectedIndex(), (Principal) padre, idHabitacion));
+                    frame.pack();
+                    frame.setLocationRelativeTo(padre);
+                    frame.setVisible(true);
+                    int sel=jTablePersonas.getSelectedRow();
+                    cargaTablaPersonas(true);
+                    //jTablePersonas.setRowSelectionInterval(sel, sel);
                 }
             }
         });
@@ -1572,10 +1619,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButtonAgregaPersonas;
     private javax.swing.JButton jButtonCrearPersona;
     private javax.swing.JButton jButtonEliminaDeLaPeregrinacion;
+    private javax.swing.JComboBox<String> jComboHotel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabelCamasLibres;
     private javax.swing.JLabel jLabelDesc1;
     private javax.swing.JLabel jLabelDesc2;
@@ -1667,18 +1716,20 @@ public class Principal extends javax.swing.JFrame {
     }
     /**
      * Carga la tabla de habitacion y borra la table de personas de la habitacion
+     * @param idHotel Si el id es 0 mostrará todos los hoteles
      */
-    private void cargaTablaHabitaciones() {
+    public void cargaTablaHabitaciones() {
         System.out.println(new Object() {
         }.getClass().getEnclosingMethod().getName());
+        
         DefaultTableModel datosTabla = (DefaultTableModel) jTableHabitacionesPersona.getModel();
         for (int i = datosTabla.getRowCount(); i > 0; i--) {
             datosTabla.removeRow(i - 1);
         }
-
+        String idHotel = jComboHotel.getModel().getElementAt(jComboHotel.getSelectedIndex()).split(" - ")[0];
         filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
-        filtroTipoViajero = comboTipoViajero.getModel().getElementAt(comboTipoViajero.getSelectedIndex()).split(" - ")[0];
-        listaHabitaciones = GestionHabitacionesBD.getListaHabitaciones(filtroViaje);
+        //filtroTipoViajero = comboTipoViajero.getModel().getElementAt(comboTipoViajero.getSelectedIndex()).split(" - ")[0];
+        listaHabitaciones = GestionHabitacionesBD.getListaHabitaciones(filtroViaje, idHotel);
         datosTabla = (DefaultTableModel) jTableHabitaciones.getModel();
         for (int i = datosTabla.getRowCount(); i > 0; i--) {
             datosTabla.removeRow(i - 1);
