@@ -443,11 +443,11 @@ public class Principal extends javax.swing.JFrame {
                 {null, null, null, null, null}
             },
             new String [] {
-                "id", "Descripción", "Plazas Enf", "Plazas Hos", "Observaciones"
+                "id", "Descripción", "Observaciones", "Plazas Enf", "Plazas Hos"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
@@ -473,9 +473,9 @@ public class Principal extends javax.swing.JFrame {
             jTableAutobuses.getColumnModel().getColumn(0).setResizable(false);
             jTableAutobuses.getColumnModel().getColumn(0).setPreferredWidth(10);
             jTableAutobuses.getColumnModel().getColumn(1).setPreferredWidth(80);
-            jTableAutobuses.getColumnModel().getColumn(2).setPreferredWidth(30);
+            jTableAutobuses.getColumnModel().getColumn(2).setPreferredWidth(80);
             jTableAutobuses.getColumnModel().getColumn(3).setPreferredWidth(30);
-            jTableAutobuses.getColumnModel().getColumn(4).setPreferredWidth(80);
+            jTableAutobuses.getColumnModel().getColumn(4).setPreferredWidth(30);
         }
 
         jTablePersonasBus.setModel(new javax.swing.table.DefaultTableModel(
@@ -915,6 +915,11 @@ public class Principal extends javax.swing.JFrame {
         });
 
         jButton10.setText("Crear Bus");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -1314,6 +1319,17 @@ public class Principal extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jComboHotelActionPerformed
 
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
+        JDialog frame = new JDialog(this, "Gestion de autobuses", true);
+        frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+        AutobusesMtto ventana = new AutobusesMtto(AutobusesMtto.nuevo, filtroViaje, comboViaje.getSelectedIndex(), this, ""+0);
+        frame.getContentPane().add(ventana);
+        frame.pack();
+        frame.setLocationRelativeTo(this);
+        frame.setVisible(true);
+    }//GEN-LAST:event_jButton10ActionPerformed
+
     /**
      * Listener para hacer que al seleccionar una habitacion se muestre la tabla con las persona que ya hay asignadas a la habitacion
      */
@@ -1707,9 +1723,9 @@ public class Principal extends javax.swing.JFrame {
             datosTabla.addRow(new Object[]{
                 autobus.getIdAutobus(),
                 autobus.getDescripcion(),
+                autobus.getObservaciones(),
                 autobus.getPlazasLibres(true),
                 autobus.getPlazasLibres(false),
-                autobus.getObservaciones(),
                 autobus.getIdAutobus()
             });
         }
