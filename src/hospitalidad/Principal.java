@@ -103,8 +103,9 @@ public class Principal extends javax.swing.JFrame {
         comboTipoViajero = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextFiltro = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
         jPanelPersonasSinAutobus = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTablePersonasSinAutobus = new javax.swing.JTable();
@@ -378,6 +379,18 @@ public class Principal extends javax.swing.JFrame {
         jLabel7.setText("Lista de personas inscritas en la peregrinación seleccionada. A la derecha aparece su autobus y habitación.");
 
         jButton2.setText("Buscar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton12.setText("Limpiar");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelPeregrinacionesLayout = new javax.swing.GroupLayout(jPanelPeregrinaciones);
         jPanelPeregrinaciones.setLayout(jPanelPeregrinacionesLayout);
@@ -390,10 +403,12 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addGap(50, 50, 50)
                         .addComponent(comboTipoViajero, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(86, 86, 86)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(59, 59, 59)
+                        .addComponent(jTextFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2))
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton12))
                     .addGroup(jPanelPeregrinacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 656, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanelPeregrinacionesLayout.createSequentialGroup()
@@ -426,8 +441,9 @@ public class Principal extends javax.swing.JFrame {
                         .addGroup(jPanelPeregrinacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(comboTipoViajero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2))
+                            .addComponent(jTextFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2)
+                            .addComponent(jButton12))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1353,6 +1369,17 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //Boton Buscar
+        cargaTablaPersonas(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        //Limpiar
+        jTextFiltro.setText("");
+        cargaTablaPersonas(true);
+    }//GEN-LAST:event_jButton12ActionPerformed
+
     /**
      * Listener para hacer que al seleccionar una habitacion se muestre la tabla con las persona que ya hay asignadas a la habitacion
      */
@@ -1648,6 +1675,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1701,7 +1729,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTable jTablePersonasHabitacion;
     private javax.swing.JTable jTablePersonasSinAutobus;
     private javax.swing.JTable jTablePersonasSinHabitacion;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextFiltro;
     private javax.swing.JLabel labelTotal;
     // End of variables declaration//GEN-END:variables
 
@@ -1710,7 +1738,7 @@ public class Principal extends javax.swing.JFrame {
         }.getClass().getEnclosingMethod().getName());
         filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
         filtroTipoViajero = comboTipoViajero.getModel().getElementAt(comboTipoViajero.getSelectedIndex()).split(" - ")[0];
-        listaPersonas = GestionPersonasBD.getListaPersonas(tipo, filtroViaje, filtroTipoViajero);
+        listaPersonas = GestionPersonasBD.getListaPersonas(tipo, filtroViaje, filtroTipoViajero, jTextFiltro.getText());
         DefaultTableModel datosTabla = (DefaultTableModel) jTablePersonas.getModel();
         for (int i = datosTabla.getRowCount(); i > 0; i--) {
             datosTabla.removeRow(i - 1);

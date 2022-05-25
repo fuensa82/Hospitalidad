@@ -77,7 +77,7 @@ public class GestionPersonasBD {
      * @param idTipoViajero (Puede ser 0 lo que implica todos los tipos de viajeros
      * @return 
      */
-    public static ArrayList<PersonaBean> getListaPersonas(boolean isActivo, String idViaje, String idTipoViajero){
+    public static ArrayList<PersonaBean> getListaPersonas(boolean isActivo, String idViaje, String idTipoViajero, String textoFiltro){
         ArrayList<PersonaBean> result;
         result = new ArrayList();
         Connection conexion = null;
@@ -92,11 +92,14 @@ public class GestionPersonasBD {
             "WHERE personas.idPersona=relviajetodo.idPersona AND "+
                     "relviajetodo.idTipoViajero=tiposviajeros.idTipoViajero AND "+
                     "tiposviajeros.idTipoViajero=? AND "+
-                    "relviajetodo.idViaje=?"+
+                    "relviajetodo.idViaje=? and "+
+                    "(personas.nombre like ? OR personas.apellidos like ?) "+
             "ORDER BY Apellidos ");
             
             consulta.setString(1, idTipoViajero);
             consulta.setString(2, idViaje);
+            consulta.setString(3, "%"+textoFiltro+"%");
+            consulta.setString(4, "%"+textoFiltro+"%");
             
             if("0".equalsIgnoreCase(idTipoViajero)){
                 consulta = conexion.prepareStatement(
@@ -105,12 +108,15 @@ public class GestionPersonasBD {
                         "Provincia, Observaciones, activo  "+
                     "FROM personas, relviajetodo "+
                     "WHERE personas.idPersona=relviajetodo.idPersona AND "+
+                            "(personas.nombre like ? OR personas.apellidos like ?) AND "+
                             "relviajetodo.idViaje=?"+
                     "ORDER BY Apellidos ");
 
-                consulta.setString(1, idViaje);
+                consulta.setString(3, idViaje);
+                consulta.setString(2, "%"+textoFiltro+"%");
+                consulta.setString(1, "%"+textoFiltro+"%");
             }
-            
+            System.out.println(consulta);
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()){
                 if("true".equals(resultado.getString(14).trim())==isActivo){

@@ -153,6 +153,7 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
         jLabelTotal = new javax.swing.JLabel();
         jTextFiltro = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         jTablePersonas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -217,6 +218,13 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
             }
         });
 
+        jButton3.setText("Limpiar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -240,7 +248,10 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
                         .addGap(76, 76, 76)
                         .addComponent(jTextFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)))
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -251,7 +262,8 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
                     .addComponent(jLabel1)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -321,7 +333,7 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         //actuador del Combo
         String filtro = jComboBox1.getModel().getElementAt(jComboBox1.getSelectedIndex()).split(" - ")[0];
-        cargarListaPersonas(filtro,"");
+        cargarListaPersonas(filtro,jTextFiltro.getText());
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -330,6 +342,14 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
         String filtroTexto=jTextFiltro.getText();
         cargarListaPersonas(filtro, filtroTexto);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+         //Limpiar
+        jTextFiltro.setText("");
+        String filtro = jComboBox1.getModel().getElementAt(jComboBox1.getSelectedIndex()).split(" - ")[0];
+        String filtroTexto=jTextFiltro.getText();
+        cargarListaPersonas(filtro, filtroTexto);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void ponListenerTabla(JTable tabla) {
         tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -344,6 +364,7 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
