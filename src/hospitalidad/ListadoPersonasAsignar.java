@@ -76,22 +76,22 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
         this.idViaje=idViaje;
         this.modoVentana=modoVentana;
         initComponents();
-        cargarListaPersonas("0");
+        cargarListaPersonas("0","");
         ponListenerTabla(jTablePersonas);
     }
 
-    private void cargarListaPersonas(String filtro) {
+    private void cargarListaPersonas(String filtro, String textoFiltro) {
         ArrayList<PersonaBean> listaPersona=null;
         if(AsignarABus.equals(this.modoVentana)){
-            listaPersona = GestionPersonasBD.getListaPersonasSinAutobus(idViaje, filtro);
+            listaPersona = GestionPersonasBD.getListaPersonasSinAutobus(idViaje, filtro, textoFiltro);
         }else if(AsignarAViaje.equals(this.modoVentana)){
             if("0".equals(filtro)){
-                listaPersona = GestionPersonasBD.getListaPersonasSinViaje(idViaje, true);
+                listaPersona = GestionPersonasBD.getListaPersonasSinViaje(idViaje, true, textoFiltro);
             }else{
-                listaPersona = GestionPersonasBD.getListaPersonasSinViajeConEquipoDefinido(idViaje, true, filtro);
+                listaPersona = GestionPersonasBD.getListaPersonasSinViajeConEquipoDefinido(idViaje, true, filtro,textoFiltro);
             }
         }else if(AsignarAHabitacion.equals(this.modoVentana)){
-            listaPersona = GestionPersonasBD.getListaPersonasSinHabitacion(idViaje, filtro);
+            listaPersona = GestionPersonasBD.getListaPersonasSinHabitacion(idViaje, filtro, textoFiltro);
         }
         listaPersona.sort(new Comparator<PersonaBean>() {
             @Override
@@ -151,6 +151,8 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabelTotal = new javax.swing.JLabel();
+        jTextFiltro = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
 
         jTablePersonas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -208,6 +210,13 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
 
         jLabelTotal.setText("jLabel3");
 
+        jButton2.setText("Burcar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -228,7 +237,10 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(76, 76, 76)
+                        .addComponent(jTextFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -237,16 +249,18 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton6)
                     .addComponent(jLabel2)
                     .addComponent(jLabelTotal))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -307,8 +321,15 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         //actuador del Combo
         String filtro = jComboBox1.getModel().getElementAt(jComboBox1.getSelectedIndex()).split(" - ")[0];
-        cargarListaPersonas(filtro);
+        cargarListaPersonas(filtro,"");
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //Boton de buscar por filtro.
+        String filtro = jComboBox1.getModel().getElementAt(jComboBox1.getSelectedIndex()).split(" - ")[0];
+        String filtroTexto=jTextFiltro.getText();
+        cargarListaPersonas(filtro, filtroTexto);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void ponListenerTabla(JTable tabla) {
         tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -322,6 +343,7 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
@@ -329,5 +351,6 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
     private javax.swing.JLabel jLabelTotal;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTablePersonas;
+    private javax.swing.JTextField jTextFiltro;
     // End of variables declaration//GEN-END:variables
 }

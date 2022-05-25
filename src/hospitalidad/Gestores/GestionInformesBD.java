@@ -6,11 +6,9 @@
 package hospitalidad.Gestores;
 
 import hospitalidad.beans.InformePDFBean;
-import hospitalidad.beans.PersonaBean;
 import hospitalidad.utils.ConectorBD;
 import hospitalidad.utils.FechasUtils;
 import java.awt.Desktop;
-import java.beans.Statement;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

@@ -41,7 +41,14 @@ public class ListadoPersonas extends javax.swing.JPanel {
     }
 
     private void cargarListaPersonas() {
-        listaPersona = GestionPersonasBD.getListaPersonas(true);
+        cargarListaPersonasFiltro("");
+    }
+    private void cargarListaPersonasFiltro(String filtro) {
+        if("".equals(filtro)){
+            listaPersona = GestionPersonasBD.getListaPersonas(true);
+        }else{
+            listaPersona = GestionPersonasBD.getListaPersonasTotalesFiltro(true, filtro);
+        }
         listaPersona.sort(new Comparator<PersonaBean>() {
             @Override
             public int compare(PersonaBean p1, PersonaBean p2) {
@@ -82,6 +89,8 @@ public class ListadoPersonas extends javax.swing.JPanel {
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jTextFiltro = new javax.swing.JTextField();
 
         jTablePersonas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -138,6 +147,13 @@ public class ListadoPersonas extends javax.swing.JPanel {
             }
         });
 
+        jButton6.setText("Buscar");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -155,14 +171,23 @@ public class ListadoPersonas extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)))
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTextFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton6)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton6)
+                    .addComponent(jTextFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -170,7 +195,7 @@ public class ListadoPersonas extends javax.swing.JPanel {
                     .addComponent(jButton3)
                     .addComponent(jButton4)
                     .addComponent(jButton5))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -238,6 +263,10 @@ public class ListadoPersonas extends javax.swing.JPanel {
         frame.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        cargarListaPersonasFiltro(jTextFiltro.getText());
+    }//GEN-LAST:event_jButton6ActionPerformed
+
     private void ponListenerTabla(JTable tabla) {
         tabla.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -254,7 +283,9 @@ public class ListadoPersonas extends javax.swing.JPanel {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTablePersonas;
+    private javax.swing.JTextField jTextFiltro;
     // End of variables declaration//GEN-END:variables
 }

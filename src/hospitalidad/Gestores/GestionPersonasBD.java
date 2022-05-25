@@ -139,10 +139,11 @@ public class GestionPersonasBD {
     /**
      * Devuelve la lista de personas que no tienen asignado ningun autobus en el viaje. Se puede filtrar por equipo
      * @param idViaje
-     * @param filtro
+     * @param filtro 0 busca todos los equipos
+     * @param filtroTexto "" para que busque sin cadena
      * @return 
      */
-    public static ArrayList<PersonaBean> getListaPersonasSinAutobus(String idViaje, String filtro) {
+    public static ArrayList<PersonaBean> getListaPersonasSinAutobus(String idViaje, String filtro, String filtroTexto) {
         ArrayList<PersonaBean> result;
         result = new ArrayList();
         Connection conexion = null;
@@ -154,8 +155,9 @@ public class GestionPersonasBD {
                     
                     "FROM relviajetodo, personas, tiposviajeros " +
             "WHERE relviajetodo.idPersona=personas.idPersona and " +
-            "   relviajetodo.idViaje=? AND "
-                    + "tiposviajeros.idTipoViajero=personas.ActualTipoViajero AND ";
+                    " relviajetodo.idViaje=? AND "
+                    + "tiposviajeros.idTipoViajero=personas.ActualTipoViajero AND "+
+                    " (personas.nombre like ? OR personas.apellidos like ?) AND ";
             if(!"0".equals(filtro)){
                 sql+="   relviajetodo.idTipoViajero=? AND ";
             }
@@ -167,11 +169,13 @@ public class GestionPersonasBD {
             //System.out.println(sql);
             PreparedStatement consulta = conexion.prepareStatement(sql);
             consulta.setString(1, idViaje);
+            consulta.setString(2, "%"+filtroTexto+"%");
+            consulta.setString(3, "%"+filtroTexto+"%");
             if("0".equals(filtro)){
-                consulta.setString(2, idViaje);
+                consulta.setString(4, idViaje);
             }else{
-                consulta.setString(3, idViaje);
-                consulta.setString(2, filtro);
+                consulta.setString(5, idViaje);
+                consulta.setString(4, filtro);
             }
             System.out.println(consulta.toString());
             
@@ -205,7 +209,7 @@ public class GestionPersonasBD {
      * @param filtro
      * @return 
      */
-    public static ArrayList<PersonaBean> getListaPersonasSinHabitacion(String idViaje, String filtro) {
+    public static ArrayList<PersonaBean> getListaPersonasSinHabitacion(String idViaje, String filtro, String textoFiltro) {
         ArrayList<PersonaBean> result;
         result = new ArrayList();
         Connection conexion = null;
@@ -213,14 +217,16 @@ public class GestionPersonasBD {
             conexion=ConectorBD.getConnection();
             PersonaBean persona;
             
-            String sql="SELECT relviajetodo.idPersona, personas.DNI, personas.Nombre, personas.Apellidos, personas.FechaNacimiento " +
-                "FROM relviajetodo, personas " +
+            String sql="SELECT relviajetodo.idPersona, personas.DNI, personas.Nombre, personas.Apellidos, personas.FechaNacimiento, tiposviajeros.NombreCortoTipo, relviajetodo.idTipoViajero " +
+                "FROM relviajetodo, personas, tiposviajeros " +
                 "WHERE relviajetodo.idPersona=personas.idPersona and " +
-                "   relviajetodo.idViaje=? AND ";
+                " tiposviajeros.idTipoViajero=personas.ActualTipoViajero AND "+
+                "   relviajetodo.idViaje=? AND " +
+                "(personas.nombre like ? OR personas.apellidos like ?) AND ";
             if(!"0".equals(filtro)){
-                sql+="   relviajetodo.idTipoViajero=? AND ";
+                sql+="  relviajetodo.idTipoViajero=? AND ";
             }
-            sql+="  relviajetodo.idPersona NOT IN( " +
+            sql+="relviajetodo.idPersona NOT IN( " +
                 "   SELECT relpersonahabitacion.idPersona FROM relpersonahabitacion,habitaciones " +
                 "   WHERE relpersonahabitacion.idhabitacion=habitaciones.idhabitacion AND " +
                 "   	habitaciones.idViaje=?" +
@@ -228,11 +234,13 @@ public class GestionPersonasBD {
             PreparedStatement consulta = conexion.prepareStatement(sql);
             
             consulta.setString(1, idViaje);
+            consulta.setString(2, "%"+textoFiltro+"%");
+            consulta.setString(3, "%"+textoFiltro+"%");
             if("0".equals(filtro)){
-                consulta.setString(2, idViaje);
+                consulta.setString(4, idViaje);
             }else{
-                consulta.setString(3, idViaje);
-                consulta.setString(2, filtro);
+                consulta.setString(5, idViaje);
+                consulta.setString(4, filtro);
             }
             
             ResultSet resultado = consulta.executeQuery();
@@ -243,7 +251,58 @@ public class GestionPersonasBD {
                     persona.setNombre(resultado.getString(3));
                     persona.setApellidos(resultado.getString(4));
                     persona.setFechaNacimiento(FechasUtils.fecha(resultado.getString(5)));
+                    persona.setNombreCortoTipoViajero(resultado.getString(6));
+                    persona.setIdTipoViajero(resultado.getString(7));
                     result.add(persona);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException ex) {
+            
+        }finally{
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+            }
+        }
+        return result;
+    }
+    public static ArrayList<PersonaBean> getListaPersonasTotalesFiltro(boolean isActivo, String filtro) {
+        ArrayList<PersonaBean> result;
+        result = new ArrayList();
+        Connection conexion = null;
+        try {
+            conexion=ConectorBD.getConnection();
+            PersonaBean persona;
+            PreparedStatement consulta = conexion.prepareStatement(
+            "SELECT personas.idPersona, DNI, Nombre, Apellidos, FechaNacimiento, Correo, Telefono1, Telefono2, Direccion, CP, Localidad, Provincia, Observaciones, Activo,  personas.ActualTipoViajero, tiposviajeros.Descripcion AS Descripcion\n" +
+            "   FROM personas, tiposviajeros\n" +
+            "   WHERE tiposviajeros.idTipoViajero=personas.ActualTipoViajero\n" +
+            "	AND (Apellidos LIKE ? OR Nombre LIKE ?)\n" +
+            "UNION\n" +
+            "SELECT personas.idPersona, DNI, Nombre, Apellidos, FechaNacimiento, Correo, Telefono1, Telefono2, Direccion, CP, Localidad, Provincia, Observaciones, Activo,  personas.ActualTipoViajero, 'Sin equipo' AS Descripcion\n" +
+            "   FROM personas\n" +
+            "   WHERE personas.ActualTipoViajero=0\n" +
+            "	AND (Apellidos LIKE ? OR Nombre LIKE ?)" );      
+            
+            consulta.setString(1, "%"+filtro+"%");
+            consulta.setString(2, "%"+filtro+"%");
+            consulta.setString(3, "%"+filtro+"%");
+            consulta.setString(4, "%"+filtro+"%");
+            
+            System.out.println("SQL: "+consulta);
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()){
+                if("true".equals(resultado.getString(14).trim())==isActivo){
+                    persona=new PersonaBean();
+                    persona.setIdPersona(resultado.getString(1));
+                    persona.setDNI(resultado.getString(2));
+                    persona.setNombre(resultado.getString(3));
+                    persona.setApellidos(resultado.getString(4));
+                    persona.setNombreCortoTipoViajero(resultado.getString("Descripcion"));
+                    persona.setIdTipoViajero(resultado.getString("ActualTipoViajero"));
+                    result.add(persona);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -263,7 +322,7 @@ public class GestionPersonasBD {
      * @param idViaje
      * @return 
      */
-    public static ArrayList<PersonaBean> getListaPersonasSinViaje(String idViaje, boolean isActivo) {
+    public static ArrayList<PersonaBean> getListaPersonasSinViaje(String idViaje, boolean isActivo, String textoFiltro) {
         ArrayList<PersonaBean> result;
         result = new ArrayList();
         Connection conexion = null;
@@ -274,13 +333,19 @@ public class GestionPersonasBD {
             "SELECT personas.idPersona, DNI, Nombre, Apellidos, FechaNacimiento, Correo, Telefono1, Telefono2, Direccion, CP, Localidad, Provincia, Observaciones, Activo,  personas.ActualTipoViajero, tiposviajeros.Descripcion AS Descripcion " +
             "FROM personas, tiposviajeros " +
             "WHERE tiposviajeros.idTipoViajero=personas.ActualTipoViajero AND " +
+            "(Apellidos LIKE ? OR Nombre LIKE ?) AND "+
             "personas.idPersona NOT IN (SELECT idPersona FROM relviajetodo WHERE idViaje=?) " +
             "UNION "+
             "SELECT personas.idPersona, DNI, Nombre, Apellidos, FechaNacimiento, Correo, Telefono1, Telefono2, Direccion, CP, Localidad, Provincia, Observaciones, Activo,  personas.ActualTipoViajero, 'Sin equipo' AS Descripcion "+
             "FROM personas "+
-            "WHERE personas.ActualTipoViajero=0 "+        
+            "WHERE personas.ActualTipoViajero=0 AND "+
+                "(Apellidos LIKE ? OR Nombre LIKE ?) "+
             "ORDER BY Descripcion, Apellidos");
-            consulta.setString(1, idViaje);
+            consulta.setString(1, "%"+textoFiltro+"%");
+            consulta.setString(2, "%"+textoFiltro+"%");
+            consulta.setString(3, idViaje);
+            consulta.setString(4, "%"+textoFiltro+"%");
+            consulta.setString(5, "%"+textoFiltro+"%");
             
             System.out.println("SQL: "+consulta);
             ResultSet resultado = consulta.executeQuery();
@@ -316,7 +381,7 @@ public class GestionPersonasBD {
      * @param idViaje
      * @return 
      */
-    public static ArrayList<PersonaBean> getListaPersonasSinViajeConEquipoDefinido(String idViaje, boolean isActivo, String idEquipo) {
+    public static ArrayList<PersonaBean> getListaPersonasSinViajeConEquipoDefinido(String idViaje, boolean isActivo, String idEquipo, String textoFiltro) {
         ArrayList<PersonaBean> result;
         result = new ArrayList();
         Connection conexion = null;
@@ -328,11 +393,14 @@ public class GestionPersonasBD {
             "FROM personas, tiposviajeros " +
             "WHERE tiposviajeros.idTipoViajero=personas.ActualTipoViajero AND " +
             "personas.ActualTipoViajero=? AND " +
+            "(Apellidos LIKE ? OR Nombre LIKE ?) AND "+
             "personas.idPersona NOT IN (SELECT idPersona FROM relviajetodo WHERE idViaje=?) "
                     + "order by personas.apellidos");
             
             consulta.setString(1, idEquipo);
-            consulta.setString(2, idViaje);
+            consulta.setString(2, "%"+textoFiltro+"%");
+            consulta.setString(3, "%"+textoFiltro+"%");
+            consulta.setString(4, idViaje);
             
             System.out.println("SQL: "+consulta);
             ResultSet resultado = consulta.executeQuery();
