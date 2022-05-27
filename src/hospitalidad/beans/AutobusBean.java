@@ -17,6 +17,14 @@ public class AutobusBean {
     private String idAutobus;
     private String idViaje;
     private int plazasEnfermos;
+
+    public int getPlazasEnfermos() {
+        return plazasEnfermos;
+    }
+
+    public int getPlazasNoEnfermos() {
+        return plazasNoEnfermos;
+    }
     private int plazasNoEnfermos;
     private String observaciones;
     private String descripcion;

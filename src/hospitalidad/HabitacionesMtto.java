@@ -232,7 +232,7 @@ public class HabitacionesMtto extends javax.swing.JPanel {
             habitacion.setIdHabitacion(idHabitacion);
             GestionHabitacionesBD.setHabitacionMtto(habitacion);
             
-            padre.cargaTablaHabitaciones();
+            //padre.cargaTablaHabitaciones();
             JOptionPane.showMessageDialog(null, "Habitación modificada correctamente");
             Window w = SwingUtilities.getWindowAncestor(this);
             w.setVisible(false);

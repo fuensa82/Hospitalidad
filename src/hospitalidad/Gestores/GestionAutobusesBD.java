@@ -6,6 +6,7 @@
 package hospitalidad.Gestores;
 
 import hospitalidad.beans.AutobusBean;
+import hospitalidad.beans.HabitacionBean;
 import hospitalidad.beans.PersonaBean;
 import hospitalidad.utils.ConectorBD;
 import java.sql.Connection;
@@ -34,6 +35,33 @@ public class GestionAutobusesBD {
         return setPasajeroAutobus(autobus.getIdAutobus(), persona.getIdPersona());
     }
 
+    public static int setAutobus(AutobusBean autobus){
+        Connection conexion = null;
+        try {
+            conexion = ConectorBD.getConnection();
+            // INSERT INTO `hospitalidad`.`autobuses` (`Descripcion`, `PlazasNoEnfermos`, `PlazasEnfermos`, `Observaciones`, `idViaje`) VALUES ('Nº 2', '10', '9', 'Ninguna', '1');
+            
+            PreparedStatement insert1 = conexion.prepareStatement("INSERT INTO hospitalidad.autobuses(Descripcion, PlazasNoEnfermos, PlazasEnfermos, Observaciones, idViaje) VALUES (?,?,?,?,?);");
+            insert1.setString(1, ""+autobus.getDescripcion());
+            insert1.setString(2, ""+autobus.getPlazas(false));
+            insert1.setString(3, ""+autobus.getPlazas(true));
+            insert1.setString(4, autobus.getObservaciones());
+            insert1.setString(5, autobus.getIdViaje());
+            System.out.println(insert1);
+            int fila = insert1.executeUpdate();
+            return fila; //Correcto
+
+        } catch (SQLException | NamingException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionViajesBD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return 0;
+    }
     /**
      * Devuelve el numero de plazas ocupadas de un autobus según el tipo de pasajero
      *
@@ -443,5 +471,40 @@ public class GestionAutobusesBD {
             }
         }
         return fila;
+    }
+
+    public static boolean updateAutobus(AutobusBean autobus) {
+        boolean result=false;
+        
+        Connection conexion = null;
+
+        try {
+            conexion = ConectorBD.getConnection();
+        
+            PreparedStatement insert1 = conexion.prepareStatement(
+                    "UPDATE autobuses " +
+                    "	SET Descripcion=?, " +
+                    "	 PlazasNoEnfermos=?, " +
+                    "	 PlazasEnfermos=?, " +
+                    "	 Observaciones=?,  " +
+                    "	 idViaje=?  " +
+                    "	WHERE idAutobus=?");
+            insert1.setString(1, autobus.getDescripcion() );
+            insert1.setString(2, ""+autobus.getPlazasNoEnfermos());
+            insert1.setString(3, ""+autobus.getPlazasEnfermos());
+            insert1.setString(4, autobus.getObservaciones());
+            insert1.setString(5, autobus.getIdViaje());
+            insert1.setString(6, autobus.getIdAutobus());
+            insert1.executeUpdate();
+            
+            return true;
+            
+        } catch (NamingException ex) {
+            Logger.getLogger(GestionAutobusesBD.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(GestionAutobusesBD.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return result;
     }
 }

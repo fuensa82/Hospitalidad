@@ -22,6 +22,15 @@ public class HabitacionBean {
     private String descripcion2;
     private String idViaje;
     private String idHotel;
+    private String nombreHotel;
+
+    public String getNombreHotel() {
+        return nombreHotel;
+    }
+
+    public void setNombreHotel(String nombreHotel) {
+        this.nombreHotel = nombreHotel;
+    }
 
     public String getIdHotel() {
         return idHotel;

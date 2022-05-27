@@ -36,7 +36,7 @@ import javax.swing.table.DefaultTableModel;
 public class Principal extends javax.swing.JFrame {
 
     private ArrayList<PersonaBean> listaPersonas;
-    private ArrayList<PersonaBean> listaPersonasSinAutobus;
+    //private ArrayList<PersonaBean> listaPersonasSinAutobus;
     private ArrayList<AutobusBean> listaAutobuses;
     private ArrayList<HabitacionBean> listaHabitaciones;
     private String filtroViaje;
@@ -110,6 +110,8 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTablePersonasSinAutobus = new javax.swing.JTable();
         jButton5 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jLabelTotalListaPersonasSinBus = new javax.swing.JLabel();
         jPanelAutobuses = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableAutobuses = new javax.swing.JTable();
@@ -117,10 +119,14 @@ public class Principal extends javax.swing.JFrame {
         jTablePersonasBus = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        jLabelTotalBuses = new javax.swing.JLabel();
         jPanelPersonasSinHabitacion = new javax.swing.JPanel();
         jScrollPane9 = new javax.swing.JScrollPane();
         jTablePersonasSinHabitacion = new javax.swing.JTable();
         jButton8 = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        jLabelTotalPersonasSinHab = new javax.swing.JLabel();
         jPanelHabitaciones = new javax.swing.JPanel();
         jScrollPane6 = new javax.swing.JScrollPane();
         jTableHabitaciones = new javax.swing.JTable();
@@ -131,6 +137,8 @@ public class Principal extends javax.swing.JFrame {
         jComboHotel = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabelTotalHabitaciones = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         comboViaje = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
@@ -512,14 +520,24 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jLabel8.setText("Total lista:");
+
+        jLabelTotalListaPersonasSinBus.setText("jLabel9");
+
         javax.swing.GroupLayout jPanelPersonasSinAutobusLayout = new javax.swing.GroupLayout(jPanelPersonasSinAutobus);
         jPanelPersonasSinAutobus.setLayout(jPanelPersonasSinAutobusLayout);
         jPanelPersonasSinAutobusLayout.setHorizontalGroup(
             jPanelPersonasSinAutobusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPersonasSinAutobusLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanelPersonasSinAutobusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton5)
+                .addGroup(jPanelPersonasSinAutobusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanelPersonasSinAutobusLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelTotalListaPersonasSinBus)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton5))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1145, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29))
         );
@@ -529,7 +547,10 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap(43, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5)
+                .addGroup(jPanelPersonasSinAutobusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton5)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabelTotalListaPersonasSinBus))
                 .addContainerGap())
         );
 
@@ -641,14 +662,24 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jLabel9.setText("Total lista:");
+
+        jLabelTotalBuses.setText("jLabel10");
+
         javax.swing.GroupLayout jPanelAutobusesLayout = new javax.swing.GroupLayout(jPanelAutobuses);
         jPanelAutobuses.setLayout(jPanelAutobusesLayout);
         jPanelAutobusesLayout.setHorizontalGroup(
             jPanelAutobusesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelAutobusesLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanelAutobusesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1)
+                .addGroup(jPanelAutobusesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanelAutobusesLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabelTotalBuses)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanelAutobusesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelAutobusesLayout.createSequentialGroup()
@@ -666,10 +697,17 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanelAutobusesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelAutobusesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton4))
+                .addGroup(jPanelAutobusesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelAutobusesLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanelAutobusesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jButton4)))
+                    .addGroup(jPanelAutobusesLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanelAutobusesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabelTotalBuses))))
                 .addContainerGap())
         );
 
@@ -723,6 +761,10 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jLabel10.setText("Total lista: ");
+
+        jLabelTotalPersonasSinHab.setText("jLabel11");
+
         javax.swing.GroupLayout jPanelPersonasSinHabitacionLayout = new javax.swing.GroupLayout(jPanelPersonasSinHabitacion);
         jPanelPersonasSinHabitacion.setLayout(jPanelPersonasSinHabitacionLayout);
         jPanelPersonasSinHabitacionLayout.setHorizontalGroup(
@@ -731,8 +773,12 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanelPersonasSinHabitacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 1162, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPersonasSinHabitacionLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(jPanelPersonasSinHabitacionLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelTotalPersonasSinHab)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton8)))
                 .addContainerGap())
         );
@@ -742,7 +788,10 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton8)
+                .addGroup(jPanelPersonasSinHabitacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton8)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabelTotalPersonasSinHab))
                 .addContainerGap())
         );
 
@@ -762,7 +811,7 @@ public class Principal extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Id", "Desc1", "Desc2", "Observaciones", "Camas", "Libres"
+                "Id", "Desc1", "Hotel", "Observaciones", "Camas", "Libres"
             }
         ) {
             Class[] types = new Class [] {
@@ -858,6 +907,10 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel6.setText("Listado de habotaciones, puede filtrar por hotel. A la derecha sadrán las personas de la habitación.");
 
+        jLabel11.setText("Total lista: ");
+
+        jLabelTotalHabitaciones.setText("jLabel12");
+
         javax.swing.GroupLayout jPanelHabitacionesLayout = new javax.swing.GroupLayout(jPanelHabitaciones);
         jPanelHabitaciones.setLayout(jPanelHabitacionesLayout);
         jPanelHabitacionesLayout.setHorizontalGroup(
@@ -867,8 +920,14 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanelHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelHabitacionesLayout.createSequentialGroup()
                         .addGroup(jPanelHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jButton6)
+                            .addGroup(jPanelHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(jPanelHabitacionesLayout.createSequentialGroup()
+                                    .addGap(10, 10, 10)
+                                    .addComponent(jLabel11)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabelTotalHabitaciones)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButton6))
                                 .addGroup(jPanelHabitacionesLayout.createSequentialGroup()
                                     .addComponent(jLabel5)
                                     .addGap(24, 24, 24)
@@ -904,7 +963,10 @@ public class Principal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton7)
-                    .addComponent(jButton6))
+                    .addComponent(jButton6)
+                    .addGroup(jPanelHabitacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel11)
+                        .addComponent(jLabelTotalHabitaciones)))
                 .addContainerGap())
         );
 
@@ -1412,9 +1474,9 @@ public class Principal extends javax.swing.JFrame {
                     frame.pack();
                     frame.setLocationRelativeTo(padre);
                     frame.setVisible(true);
-                    int sel=jTablePersonas.getSelectedRow();
-                    cargaTablaPersonas(true);
-                    //jTablePersonas.setRowSelectionInterval(sel, sel);
+                    int sel=jTableHabitaciones.getSelectedRow();
+                    cargaTablaHabitaciones();
+                    jTableHabitaciones.setRowSelectionInterval(sel, sel);
                 }
             }
         });
@@ -1439,29 +1501,31 @@ public class Principal extends javax.swing.JFrame {
         jTableAutobuses.addMouseListener(new MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 if (e.getClickCount() == 1) {
-                    String idPersona=(String)jTablePersonas.getModel().getValueAt(jTableAutobuses.getSelectedRow(),1);
+                    /*String idPersona=(String)jTablePersonas.getModel().getValueAt(jTableAutobuses.getSelectedRow(),1);
                     cargarDatosAutobus(idPersona,filtroViaje);
                     cargarDatosHabitaciones(idPersona,filtroViaje);
-                    System.out.println("Se ha hecho un click");
+                    System.out.println("Se ha hecho un click");*/
                 }
                 if (e.getClickCount() == 2) {
                     System.out.println("Se ha hecho doble click");
-                    String id=(String)jTablePersonas.getModel().getValueAt(jTableAutobuses.getSelectedRow(),1);
-                    System.out.println("Id: "+id);
+                    String idAutobus=(String)jTableAutobuses.getModel().getValueAt(jTableAutobuses.getSelectedRow(),0);
+                    System.out.println("Id: "+idAutobus);
                     
-                    JDialog frame = new JDialog(padre, "Gestion de personas", true);
+                    JDialog frame = new JDialog(padre, "Gestion de autobuses", true);
                     frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-                    frame.getContentPane().add(new OpcionesDePersona(OpcionesDePersona.mtto, id));
+                    frame.getContentPane().add(new AutobusesMtto(AutobusesMtto.mtto,filtroViaje, comboViaje.getSelectedIndex(), (Principal) padre, idAutobus));
                     frame.pack();
                     frame.setLocationRelativeTo(padre);
                     frame.setVisible(true);
-                    int sel=jTablePersonas.getSelectedRow();
-                    cargaTablaPersonas(true);
-                    jTablePersonas.setRowSelectionInterval(sel, sel);
+                    int sel=jTableAutobuses.getSelectedRow();
+                    cargaTablaAutobuses();;
+                    jTableAutobuses.setRowSelectionInterval(sel, sel);
                 }
             }
         });
     }
+    
+    
 
     private void ponListenerTablaParsonas() {
         JFrame padre=this;
@@ -1688,12 +1752,16 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButtonEliminaDeLaPeregrinacion;
     private javax.swing.JComboBox<String> jComboHotel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelCamasLibres;
     private javax.swing.JLabel jLabelDesc1;
     private javax.swing.JLabel jLabelDesc2;
@@ -1702,6 +1770,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelIdAutobusEtiqueta;
     private javax.swing.JLabel jLabelObser;
     private javax.swing.JLabel jLabelObservaciones;
+    private javax.swing.JLabel jLabelTotalBuses;
+    private javax.swing.JLabel jLabelTotalHabitaciones;
+    private javax.swing.JLabel jLabelTotalListaPersonasSinBus;
+    private javax.swing.JLabel jLabelTotalPersonasSinHab;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
@@ -1757,7 +1829,7 @@ public class Principal extends javax.swing.JFrame {
         labelTotal.setText(""+listaPersonas.size());
     }
 
-    private void cargaTablaAutobuses() {
+    public void cargaTablaAutobuses() {
         System.out.println(new Object() {
         }.getClass().getEnclosingMethod().getName());
         DefaultTableModel datosTabla = (DefaultTableModel) jTablePersonasBus.getModel();
@@ -1782,6 +1854,7 @@ public class Principal extends javax.swing.JFrame {
                 autobus.getIdAutobus()
             });
         }
+        jLabelTotalBuses.setText(""+listaAutobuses.size());
     }
     /**
      * Carga la tabla de habitacion y borra la table de personas de la habitacion
@@ -1807,12 +1880,13 @@ public class Principal extends javax.swing.JFrame {
             datosTabla.addRow(new Object[]{
                 habitacion.getIdHabitacion(),
                 habitacion.getDescripcion1(),
-                habitacion.getDescripcion2(),
+                habitacion.getNombreHotel(),
                 habitacion.getObservaciones(),
                 habitacion.getCamasTotales(),
                 habitacion.getCamasLibres()
             });
         }
+        jLabelTotalHabitaciones.setText(""+listaHabitaciones.size());
     }
 
     private void cargaTablaPersonasSinAutobus() {
@@ -1837,6 +1911,7 @@ public class Principal extends javax.swing.JFrame {
                 persona.getIdTipoViajero()
             });
         }
+        jLabelTotalListaPersonasSinBus.setText(""+listaPersonas.size());
     }
 
     private void cargaTablaPersonasSinHabitacion() {
@@ -1859,6 +1934,7 @@ public class Principal extends javax.swing.JFrame {
                 GestionTiposViajeroBD.getTipoViajero(filtroViaje,filtroViaje, persona.getIdPersona()).getNombreTipo()
             });
         }
+        jLabelTotalPersonasSinHab.setText(""+listaPersonas.size());
     }
     
     

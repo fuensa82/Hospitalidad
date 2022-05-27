@@ -238,13 +238,15 @@ public class GestionHabitacionesBD {
             HabitacionBean habitacion;
             String sql;
             if("0".equals(idHotel)){
-                sql="select idHabitacion, descripcion1, descripcion2, camas, Observaciones, idViaje "
-                    + "FROM habitaciones "
-                    + "WHERE idViaje=?";
+                sql="select idHabitacion, descripcion1, descripcion2, camas, Observaciones, idViaje, nombreHotel "
+                    + "FROM habitaciones, hoteles "
+                    + "WHERE idViaje=? and "
+                    + " habitaciones.idHotel=hoteles.IdHotel";
             }else{
-                sql="select idHabitacion, descripcion1, descripcion2, camas, Observaciones, idViaje "
-                    + "FROM habitaciones "
-                    + "WHERE idViaje=? and idHotel=?";
+                sql="select idHabitacion, descripcion1, descripcion2, camas, Observaciones, idViaje, nombreHotel "
+                    + "FROM habitaciones, hoteles "
+                    + "WHERE idViaje=? and habitaciones.idHotel=? and "
+                    + " habitaciones.idHotel=hoteles.IdHotel";
             }
             PreparedStatement consulta = conexion.prepareStatement(sql);
 
@@ -262,6 +264,7 @@ public class GestionHabitacionesBD {
                 habitacion.setCamasTotales(resultado.getInt(4));
                 habitacion.setObservaciones(resultado.getString(5));
                 habitacion.setIdViaje(resultado.getString(6));
+                habitacion.setNombreHotel(resultado.getString(7));
                 lista.add(habitacion);
             }
         } catch (SQLException e) {
