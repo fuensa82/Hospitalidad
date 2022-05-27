@@ -9,6 +9,8 @@ import hospitalidad.Gestores.GestionViajesBD;
 import hospitalidad.beans.HabitacionBean;
 import java.awt.Frame;
 import java.awt.Window;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -41,6 +43,7 @@ public class HabitacionesMtto extends javax.swing.JPanel {
         this.idHabitacion=idHabitacion;
         initComponents();
         jComboPeregrinaciones.setSelectedIndex(selectComboPeregrinaciones);
+        
         prepararVentana();
     }
 
@@ -51,6 +54,20 @@ public class HabitacionesMtto extends javax.swing.JPanel {
             jTextDesc1.setText(habitacion.getDescripcion1());
             jTextDesc2.setText(habitacion.getDescripcion2());
             jTextObser.setText(habitacion.getObservaciones());
+            DefaultComboBoxModel modelo=(DefaultComboBoxModel) jComboHoteles.getModel();
+            int indiceCombo=0;
+            for(int i=0;i<modelo.getSize();i++){
+                String opcion=(String) modelo.getElementAt(i);
+                String id=opcion.split(" - ")[0];
+                System.out.println(opcion+"  ---  "+id);
+                if(id.equals(habitacion.getIdHotel())){
+                    indiceCombo=i;
+                }
+            }
+            jComboHoteles.setSelectedIndex(indiceCombo);
+            jComboHoteles.setEnabled(false);
+            jComboPeregrinaciones.setEnabled(false);
+            
         }else{
             jTextCamas.setText("");
             jTextDesc1.setText("");

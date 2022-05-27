@@ -779,15 +779,16 @@
                               </Group>
                               <Component id="jScrollPane2" min="-2" pref="595" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="103" groupAlignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-                                  <Component id="jScrollPane4" min="-2" pref="524" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jLabelTotalPersonasAutobus" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                                   <Component id="jButton4" min="-2" max="-2" attributes="0"/>
                               </Group>
+                              <Component id="jScrollPane4" min="-2" pref="524" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -814,6 +815,13 @@
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabelTotalBuses" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabelTotalPersonasAutobus" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -969,6 +977,16 @@
                 <Component class="javax.swing.JLabel" name="jLabelTotalBuses">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="jLabel10"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel12">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Total lista:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabelTotalPersonasAutobus">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="  "/>
                   </Properties>
                 </Component>
               </SubComponents>

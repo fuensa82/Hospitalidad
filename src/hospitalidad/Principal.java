@@ -121,6 +121,8 @@ public class Principal extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jLabelTotalBuses = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabelTotalPersonasAutobus = new javax.swing.JLabel();
         jPanelPersonasSinHabitacion = new javax.swing.JPanel();
         jScrollPane9 = new javax.swing.JScrollPane();
         jTablePersonasSinHabitacion = new javax.swing.JTable();
@@ -666,6 +668,10 @@ public class Principal extends javax.swing.JFrame {
 
         jLabelTotalBuses.setText("jLabel10");
 
+        jLabel12.setText("Total lista:");
+
+        jLabelTotalPersonasAutobus.setText("  ");
+
         javax.swing.GroupLayout jPanelAutobusesLayout = new javax.swing.GroupLayout(jPanelAutobuses);
         jPanelAutobuses.setLayout(jPanelAutobusesLayout);
         jPanelAutobusesLayout.setHorizontalGroup(
@@ -681,13 +687,15 @@ public class Principal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 595, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanelAutobusesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(43, 43, 43)
+                .addGroup(jPanelAutobusesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanelAutobusesLayout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelAutobusesLayout.createSequentialGroup()
+                        .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)))
+                        .addComponent(jLabelTotalPersonasAutobus)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton4))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 524, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanelAutobusesLayout.setVerticalGroup(
@@ -707,7 +715,12 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addGroup(jPanelAutobusesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(jLabelTotalBuses))))
+                            .addComponent(jLabelTotalBuses)))
+                    .addGroup(jPanelAutobusesLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanelAutobusesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabelTotalPersonasAutobus))))
                 .addContainerGap())
         );
 
@@ -1672,6 +1685,7 @@ public class Principal extends javax.swing.JFrame {
                 persona.getIdPersona()).getNombreTipo()
             });
         }
+        jLabelTotalPersonasAutobus.setText(""+listaPersonas.size());
     }
     
     private void cargaTablaHuespedes(String idHabitacion) {
@@ -1754,6 +1768,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1773,6 +1788,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelTotalBuses;
     private javax.swing.JLabel jLabelTotalHabitaciones;
     private javax.swing.JLabel jLabelTotalListaPersonasSinBus;
+    private javax.swing.JLabel jLabelTotalPersonasAutobus;
     private javax.swing.JLabel jLabelTotalPersonasSinHab;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

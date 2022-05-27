@@ -9,7 +9,6 @@ import hospitalidad.beans.HabitacionBean;
 import hospitalidad.beans.HotelBean;
 import hospitalidad.beans.PersonaBean;
 import hospitalidad.utils.ConectorBD;
-import hospitalidad.utils.FechasUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -293,7 +292,7 @@ public class GestionHabitacionesBD {
         try {
             conexion = ConectorBD.getConnection();
             PreparedStatement consulta = conexion.prepareStatement(
-                    "select idHabitacion, descripcion1, descripcion2, camas, Observaciones, idViaje "
+                    "select idHabitacion, descripcion1, descripcion2, camas, Observaciones, idViaje, idHotel "
                     + "FROM habitaciones "
                     + "WHERE idHabitacion=?");
 
@@ -308,6 +307,7 @@ public class GestionHabitacionesBD {
                 habitacion.setCamasTotales(resultado.getInt(4));
                 habitacion.setObservaciones(resultado.getString(5));
                 habitacion.setIdViaje(resultado.getString(6));
+                habitacion.setIdHotel(resultado.getString(7));
                 
             }
         } catch (SQLException e) {
