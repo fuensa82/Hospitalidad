@@ -120,6 +120,7 @@ public class HabitacionesMtto extends javax.swing.JPanel {
         jLabel5.setText("Peregrinación:");
 
         jComboPeregrinaciones.setModel(GestionViajesBD.getModeloComboViajes());
+        jComboPeregrinaciones.setEnabled(false);
 
         Guardar.setText("Guardar");
         Guardar.addActionListener(new java.awt.event.ActionListener() {

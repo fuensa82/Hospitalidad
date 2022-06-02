@@ -8,6 +8,7 @@ package hospitalidad;
 import hospitalidad.Gestores.GestionHabitacionesBD;
 import hospitalidad.Gestores.GestionViajesBD;
 import java.awt.Window;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingUtilities;
 
 /**
@@ -16,19 +17,33 @@ import javax.swing.SwingUtilities;
  */
 public class OpcionesGuardarPersonaHabitacionModal extends javax.swing.JPanel {
 
+  
+
     /**
      * Creates new form OpcionesGuardarViajeModal
      */
     private String opcionBoton="C"; //C es Cancelar y G guardar
+    private String idPeregrinacion;
     public String getBoton(){
         return opcionBoton;
     }
     public void setBoton(String opcion) {
         opcionBoton=opcion;
     }
-    public OpcionesGuardarPersonaHabitacionModal() {
+    public OpcionesGuardarPersonaHabitacionModal(String idPeregrinacion) {
+        this.idPeregrinacion=idPeregrinacion;
         initComponents();
-        jComboPeregrinacion.setSelectedIndex(jComboPeregrinacion.getModel().getSize()-1);
+        int indiceCombo=0;
+        DefaultComboBoxModel modelo=(DefaultComboBoxModel) jComboPeregrinacion.getModel();
+        for(int i=0;i<modelo.getSize();i++){
+            String opcion=(String) modelo.getElementAt(i);
+            String id=opcion.split(" - ")[0];
+            System.out.println(opcion+"  ---  "+id);
+            if(id.equals(idPeregrinacion)){
+                indiceCombo=i;
+            }
+        }
+        jComboPeregrinacion.setSelectedIndex(indiceCombo);
         cargaComboHabitaciones();
     }
     /**
@@ -66,6 +81,7 @@ public class OpcionesGuardarPersonaHabitacionModal extends javax.swing.JPanel {
         jLabel1.setText("Peregrinación:");
 
         jComboPeregrinacion.setModel(GestionViajesBD.getModeloComboViajes());
+        jComboPeregrinacion.setEnabled(false);
         jComboPeregrinacion.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 jComboPeregrinacionPropertyChange(evt);

@@ -7,6 +7,7 @@ package hospitalidad.Gestores;
  */
 
 
+import hospitalidad.beans.AutobusBean;
 import hospitalidad.beans.PersonaBean;
 import hospitalidad.utils.ConectorBD;
 import hospitalidad.utils.FechasUtils;
@@ -564,6 +565,55 @@ public class GestionPersonasBD {
         }
         
         return result;
+    }
+    
+    public static ArrayList getListadoCompleto(String idViaje){
+        ArrayList<AutobusBean> lista = new ArrayList();
+        Connection conexion = null;
+        try {
+            conexion = ConectorBD.getConnection();
+            AutobusBean autobus;
+            PreparedStatement consulta = conexion.prepareStatement(
+                    "SELECT personas.Nombre, personas.Apellidos, personas.Localidad, autobuses.Descripcion AS Bus, hoteles.NombreHotel AS hotel, habitaciones.Descripcion1 AS habitacion, tiposviajeros.NombreCortoTipo " +
+                    " FROM personas, habitaciones, hoteles, autobuses, relpersonaautobus, relpersonahabitacion, relviajetodo, viajes, tiposviajeros " +
+                    " WHERE habitaciones.idHotel=hoteles.IdHotel AND " +
+                    "	personas.idPersona=relviajetodo.idPersona AND " +
+                    "	relpersonahabitacion.idPersona=personas.idPersona AND " +
+                    "	relpersonahabitacion.idHabitacion=habitaciones.idHabitacion AND " +
+                    "	habitaciones.idHotel=hoteles.IdHotel AND " +
+                    "	autobuses.idAutobus=relpersonaautobus.idAutobus AND " +
+                    "	personas.idPersona=relpersonaautobus.idPersona and " +
+                    "	relviajetodo.idViaje=viajes.idViaje AND  " +
+                    "	relviajetodo.idViaje=? AND " +
+                            " tiposviajeros.idTipoViajero=personas.ActualTipoViajero "+
+                    " ORDER BY personas.Apellidos, personas.Nombre");
+
+            consulta.setString(1, idViaje);
+            ResultSet resultado = consulta.executeQuery();
+            ArrayList tabla=new ArrayList();
+            while (resultado.next()){
+                tabla.add(new Object[]{
+                    resultado.getString(1),
+                    resultado.getString(2),
+                    resultado.getString(7),
+                    resultado.getString(4),
+                    resultado.getString(5),
+                    resultado.getString(6)});
+            }
+            return tabla;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException ex) {
+
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+            }
+        }
+        return null;
+    
     }
    
 }

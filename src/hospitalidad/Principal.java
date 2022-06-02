@@ -13,9 +13,12 @@ import hospitalidad.Gestores.GestionTiposViajeroBD;
 import hospitalidad.beans.AutobusBean;
 import hospitalidad.beans.HabitacionBean;
 import hospitalidad.beans.PersonaBean;
+import hospitalidad.utils.FechasUtils;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -141,6 +144,12 @@ public class Principal extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabelTotalHabitaciones = new javax.swing.JLabel();
+        jPanelListadoTotal = new javax.swing.JPanel();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jTableListadoTotal = new javax.swing.JTable();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabelListadoTotal = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         comboViaje = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
@@ -151,7 +160,7 @@ public class Principal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Hospitalidad de Toledo");
+        jLabel1.setText("Hospitalidad de Ntra. Sra de Lourdes - Toledo");
 
         jTabbedPane1.setAutoscrolls(true);
         jTabbedPane1.addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -985,6 +994,81 @@ public class Principal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Habitaciones", jPanelHabitaciones);
 
+        jPanelListadoTotal.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jPanelListadoTotalComponentShown(evt);
+            }
+        });
+
+        jTableListadoTotal.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Apellidos", "Equipo", "Autobus", "Hotel", "Habitación"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane8.setViewportView(jTableListadoTotal);
+
+        jLabel13.setText("El listado solo contiene las personas que tienen asigando autobús y habitación");
+
+        jLabel14.setText("Total listado:");
+
+        jLabelListadoTotal.setText("jLabelTotalListado");
+
+        javax.swing.GroupLayout jPanelListadoTotalLayout = new javax.swing.GroupLayout(jPanelListadoTotal);
+        jPanelListadoTotal.setLayout(jPanelListadoTotalLayout);
+        jPanelListadoTotalLayout.setHorizontalGroup(
+            jPanelListadoTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelListadoTotalLayout.createSequentialGroup()
+                .addGroup(jPanelListadoTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelListadoTotalLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 1162, Short.MAX_VALUE))
+                    .addGroup(jPanelListadoTotalLayout.createSequentialGroup()
+                        .addGroup(jPanelListadoTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelListadoTotalLayout.createSequentialGroup()
+                                .addGap(48, 48, 48)
+                                .addComponent(jLabel13))
+                            .addGroup(jPanelListadoTotalLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel14)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelListadoTotal)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanelListadoTotalLayout.setVerticalGroup(
+            jPanelListadoTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelListadoTotalLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanelListadoTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabelListadoTotal))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Listado completo", jPanelListadoTotal);
+
         jButton3.setText("Personas");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1102,7 +1186,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_comboViajePropertyChange
 
     private void comboViajeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboViajeActionPerformed
-        System.out.println("Combo peregrinaciones");
+        System.out.println("Combo peregrinacionesssssss");
         if (jPanelPeregrinaciones.isVisible()) {
             cargaTablaPersonas(true);
         } else if (jPanelAutobuses.isVisible()) {
@@ -1111,8 +1195,10 @@ public class Principal extends javax.swing.JFrame {
             cargaTablaPersonasSinAutobus();
         } else if(jPanelHabitaciones.isVisible()){
             cargaTablaHabitaciones();
-        } else if(jTablePersonasSinHabitacion.isVisible()){
+        } else if(jPanelPersonasSinHabitacion.isVisible()){
             cargaTablaPersonasSinHabitacion();
+        } else if(jPanelListadoTotal.isVisible()){
+            cargaTablaTotal();
         }
     }//GEN-LAST:event_comboViajeActionPerformed
 
@@ -1152,7 +1238,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonEliminaDeLaPeregrinacionActionPerformed
 
     private void jTabbedPane1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTabbedPane1ComponentShown
-        System.out.println("Pestaña");        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jTabbedPane1ComponentShown
 
     private void jPanelAutobusesComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelAutobusesComponentShown
@@ -1314,7 +1400,8 @@ public class Principal extends javax.swing.JFrame {
         }
         JDialog frame = new JDialog((JFrame) null, "Guardar", true);
         frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-        OpcionesGuardarPersonaHabitacionModal ventana = new OpcionesGuardarPersonaHabitacionModal();
+        filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
+        OpcionesGuardarPersonaHabitacionModal ventana = new OpcionesGuardarPersonaHabitacionModal(filtroViaje);
         frame.getContentPane().add(ventana);
         frame.pack();
         frame.setLocationRelativeTo(this);
@@ -1454,6 +1541,11 @@ public class Principal extends javax.swing.JFrame {
         jTextFiltro.setText("");
         cargaTablaPersonas(true);
     }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jPanelListadoTotalComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelListadoTotalComponentShown
+        System.out.println("Pestaña listados");        // TODO add your handling code here:
+        cargaTablaTotal();
+    }//GEN-LAST:event_jPanelListadoTotalComponentShown
 
     /**
      * Listener para hacer que al seleccionar una habitacion se muestre la tabla con las persona que ya hay asignadas a la habitacion
@@ -1769,6 +1861,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1783,6 +1877,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelDescripcionAutobus;
     private javax.swing.JLabel jLabelIdAutobus;
     private javax.swing.JLabel jLabelIdAutobusEtiqueta;
+    private javax.swing.JLabel jLabelListadoTotal;
     private javax.swing.JLabel jLabelObser;
     private javax.swing.JLabel jLabelObservaciones;
     private javax.swing.JLabel jLabelTotalBuses;
@@ -1795,6 +1890,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanelAutobuses;
     private javax.swing.JPanel jPanelHabitaciones;
+    private javax.swing.JPanel jPanelListadoTotal;
     private javax.swing.JPanel jPanelPeregrinaciones;
     private javax.swing.JPanel jPanelPersonasSinAutobus;
     private javax.swing.JPanel jPanelPersonasSinHabitacion;
@@ -1806,12 +1902,14 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTableAutobusPersona;
     private javax.swing.JTable jTableAutobuses;
     private javax.swing.JTable jTableHabitaciones;
     private javax.swing.JTable jTableHabitacionesPersona;
+    private javax.swing.JTable jTableListadoTotal;
     private javax.swing.JTable jTablePersonas;
     private javax.swing.JTable jTablePersonasBus;
     private javax.swing.JTable jTablePersonasHabitacion;
@@ -1870,7 +1968,7 @@ public class Principal extends javax.swing.JFrame {
                 autobus.getIdAutobus()
             });
         }
-        jLabelTotalBuses.setText(""+listaAutobuses.size());
+        jLabelListadoTotal.setText(""+listaAutobuses.size());
     }
     /**
      * Carga la tabla de habitacion y borra la table de personas de la habitacion
@@ -1971,6 +2069,29 @@ public class Principal extends javax.swing.JFrame {
         for (int i = model.getRowCount(); i > 0; i--) {
             model.removeRow(i - 1);
         }
+    }
+
+    private void cargaTablaTotal() {
+        System.out.println(new Object() {
+        }.getClass().getEnclosingMethod().getName());
+//        DefaultTableModel datosTabla = (DefaultTableModel) jTableListadoTotal.getModel();
+//        for (int i = datosTabla.getRowCount(); i > 0; i--) {
+//            datosTabla.removeRow(i - 1);
+//        }
+
+        filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
+        //filtroTipoViajero = comboTipoViajero.getModel().getElementAt(comboTipoViajero.getSelectedIndex()).split(" - ")[0];
+        ArrayList resultado = GestionPersonasBD.getListadoCompleto(filtroViaje);
+        DefaultTableModel datosTabla = (DefaultTableModel) jTableListadoTotal.getModel();
+        for (int i = datosTabla.getRowCount(); i > 0; i--) {
+            datosTabla.removeRow(i - 1);
+        }
+        
+        for (int i=0;i<resultado.size();i++){
+            datosTabla.addRow((Object[]) resultado.get(i));
+        }
+        jLabelListadoTotal.setText(""+resultado.size());
+    
     }
 
 }

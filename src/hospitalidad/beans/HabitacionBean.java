@@ -58,7 +58,7 @@ public class HabitacionBean {
     }
     
     public String toString(){
-        return idHabitacion+" - "+descripcion1+" - "+descripcion2+" - Camas libres: "+GestionHabitacionesBD.getCamasLibres(idHabitacion);
+        return idHabitacion+" - "+descripcion1+" - "+nombreHotel+" - Camas libres: "+GestionHabitacionesBD.getCamasLibres(idHabitacion);
     }
     
     public String getIdHabitacion() {
