@@ -16,10 +16,14 @@ import hospitalidad.beans.PersonaBean;
 import hospitalidad.utils.FechasUtils;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.MouseAdapter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
@@ -67,7 +71,7 @@ public class Principal extends javax.swing.JFrame {
         ponListenerTablaHabitaciones();
         cargaTablaPersonas(true);
         prepararVistaPasajerosAutobus();
-        
+
     }
 
     /**
@@ -150,6 +154,13 @@ public class Principal extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabelListadoTotal = new javax.swing.JLabel();
+        jButton13 = new javax.swing.JButton();
+        jComboEquipoListadoTotal = new javax.swing.JComboBox<>();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jComboAutobusesListadoTotal = new javax.swing.JComboBox<>();
+        jComboHotelesListadoTotal = new javax.swing.JComboBox<>();
         jButton3 = new javax.swing.JButton();
         comboViaje = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
@@ -160,7 +171,7 @@ public class Principal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("Hospitalidad de Ntra. Sra de Lourdes - Toledo");
+        jLabel1.setText("Hospitalidad de Ntra. Sra. de Lourdes - Toledo");
 
         jTabbedPane1.setAutoscrolls(true);
         jTabbedPane1.addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -1005,7 +1016,7 @@ public class Principal extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nombre", "Apellidos", "Equipo", "Autobus", "Hotel", "Habitación"
+                "Apellidos", "Nombre", "Equipo", "Autobus", "Hotel", "Habitación"
             }
         ) {
             Class[] types = new Class [] {
@@ -1025,11 +1036,45 @@ public class Principal extends javax.swing.JFrame {
         });
         jScrollPane8.setViewportView(jTableListadoTotal);
 
-        jLabel13.setText("El listado solo contiene las personas que tienen asigando autobús y habitación");
+        jLabel13.setText("El listado solo contiene las personas que tienen asigando autobús y habitación.");
 
         jLabel14.setText("Total listado:");
 
         jLabelListadoTotal.setText("jLabelTotalListado");
+
+        jButton13.setText("Copiar datos");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+
+        jComboEquipoListadoTotal.setModel(GestionTiposViajeroBD.getModeloComboTipoViajero(true));
+        jComboEquipoListadoTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboEquipoListadoTotalActionPerformed(evt);
+            }
+        });
+
+        jLabel15.setText("Equipo:");
+
+        jLabel16.setText("Autobús:");
+
+        jLabel17.setText("Hotel:");
+
+        jComboAutobusesListadoTotal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboAutobusesListadoTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboAutobusesListadoTotalActionPerformed(evt);
+            }
+        });
+
+        jComboHotelesListadoTotal.setModel(GestionHabitacionesBD.getModeloComboHotelesConOpcionTodos());
+        jComboHotelesListadoTotal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboHotelesListadoTotalActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelListadoTotalLayout = new javax.swing.GroupLayout(jPanelListadoTotal);
         jPanelListadoTotal.setLayout(jPanelListadoTotalLayout);
@@ -1041,25 +1086,45 @@ public class Principal extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 1162, Short.MAX_VALUE))
                     .addGroup(jPanelListadoTotalLayout.createSequentialGroup()
-                        .addGroup(jPanelListadoTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelListadoTotalLayout.createSequentialGroup()
-                                .addGap(48, 48, 48)
-                                .addComponent(jLabel13))
-                            .addGroup(jPanelListadoTotalLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel14)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabelListadoTotal)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap()
+                        .addComponent(jLabel14)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelListadoTotal)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanelListadoTotalLayout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(jLabel13)
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel15)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboEquipoListadoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboAutobusesListadoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboHotelesListadoTotal, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanelListadoTotalLayout.setVerticalGroup(
             jPanelListadoTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelListadoTotalLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jLabel13)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(11, 11, 11)
+                .addGroup(jPanelListadoTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(jButton13)
+                    .addComponent(jComboEquipoListadoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15)
+                    .addComponent(jLabel16)
+                    .addComponent(jLabel17)
+                    .addComponent(jComboAutobusesListadoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboHotelesListadoTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanelListadoTotalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
@@ -1193,12 +1258,13 @@ public class Principal extends javax.swing.JFrame {
             cargaTablaAutobuses();
         } else if (jPanelPersonasSinAutobus.isVisible()) {
             cargaTablaPersonasSinAutobus();
-        } else if(jPanelHabitaciones.isVisible()){
+        } else if (jPanelHabitaciones.isVisible()) {
             cargaTablaHabitaciones();
-        } else if(jPanelPersonasSinHabitacion.isVisible()){
+        } else if (jPanelPersonasSinHabitacion.isVisible()) {
             cargaTablaPersonasSinHabitacion();
-        } else if(jPanelListadoTotal.isVisible()){
+        } else if (jPanelListadoTotal.isVisible()) {
             cargaTablaTotal();
+            jComboAutobusesListadoTotal.setModel(GestionAutobusesBD.getModeloComboAutobusesConTodos(filtroViaje));
         }
     }//GEN-LAST:event_comboViajeActionPerformed
 
@@ -1238,7 +1304,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonEliminaDeLaPeregrinacionActionPerformed
 
     private void jTabbedPane1ComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTabbedPane1ComponentShown
-        
+
     }//GEN-LAST:event_jTabbedPane1ComponentShown
 
     private void jPanelAutobusesComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelAutobusesComponentShown
@@ -1257,8 +1323,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jPanelPeregrinacionesComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelPeregrinacionesComponentShown
         System.out.println("Pertaña 1");
-        
-        
+
         vaciarTabla((DefaultTableModel) jTableHabitacionesPersona.getModel());
         vaciarTabla((DefaultTableModel) jTableAutobusPersona.getModel());
         cargaTablaPersonas(true);
@@ -1284,7 +1349,8 @@ public class Principal extends javax.swing.JFrame {
         //kkk
         JDialog frame = new JDialog((JFrame) null, "Guardar", true);
         frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-        OpcionesGuardarPersonaAutobusModal ventana = new OpcionesGuardarPersonaAutobusModal();
+        filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
+        OpcionesGuardarPersonaAutobusModal ventana = new OpcionesGuardarPersonaAutobusModal(filtroViaje);
         frame.getContentPane().add(ventana);
         frame.pack();
         frame.setLocationRelativeTo(this);
@@ -1292,10 +1358,10 @@ public class Principal extends javax.swing.JFrame {
 
         String opcion = ventana.getBoton();
         if ("G".equals(opcion)) {
-            AutobusBean autobus=new AutobusBean(ventana.getIdAutobus());
-            String result=GestionAutobusesBD.añadirPasajerosAutobus(lista, autobus.getIdAutobus());
+            AutobusBean autobus = new AutobusBean(ventana.getIdAutobus());
+            String result = GestionAutobusesBD.añadirPasajerosAutobus(lista, autobus.getIdAutobus());
             JOptionPane.showMessageDialog(null, result);
-            
+
         }
 
         cargaTablaPersonasSinAutobus();
@@ -1322,7 +1388,8 @@ public class Principal extends javax.swing.JFrame {
 
     /**
      * Boton de añadir personas al autobus. Está en la pestataña de autobuses
-     * @param evt 
+     *
+     * @param evt
      */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (jTableAutobuses.getSelectedRow() < 0) {
@@ -1355,7 +1422,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // Quitar persona del autobus
-        indiceSelJTableAutobuses=jTableAutobuses.getSelectedRow();
+        indiceSelJTableAutobuses = jTableAutobuses.getSelectedRow();
         ArrayList<PersonaBean> lista = new ArrayList<PersonaBean>();
         for (int i = 0; i < jTablePersonasBus.getRowCount(); i++) {
             if ((boolean) jTablePersonasBus.getValueAt(i, 0)) {
@@ -1373,7 +1440,7 @@ public class Principal extends javax.swing.JFrame {
             GestionAutobusesBD.eliminaPersonasAutobus(persona.getIdPersona(), filtroViaje);
         }
         //cargaTablaPersonas(true);
-        
+
         cargaTablaAutobuses();
         jTableAutobuses.setRowSelectionInterval(indiceSelJTableAutobuses, indiceSelJTableAutobuses);
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -1409,7 +1476,7 @@ public class Principal extends javax.swing.JFrame {
 
         String opcion = ventana.getBoton();
         if ("G".equals(opcion)) {
-            HabitacionBean habitacion=new HabitacionBean(ventana.getIdHabitacion());
+            HabitacionBean habitacion = new HabitacionBean(ventana.getIdHabitacion());
             int plazasLibre = habitacion.getCamasLibres();
             if (plazasLibre <= 0) {
                 JOptionPane.showMessageDialog(null, "La habitación seleccionada no tiene plazas libres");
@@ -1425,7 +1492,7 @@ public class Principal extends javax.swing.JFrame {
         }
 
         cargaTablaPersonasSinHabitacion();
-        
+
     }//GEN-LAST:event_jButton8ActionPerformed
 
     int indiceSelJTableHabitaciones;
@@ -1433,19 +1500,19 @@ public class Principal extends javax.swing.JFrame {
         filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
         JDialog frame = new JDialog(this, "Gestion de habitaciones", true);
         frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-        HabitacionesMtto ventana = new HabitacionesMtto(HabitacionesMtto.nuevo, filtroViaje, comboViaje.getSelectedIndex(), this, ""+0);
+        HabitacionesMtto ventana = new HabitacionesMtto(HabitacionesMtto.nuevo, filtroViaje, comboViaje.getSelectedIndex(), this, "" + 0);
         frame.getContentPane().add(ventana);
         frame.pack();
         frame.setLocationRelativeTo(this);
         frame.setVisible(true);
-        
+
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
         JDialog frame = new JDialog(this, "Gestion de autobuses", true);
         frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-        AutobusesMtto ventana = new AutobusesMtto(AutobusesMtto.nuevo, filtroViaje, comboViaje.getSelectedIndex(), this, ""+0);
+        AutobusesMtto ventana = new AutobusesMtto(AutobusesMtto.nuevo, filtroViaje, comboViaje.getSelectedIndex(), this, "" + 0);
         frame.getContentPane().add(ventana);
         frame.pack();
         frame.setLocationRelativeTo(this);
@@ -1476,7 +1543,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         //quitar persona de habitacion
-        indiceSelJTableHabitaciones=jTableHabitaciones.getSelectedRow();
+        indiceSelJTableHabitaciones = jTableHabitaciones.getSelectedRow();
         ArrayList<PersonaBean> lista = new ArrayList<PersonaBean>();
         for (int i = 0; i < jTablePersonasHabitacion.getRowCount(); i++) {
             if ((boolean) jTablePersonasHabitacion.getValueAt(i, 0)) {
@@ -1501,7 +1568,8 @@ public class Principal extends javax.swing.JFrame {
 
     /**
      * Boton de añadir personas a la habitacion
-     * @param evt 
+     *
+     * @param evt
      */
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         if (jTableHabitaciones.getSelectedRow() < 0) {
@@ -1544,14 +1612,52 @@ public class Principal extends javax.swing.JFrame {
 
     private void jPanelListadoTotalComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelListadoTotalComponentShown
         System.out.println("Pestaña listados");        // TODO add your handling code here:
+        filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
         cargaTablaTotal();
+        jComboAutobusesListadoTotal.setModel(GestionAutobusesBD.getModeloComboAutobusesConTodos(filtroViaje));
     }//GEN-LAST:event_jPanelListadoTotalComponentShown
 
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+
+        String aPegar = "";
+        DefaultTableModel datosTabla = (DefaultTableModel) jTableListadoTotal.getModel();
+        //Vector datos=datosTabla.getDataVector();
+        for (int i = 0; i < datosTabla.getRowCount(); i++) {
+            aPegar += datosTabla.getValueAt(i, 0) + "\t"
+                    + datosTabla.getValueAt(i, 1) + "\t"
+                    + datosTabla.getValueAt(i, 2) + "\t"
+                    + datosTabla.getValueAt(i, 3) + "\t"
+                    + datosTabla.getValueAt(i, 4) + "\t"
+                    + datosTabla.getValueAt(i, 5) + "\n";
+
+        }
+
+        //String aPegar = "Este es el texto a pegar en el\t portap\tapeles";
+        StringSelection ss = new StringSelection(aPegar);
+        Toolkit tool = Toolkit.getDefaultToolkit();
+        Clipboard clip = tool.getSystemClipboard();
+        clip.setContents(ss, null);
+
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jComboEquipoListadoTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboEquipoListadoTotalActionPerformed
+        cargaTablaTotalEquipos();
+    }//GEN-LAST:event_jComboEquipoListadoTotalActionPerformed
+
+    private void jComboHotelesListadoTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboHotelesListadoTotalActionPerformed
+        cargaTablaTotalHoteles();        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboHotelesListadoTotalActionPerformed
+
+    private void jComboAutobusesListadoTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboAutobusesListadoTotalActionPerformed
+        cargaTablaTotalAutobuses();
+    }//GEN-LAST:event_jComboAutobusesListadoTotalActionPerformed
+
     /**
-     * Listener para hacer que al seleccionar una habitacion se muestre la tabla con las persona que ya hay asignadas a la habitacion
+     * Listener para hacer que al seleccionar una habitacion se muestre la tabla
+     * con las persona que ya hay asignadas a la habitacion
      */
     private void ponListenerTablaHabitaciones() {
-        JFrame padre=this;
+        JFrame padre = this;
         jTableHabitaciones.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent evento) {
@@ -1567,42 +1673,43 @@ public class Principal extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     System.out.println("Se ha hecho doble click");
-                    
-                    String idHabitacion=(String)jTableHabitaciones.getModel().getValueAt(jTableHabitaciones.getSelectedRow(),0);
+
+                    String idHabitacion = (String) jTableHabitaciones.getModel().getValueAt(jTableHabitaciones.getSelectedRow(), 0);
                     String idHotel = jComboHotel.getModel().getElementAt(jComboHotel.getSelectedIndex()).split(" - ")[0];
                     filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
                     //System.out.println("Id: "+id);
-                    
+
                     JDialog frame = new JDialog(padre, "Gestion de habitaciones", true);
                     frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-                    frame.getContentPane().add(new HabitacionesMtto(HabitacionesMtto.mtto,filtroViaje, comboViaje.getSelectedIndex(), (Principal) padre, idHabitacion));
+                    frame.getContentPane().add(new HabitacionesMtto(HabitacionesMtto.mtto, filtroViaje, comboViaje.getSelectedIndex(), (Principal) padre, idHabitacion));
                     frame.pack();
                     frame.setLocationRelativeTo(padre);
                     frame.setVisible(true);
-                    int sel=jTableHabitaciones.getSelectedRow();
+                    int sel = jTableHabitaciones.getSelectedRow();
                     cargaTablaHabitaciones();
                     jTableHabitaciones.setRowSelectionInterval(sel, sel);
                 }
             }
         });
     }
-    
+
     int indiceSelJTableAutobuses;
+
     private void ponListenerTablaAutobuses() {
         jTableAutobuses.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent evento) {
                 ListSelectionModel lsm = (ListSelectionModel) evento.getSource();
                 int indice = lsm.getMinSelectionIndex();
-                
-                System.out.println("Indice seleccionado de jTableAutobuses: "+indiceSelJTableAutobuses);
+
+                System.out.println("Indice seleccionado de jTableAutobuses: " + indiceSelJTableAutobuses);
                 if (indice != -1) {
                     String idAutobus = (String) jTableAutobuses.getModel().getValueAt(indice, 0);
                     cargaTablaPasajeros(idAutobus);
                 }
             }
         });
-        JFrame padre=this;
+        JFrame padre = this;
         jTableAutobuses.addMouseListener(new MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 if (e.getClickCount() == 1) {
@@ -1613,65 +1720,62 @@ public class Principal extends javax.swing.JFrame {
                 }
                 if (e.getClickCount() == 2) {
                     System.out.println("Se ha hecho doble click");
-                    String idAutobus=(String)jTableAutobuses.getModel().getValueAt(jTableAutobuses.getSelectedRow(),0);
-                    System.out.println("Id: "+idAutobus);
-                    
+                    String idAutobus = (String) jTableAutobuses.getModel().getValueAt(jTableAutobuses.getSelectedRow(), 0);
+                    System.out.println("Id: " + idAutobus);
+
                     JDialog frame = new JDialog(padre, "Gestion de autobuses", true);
                     frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-                    frame.getContentPane().add(new AutobusesMtto(AutobusesMtto.mtto,filtroViaje, comboViaje.getSelectedIndex(), (Principal) padre, idAutobus));
+                    frame.getContentPane().add(new AutobusesMtto(AutobusesMtto.mtto, filtroViaje, comboViaje.getSelectedIndex(), (Principal) padre, idAutobus));
                     frame.pack();
                     frame.setLocationRelativeTo(padre);
                     frame.setVisible(true);
-                    int sel=jTableAutobuses.getSelectedRow();
+                    int sel = jTableAutobuses.getSelectedRow();
                     cargaTablaAutobuses();;
                     jTableAutobuses.setRowSelectionInterval(sel, sel);
                 }
             }
         });
     }
-    
-    
 
     private void ponListenerTablaParsonas() {
-        JFrame padre=this;
+        JFrame padre = this;
         jTablePersonas.addMouseListener(new MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 if (e.getClickCount() == 1) {
-                    String idPersona=(String)jTablePersonas.getModel().getValueAt(jTablePersonas.getSelectedRow(),1);
-                    cargarDatosAutobus(idPersona,filtroViaje);
-                    cargarDatosHabitaciones(idPersona,filtroViaje);
+                    String idPersona = (String) jTablePersonas.getModel().getValueAt(jTablePersonas.getSelectedRow(), 1);
+                    cargarDatosAutobus(idPersona, filtroViaje);
+                    cargarDatosHabitaciones(idPersona, filtroViaje);
                     System.out.println("Se ha hecho un click");
                 }
                 if (e.getClickCount() == 2) {
                     System.out.println("Se ha hecho doble click");
-                    String id=(String)jTablePersonas.getModel().getValueAt(jTablePersonas.getSelectedRow(),1);
-                    System.out.println("Id: "+id);
-                    
+                    String id = (String) jTablePersonas.getModel().getValueAt(jTablePersonas.getSelectedRow(), 1);
+                    System.out.println("Id: " + id);
+
                     JDialog frame = new JDialog(padre, "Gestion de personas", true);
                     frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
                     frame.getContentPane().add(new OpcionesDePersona(OpcionesDePersona.mtto, id));
                     frame.pack();
                     frame.setLocationRelativeTo(padre);
                     frame.setVisible(true);
-                    int sel=jTablePersonas.getSelectedRow();
+                    int sel = jTablePersonas.getSelectedRow();
                     cargaTablaPersonas(true);
                     jTablePersonas.setRowSelectionInterval(sel, sel);
                 }
             }
         });
     }
-    
-    
-    
+
     private void cargarDatosAutobus(String idPersona, String filtroViaje) {
-        System.out.println(new Object() {}.getClass().getEnclosingMethod().getName());
-        
+        System.out.println(new Object() {
+        }.getClass().getEnclosingMethod().getName());
+
         DefaultTableModel datosTabla = (DefaultTableModel) jTableAutobusPersona.getModel();
         for (int i = datosTabla.getRowCount(); i > 0; i--) {
             datosTabla.removeRow(i - 1);
         }
         AutobusBean autobus = GestionAutobusesBD.getDatosAutobus(idPersona, filtroViaje);
-        if(autobus==null){
+        if (autobus == null) {
             //jLabelDescripcionAutobus.setVisible(true);
             jLabelDescripcionAutobus.setText("Sin autobus asignado");
             jLabelDescripcionAutobus.setForeground(Color.red);
@@ -1680,8 +1784,8 @@ public class Principal extends javax.swing.JFrame {
             jLabelIdAutobus.setText(" ");
             //jTableAutobusPersona.setVisible(false);
             return;
-            
-        }else{
+
+        } else {
             jLabelDescripcionAutobus.setForeground(Color.BLACK);
             jTableAutobusPersona.setVisible(true);
             jLabelDescripcionAutobus.setVisible(true);
@@ -1694,8 +1798,7 @@ public class Principal extends javax.swing.JFrame {
         }
         ArrayList<PersonaBean> listaPersonas = autobus.getPasajeros();
         //ArrayList<PersonaBean> listaPersonas = autobus.getPasajeros();
-        
-        
+
         for (PersonaBean persona : listaPersonas) {
             datosTabla.addRow(new Object[]{
                 "" + persona.getIdPersona(),
@@ -1707,20 +1810,24 @@ public class Principal extends javax.swing.JFrame {
             });
         }
     }
+
     /**
-     * Carga la tabla de personas de una habitacion de la pantalla de peregrinacion
+     * Carga la tabla de personas de una habitacion de la pantalla de
+     * peregrinacion
+     *
      * @param idPersona
-     * @param filtroViaje 
+     * @param filtroViaje
      */
     private void cargarDatosHabitaciones(String idPersona, String filtroViaje) {
-        System.out.println(new Object() {}.getClass().getEnclosingMethod().getName());
-        
+        System.out.println(new Object() {
+        }.getClass().getEnclosingMethod().getName());
+
         DefaultTableModel datosTabla = (DefaultTableModel) jTableHabitacionesPersona.getModel();
         for (int i = datosTabla.getRowCount(); i > 0; i--) {
             datosTabla.removeRow(i - 1);
         }
         HabitacionBean habitacion = GestionHabitacionesBD.getDatosHabitacion(idPersona, filtroViaje);
-        if(habitacion==null){
+        if (habitacion == null) {
             //jLabelDescripcionAutobus.setVisible(true);
             jLabelDesc1.setText("Sin habitación asignada");
             jLabelDesc1.setForeground(Color.red);
@@ -1729,19 +1836,18 @@ public class Principal extends javax.swing.JFrame {
             jLabelCamasLibres.setText(" ");
             //jTableAutobusPersona.setVisible(false);
             return;
-            
-        }else{
+
+        } else {
             jLabelDesc1.setForeground(Color.BLACK);
             jLabelDesc1.setVisible(true);
             jLabelDesc1.setText(habitacion.getDescripcion1());
             jLabelObser.setText(habitacion.getObservaciones());
-            jLabelDesc2.setText(habitacion.getDescripcion2());
-            jLabelCamasLibres.setText("Camas libres: "+habitacion.getCamasLibres());
+            jLabelDesc2.setText(habitacion.getNombreHotel());
+            jLabelCamasLibres.setText("Camas libres: " + habitacion.getCamasLibres());
         }
         ArrayList<PersonaBean> listaPersonas = habitacion.getHuespedes();
         //ArrayList<PersonaBean> listaPersonas = autobus.getPasajeros();
-        
-        
+
         for (PersonaBean persona : listaPersonas) {
             datosTabla.addRow(new Object[]{
                 "" + persona.getIdPersona(),
@@ -1753,8 +1859,7 @@ public class Principal extends javax.swing.JFrame {
             });
         }
     }
-    
-    
+
     private void cargaTablaPasajeros(String idAutobus) {
         System.out.println(new Object() {
         }.getClass().getEnclosingMethod().getName());
@@ -1773,13 +1878,13 @@ public class Principal extends javax.swing.JFrame {
                 persona.getDNI(),
                 persona.getApellidos(),
                 persona.getNombre(),
-                GestionTiposViajeroBD.getTipoViajero(autobus.getIdViaje(),autobus.getIdViaje(),
+                GestionTiposViajeroBD.getTipoViajero(autobus.getIdViaje(), autobus.getIdViaje(),
                 persona.getIdPersona()).getNombreTipo()
             });
         }
-        jLabelTotalPersonasAutobus.setText(""+listaPersonas.size());
+        jLabelTotalPersonasAutobus.setText("" + listaPersonas.size());
     }
-    
+
     private void cargaTablaHuespedes(String idHabitacion) {
         System.out.println(new Object() {
         }.getClass().getEnclosingMethod().getName());
@@ -1846,6 +1951,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1856,13 +1962,19 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton9;
     private javax.swing.JButton jButtonAgregaPersonas;
     private javax.swing.JButton jButtonEliminaDeLaPeregrinacion;
+    private javax.swing.JComboBox<String> jComboAutobusesListadoTotal;
+    private javax.swing.JComboBox<String> jComboEquipoListadoTotal;
     private javax.swing.JComboBox<String> jComboHotel;
+    private javax.swing.JComboBox<String> jComboHotelesListadoTotal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1937,10 +2049,10 @@ public class Principal extends javax.swing.JFrame {
                 persona.getApellidos(),
                 persona.getNombre(),
                 persona.getFechaNacimiento(),
-                GestionTiposViajeroBD.getTipoViajero(filtroViaje,filtroViaje, persona.getIdPersona()).getNombreTipo()
+                GestionTiposViajeroBD.getTipoViajero(filtroViaje, filtroViaje, persona.getIdPersona()).getNombreTipo()
             });
         }
-        labelTotal.setText(""+listaPersonas.size());
+        labelTotal.setText("" + listaPersonas.size());
     }
 
     public void cargaTablaAutobuses() {
@@ -1968,16 +2080,19 @@ public class Principal extends javax.swing.JFrame {
                 autobus.getIdAutobus()
             });
         }
-        jLabelListadoTotal.setText(""+listaAutobuses.size());
+        jLabelListadoTotal.setText("" + listaAutobuses.size());
     }
+
     /**
-     * Carga la tabla de habitacion y borra la table de personas de la habitacion
+     * Carga la tabla de habitacion y borra la table de personas de la
+     * habitacion
+     *
      * @param idHotel Si el id es 0 mostrará todos los hoteles
      */
     public void cargaTablaHabitaciones() {
         System.out.println(new Object() {
         }.getClass().getEnclosingMethod().getName());
-        
+
         DefaultTableModel datosTabla = (DefaultTableModel) jTableHabitacionesPersona.getModel();
         for (int i = datosTabla.getRowCount(); i > 0; i--) {
             datosTabla.removeRow(i - 1);
@@ -2000,14 +2115,14 @@ public class Principal extends javax.swing.JFrame {
                 habitacion.getCamasLibres()
             });
         }
-        jLabelTotalHabitaciones.setText(""+listaHabitaciones.size());
+        jLabelTotalHabitaciones.setText("" + listaHabitaciones.size());
     }
 
     private void cargaTablaPersonasSinAutobus() {
         System.out.println(new Object() {
         }.getClass().getEnclosingMethod().getName());
         filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
-        listaPersonas = GestionPersonasBD.getListaPersonasSinAutobus(filtroViaje, "0","");
+        listaPersonas = GestionPersonasBD.getListaPersonasSinAutobus(filtroViaje, "0", "");
         DefaultTableModel datosTabla = (DefaultTableModel) jTablePersonasSinAutobus.getModel();
         for (int i = datosTabla.getRowCount(); i > 0; i--) {
             datosTabla.removeRow(i - 1);
@@ -2025,14 +2140,14 @@ public class Principal extends javax.swing.JFrame {
                 persona.getIdTipoViajero()
             });
         }
-        jLabelTotalListaPersonasSinBus.setText(""+listaPersonas.size());
+        jLabelTotalListaPersonasSinBus.setText("" + listaPersonas.size());
     }
 
     private void cargaTablaPersonasSinHabitacion() {
         System.out.println(new Object() {
         }.getClass().getEnclosingMethod().getName());
         filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
-        listaPersonas = GestionPersonasBD.getListaPersonasSinHabitacion(filtroViaje,"0","");
+        listaPersonas = GestionPersonasBD.getListaPersonasSinHabitacion(filtroViaje, "0", "");
         DefaultTableModel datosTabla = (DefaultTableModel) jTablePersonasSinHabitacion.getModel();
         for (int i = datosTabla.getRowCount(); i > 0; i--) {
             datosTabla.removeRow(i - 1);
@@ -2045,13 +2160,12 @@ public class Principal extends javax.swing.JFrame {
                 persona.getApellidos(),
                 persona.getNombre(),
                 persona.getFechaNacimiento(),
-                GestionTiposViajeroBD.getTipoViajero(filtroViaje,filtroViaje, persona.getIdPersona()).getNombreTipo()
+                GestionTiposViajeroBD.getTipoViajero(filtroViaje, filtroViaje, persona.getIdPersona()).getNombreTipo()
             });
         }
-        jLabelTotalPersonasSinHab.setText(""+listaPersonas.size());
+        jLabelTotalPersonasSinHab.setText("" + listaPersonas.size());
     }
-    
-    
+
     private void prepararVistaPasajerosAutobus() {
         jPanel3.setPreferredSize(new Dimension(406, 323));
         jLabelDescripcionAutobus.setText(" ");
@@ -2074,10 +2188,6 @@ public class Principal extends javax.swing.JFrame {
     private void cargaTablaTotal() {
         System.out.println(new Object() {
         }.getClass().getEnclosingMethod().getName());
-//        DefaultTableModel datosTabla = (DefaultTableModel) jTableListadoTotal.getModel();
-//        for (int i = datosTabla.getRowCount(); i > 0; i--) {
-//            datosTabla.removeRow(i - 1);
-//        }
 
         filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
         //filtroTipoViajero = comboTipoViajero.getModel().getElementAt(comboTipoViajero.getSelectedIndex()).split(" - ")[0];
@@ -2086,12 +2196,78 @@ public class Principal extends javax.swing.JFrame {
         for (int i = datosTabla.getRowCount(); i > 0; i--) {
             datosTabla.removeRow(i - 1);
         }
-        
-        for (int i=0;i<resultado.size();i++){
+
+        for (int i = 0; i < resultado.size(); i++) {
             datosTabla.addRow((Object[]) resultado.get(i));
         }
-        jLabelListadoTotal.setText(""+resultado.size());
-    
+        jLabelListadoTotal.setText("" + resultado.size());
+
+    }
+
+    private void cargaTablaTotalEquipos() {
+        System.out.println(new Object() {
+        }.getClass().getEnclosingMethod().getName());
+
+        filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
+        filtroTipoViajero = jComboEquipoListadoTotal.getModel().getElementAt(jComboEquipoListadoTotal.getSelectedIndex()).split(" - ")[0];
+        if ("0".equals(filtroTipoViajero)) {
+            cargaTablaTotal();
+        } else {
+            ArrayList resultado = GestionPersonasBD.getListadoCompletoEquipos(filtroViaje, filtroTipoViajero);
+            DefaultTableModel datosTabla = (DefaultTableModel) jTableListadoTotal.getModel();
+            for (int i = datosTabla.getRowCount(); i > 0; i--) {
+                datosTabla.removeRow(i - 1);
+            }
+
+            for (int i = 0; i < resultado.size(); i++) {
+                datosTabla.addRow((Object[]) resultado.get(i));
+            }
+            jLabelListadoTotal.setText("" + resultado.size());
+        }
+
+    }
+
+    private void cargaTablaTotalHoteles() {
+        System.out.println(new Object() {
+        }.getClass().getEnclosingMethod().getName());
+
+        filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
+        String filtroHotel = jComboHotelesListadoTotal.getModel().getElementAt(jComboHotelesListadoTotal.getSelectedIndex()).split(" - ")[0];
+        if ("0".equalsIgnoreCase(filtroHotel)) {
+            cargaTablaTotal();
+        } else {
+            ArrayList resultado = GestionPersonasBD.getListadoCompletoHoteles(filtroViaje, filtroHotel);
+            DefaultTableModel datosTabla = (DefaultTableModel) jTableListadoTotal.getModel();
+            for (int i = datosTabla.getRowCount(); i > 0; i--) {
+                datosTabla.removeRow(i - 1);
+            }
+
+            for (int i = 0; i < resultado.size(); i++) {
+                datosTabla.addRow((Object[]) resultado.get(i));
+            }
+            jLabelListadoTotal.setText("" + resultado.size());
+        }
+    }
+    private void cargaTablaTotalAutobuses() {
+        System.out.println(new Object() {
+        }.getClass().getEnclosingMethod().getName());
+
+        filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
+        String filtroAutobus = jComboAutobusesListadoTotal.getModel().getElementAt(jComboAutobusesListadoTotal.getSelectedIndex()).split(" - ")[0];
+        if ("0".equalsIgnoreCase(filtroAutobus)) {
+            cargaTablaTotal();
+        } else {
+            ArrayList resultado = GestionPersonasBD.getListadoCompletoAutobuses(filtroViaje, filtroAutobus);
+            DefaultTableModel datosTabla = (DefaultTableModel) jTableListadoTotal.getModel();
+            for (int i = datosTabla.getRowCount(); i > 0; i--) {
+                datosTabla.removeRow(i - 1);
+            }
+
+            for (int i = 0; i < resultado.size(); i++) {
+                datosTabla.addRow((Object[]) resultado.get(i));
+            }
+            jLabelListadoTotal.setText("" + resultado.size());
+        }
     }
 
 }

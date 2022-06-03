@@ -8,6 +8,7 @@ package hospitalidad;
 import hospitalidad.Gestores.GestionAutobusesBD;
 import hospitalidad.Gestores.GestionViajesBD;
 import java.awt.Window;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.SwingUtilities;
 
 /**
@@ -26,9 +27,26 @@ public class OpcionesGuardarPersonaAutobusModal extends javax.swing.JPanel {
     public void setBoton(String opcion) {
         opcionBoton=opcion;
     }
-    public OpcionesGuardarPersonaAutobusModal() {
+    public OpcionesGuardarPersonaAutobusModal(String idPeregrinacion) {
         initComponents();
-        jComboPeregrinacion.setSelectedIndex(jComboPeregrinacion.getModel().getSize()-1);
+        //jComboPeregrinacion.setSelectedIndex(jComboPeregrinacion.getModel().getSize()-1);
+        
+        
+        int indiceCombo=0;
+        DefaultComboBoxModel modelo=(DefaultComboBoxModel) jComboPeregrinacion.getModel();
+        for(int i=0;i<modelo.getSize();i++){
+            String opcion=(String) modelo.getElementAt(i);
+            String id=opcion.split(" - ")[0];
+            System.out.println(opcion+"  ---  "+id);
+            if(id.equals(idPeregrinacion)){
+                indiceCombo=i;
+            }
+        }
+        jComboPeregrinacion.setSelectedIndex(indiceCombo);
+        jComboPeregrinacion.setEnabled(false);
+        
+        
+        
         cargaComboAutobuses();
     }
     /**

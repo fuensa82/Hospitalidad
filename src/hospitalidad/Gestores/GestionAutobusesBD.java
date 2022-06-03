@@ -307,6 +307,18 @@ public class GestionAutobusesBD {
         return new javax.swing.DefaultComboBoxModel<>(autobuses);
 
     }
+    
+    public static javax.swing.DefaultComboBoxModel getModeloComboAutobusesConTodos(String idViaje) {
+        ArrayList<AutobusBean> lista = getListaAutobuses(idViaje);
+        String[] autobuses = new String[lista.size()+1];
+        autobuses[0]="0 - Todos los autobuses";
+        for (int i = 1; i < (lista.size()+1); i++) {
+            autobuses[i] = lista.get(i-1).toString();
+        }
+        return new javax.swing.DefaultComboBoxModel<>(autobuses);
+
+    }
+    
     public static ArrayList<AutobusBean> getListaAutobuses(String idViaje) {
         ArrayList<AutobusBean> lista = new ArrayList();
         Connection conexion = null;

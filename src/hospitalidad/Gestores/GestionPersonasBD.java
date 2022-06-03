@@ -585,16 +585,19 @@ public class GestionPersonasBD {
                     "	personas.idPersona=relpersonaautobus.idPersona and " +
                     "	relviajetodo.idViaje=viajes.idViaje AND  " +
                     "	relviajetodo.idViaje=? AND " +
-                            " tiposviajeros.idTipoViajero=personas.ActualTipoViajero "+
+                    "   tiposviajeros.idTipoViajero=personas.ActualTipoViajero AND " +
+                    "   autobuses.idViaje=relviajetodo.idViaje AND " +
+                    " 	habitaciones.idViaje=relviajetodo.idViaje"+
                     " ORDER BY personas.Apellidos, personas.Nombre");
 
             consulta.setString(1, idViaje);
+            System.out.println(consulta);
             ResultSet resultado = consulta.executeQuery();
             ArrayList tabla=new ArrayList();
             while (resultado.next()){
                 tabla.add(new Object[]{
-                    resultado.getString(1),
                     resultado.getString(2),
+                    resultado.getString(1),
                     resultado.getString(7),
                     resultado.getString(4),
                     resultado.getString(5),
@@ -614,6 +617,162 @@ public class GestionPersonasBD {
         }
         return null;
     
+    }
+    public static ArrayList getListadoCompletoEquipos(String idViaje, String idEquipo){
+        ArrayList<AutobusBean> lista = new ArrayList();
+        Connection conexion = null;
+        try {
+            conexion = ConectorBD.getConnection();
+            AutobusBean autobus;
+            PreparedStatement consulta = conexion.prepareStatement(
+                    "SELECT personas.Nombre, personas.Apellidos, personas.Localidad, autobuses.Descripcion AS Bus, hoteles.NombreHotel AS hotel, habitaciones.Descripcion1 AS habitacion, tiposviajeros.NombreCortoTipo " +
+                    " FROM personas, habitaciones, hoteles, autobuses, relpersonaautobus, relpersonahabitacion, relviajetodo, viajes, tiposviajeros " +
+                    " WHERE habitaciones.idHotel=hoteles.IdHotel AND " +
+                    "	personas.idPersona=relviajetodo.idPersona AND " +
+                    "	relpersonahabitacion.idPersona=personas.idPersona AND " +
+                    "	relpersonahabitacion.idHabitacion=habitaciones.idHabitacion AND " +
+                    "	habitaciones.idHotel=hoteles.IdHotel AND " +
+                    "	autobuses.idAutobus=relpersonaautobus.idAutobus AND " +
+                    "	personas.idPersona=relpersonaautobus.idPersona and " +
+                    "	relviajetodo.idViaje=viajes.idViaje AND  " +
+                    "	relviajetodo.idViaje=? AND " +
+                    "   personas.ActualTipoViajero= ? AND "+
+                    "   tiposviajeros.idTipoViajero=personas.ActualTipoViajero AND "+
+                    "   autobuses.idViaje=relviajetodo.idViaje AND " +
+                    " 	habitaciones.idViaje=relviajetodo.idViaje "+
+                    " ORDER BY personas.Apellidos, personas.Nombre");
+
+            consulta.setString(1, idViaje);
+            consulta.setString(2, idEquipo);
+            ResultSet resultado = consulta.executeQuery();
+            ArrayList tabla=new ArrayList();
+            while (resultado.next()){
+                tabla.add(new Object[]{
+                    resultado.getString(2),
+                    resultado.getString(1),
+                    resultado.getString(7),
+                    resultado.getString(4),
+                    resultado.getString(5),
+                    resultado.getString(6)});
+            }
+            return tabla;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException ex) {
+
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+            }
+        }
+        return null;
+    
+    }
+
+    public static ArrayList getListadoCompletoHoteles(String idViaje, String idHotel) {
+        ArrayList<AutobusBean> lista = new ArrayList();
+        Connection conexion = null;
+        try {
+            conexion = ConectorBD.getConnection();
+            AutobusBean autobus;
+            PreparedStatement consulta = conexion.prepareStatement(
+                    "SELECT personas.Nombre, personas.Apellidos, personas.Localidad, autobuses.Descripcion AS Bus, hoteles.NombreHotel AS hotel, habitaciones.Descripcion1 AS habitacion, tiposviajeros.NombreCortoTipo " +
+                    " FROM personas, habitaciones, hoteles, autobuses, relpersonaautobus, relpersonahabitacion, relviajetodo, viajes, tiposviajeros " +
+                    " WHERE habitaciones.idHotel=hoteles.IdHotel AND " +
+                    "	personas.idPersona=relviajetodo.idPersona AND " +
+                    "	relpersonahabitacion.idPersona=personas.idPersona AND " +
+                    "	relpersonahabitacion.idHabitacion=habitaciones.idHabitacion AND " +
+                    "	habitaciones.idHotel=hoteles.IdHotel AND " +
+                    "	autobuses.idAutobus=relpersonaautobus.idAutobus AND " +
+                    "	personas.idPersona=relpersonaautobus.idPersona and " +
+                    "	relviajetodo.idViaje=viajes.idViaje AND  " +
+                    "	relviajetodo.idViaje=? AND " +
+                    "   hoteles.IdHotel= ? AND "+
+                    "   tiposviajeros.idTipoViajero=personas.ActualTipoViajero AND "+
+                    "   autobuses.idViaje=relviajetodo.idViaje AND " +
+                    " 	habitaciones.idViaje=relviajetodo.idViaje"+        
+                    " ORDER BY personas.Apellidos, personas.Nombre");
+
+            consulta.setString(1, idViaje);
+            consulta.setString(2, idHotel);
+            ResultSet resultado = consulta.executeQuery();
+            ArrayList tabla=new ArrayList();
+            while (resultado.next()){
+                tabla.add(new Object[]{
+                    resultado.getString(2),
+                    resultado.getString(1),
+                    resultado.getString(7),
+                    resultado.getString(4),
+                    resultado.getString(5),
+                    resultado.getString(6)});
+            }
+            return tabla;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException ex) {
+
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+            }
+        }
+        return null;
+    }
+    
+    public static ArrayList getListadoCompletoAutobuses(String idViaje, String idAutobus) {
+        ArrayList<AutobusBean> lista = new ArrayList();
+        Connection conexion = null;
+        try {
+            conexion = ConectorBD.getConnection();
+            AutobusBean autobus;
+            PreparedStatement consulta = conexion.prepareStatement(
+                    "SELECT personas.Nombre, personas.Apellidos, personas.Localidad, autobuses.Descripcion AS Bus, hoteles.NombreHotel AS hotel, habitaciones.Descripcion1 AS habitacion, tiposviajeros.NombreCortoTipo " +
+                    " FROM personas, habitaciones, hoteles, autobuses, relpersonaautobus, relpersonahabitacion, relviajetodo, viajes, tiposviajeros " +
+                    " WHERE habitaciones.idHotel=hoteles.IdHotel AND " +
+                    "	personas.idPersona=relviajetodo.idPersona AND " +
+                    "	relpersonahabitacion.idPersona=personas.idPersona AND " +
+                    "	relpersonahabitacion.idHabitacion=habitaciones.idHabitacion AND " +
+                    "	habitaciones.idHotel=hoteles.IdHotel AND " +
+                    "	autobuses.idAutobus=relpersonaautobus.idAutobus AND " +
+                    "	personas.idPersona=relpersonaautobus.idPersona and " +
+                    "	relviajetodo.idViaje=viajes.idViaje AND  " +
+                    "	relviajetodo.idViaje=? AND " +
+                    "   autobuses.idAutobus= ? AND "+
+                    "   tiposviajeros.idTipoViajero=personas.ActualTipoViajero AND "+
+                    "   autobuses.idViaje=relviajetodo.idViaje AND " +
+                    " 	habitaciones.idViaje=relviajetodo.idViaje"+
+                    " ORDER BY personas.Apellidos, personas.Nombre");
+
+            consulta.setString(1, idViaje);
+            consulta.setString(2, idAutobus);
+            ResultSet resultado = consulta.executeQuery();
+            ArrayList tabla=new ArrayList();
+            while (resultado.next()){
+                tabla.add(new Object[]{
+                    resultado.getString(2),
+                    resultado.getString(1),
+                    resultado.getString(7),
+                    resultado.getString(4),
+                    resultado.getString(5),
+                    resultado.getString(6)});
+            }
+            return tabla;
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException ex) {
+
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+            }
+        }
+        return null;
     }
    
 }

@@ -152,7 +152,7 @@ public class GestionTiposViajeroBD {
             for (int i=0;i<lista.size();i++){
                 viajes[i]=lista.get(i).toString();
             }
-             return new javax.swing.DefaultComboBoxModel<>(viajes);
+            return new javax.swing.DefaultComboBoxModel<>(viajes);
         }
         
         

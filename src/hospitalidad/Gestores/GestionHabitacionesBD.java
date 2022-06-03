@@ -336,9 +336,10 @@ public class GestionHabitacionesBD {
         try {
             conexion = ConectorBD.getConnection();
             PreparedStatement consulta = conexion.prepareStatement(
-                    "SELECT habitaciones.idHabitacion, descripcion1, descripcion2, camas, Observaciones, idViaje " +
-                    "FROM habitaciones, relpersonahabitacion " +
+                    "SELECT habitaciones.idHabitacion, descripcion1, descripcion2, camas, Observaciones, idViaje, NombreHotel " +
+                    "FROM habitaciones, relpersonahabitacion, hoteles " +
                     "WHERE habitaciones.idHabitacion=relpersonahabitacion.idHabitacion AND " +
+                            "hoteles.IdHotel=habitaciones.idHotel AND "+
                     "habitaciones.idViaje=? AND " +
                     "relpersonahabitacion.idPersona=?");
             consulta.setString(1, idViaje);
@@ -353,6 +354,7 @@ public class GestionHabitacionesBD {
                 habitacion.setCamasTotales(resultado.getInt(4));
                 habitacion.setObservaciones(resultado.getString(5));
                 habitacion.setIdViaje(resultado.getString(6));
+                habitacion.setNombreHotel(resultado.getString(7));
                 
             }else{
                 return null;
