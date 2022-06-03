@@ -240,12 +240,14 @@ public class GestionHabitacionesBD {
                 sql="select idHabitacion, descripcion1, descripcion2, camas, Observaciones, idViaje, nombreHotel "
                     + "FROM habitaciones, hoteles "
                     + "WHERE idViaje=? and "
-                    + " habitaciones.idHotel=hoteles.IdHotel";
+                    + " habitaciones.idHotel=hoteles.IdHotel"
+                        + " ORDER BY nombreHotel, descripcion1";
             }else{
                 sql="select idHabitacion, descripcion1, descripcion2, camas, Observaciones, idViaje, nombreHotel "
                     + "FROM habitaciones, hoteles "
                     + "WHERE idViaje=? and habitaciones.idHotel=? and "
-                    + " habitaciones.idHotel=hoteles.IdHotel";
+                    + " habitaciones.idHotel=hoteles.IdHotel "
+                        + " ORDER BY nombreHotel, descripcion1";
             }
             PreparedStatement consulta = conexion.prepareStatement(sql);
 

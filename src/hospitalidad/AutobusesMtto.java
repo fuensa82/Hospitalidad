@@ -181,7 +181,7 @@ public class AutobusesMtto extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if(AutobusesMtto.nuevo.equals(this.modoVentana)){
             if(altaAutobus()>=1){
-                JOptionPane.showMessageDialog(null, "Autobus creado correctamente");
+                JOptionPane.showMessageDialog(this, "Autobus creado correctamente");
                 AutobusBean autobus=new AutobusBean();
                 jTextDescripcion.setText("");
                 jTextObservaciones.setText("");
@@ -189,7 +189,7 @@ public class AutobusesMtto extends javax.swing.JPanel {
                 jTextEnfermos.setText("");
                 padre.cargaTablaAutobuses();
             }else{
-                JOptionPane.showMessageDialog(null, "Alguno de los datos no está soportado. Recuerde que el número de plazas deben ser datos numéricos");
+                JOptionPane.showMessageDialog(this, "Alguno de los datos no está soportado. Recuerde que el número de plazas deben ser datos numéricos");
             }
         }else{
             mttoAutobus();

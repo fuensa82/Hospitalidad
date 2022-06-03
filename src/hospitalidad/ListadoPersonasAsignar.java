@@ -288,7 +288,7 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
 //            jTablePersonas.getColumnModel().getColumn(5).setMinWidth(0);
             jTablePersonas.removeColumn(jTablePersonas.getColumnModel().getColumn(5));
             
-            JOptionPane.showMessageDialog(null, "Primero debe seleccionar al menos una persona");
+            JOptionPane.showMessageDialog(this, "Primero debe seleccionar al menos una persona");
             return;
         }
         DefaultTableModel datosTabla = (DefaultTableModel) jTablePersonas.getModel();
@@ -304,7 +304,7 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
             }
         }
         if(listaPersonasSelec.size()<1){
-            JOptionPane.showMessageDialog(null, "Debe seleccionar al menos una persona");
+            JOptionPane.showMessageDialog(this, "Debe seleccionar al menos una persona");
             return;
         }
         if(ListadoPersonasAsignar.AsignarABus.equals(this.modoVentana)){

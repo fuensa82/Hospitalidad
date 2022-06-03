@@ -9,6 +9,7 @@ import hospitalidad.Gestores.GestionPersonasBD;
 import hospitalidad.Gestores.GestionViajesBD;
 import hospitalidad.beans.PersonaBean;
 import java.awt.Window;
+import java.awt.event.MouseAdapter;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -202,7 +203,7 @@ public class ListadoPersonas extends javax.swing.JPanel {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         //Asignar peregrinacion
         if(!seleccionFila){
-            JOptionPane.showMessageDialog(null, "Primero debe seleccionar al menos una persona");
+            JOptionPane.showMessageDialog(this, "Primero debe seleccionar al menos una persona");
             return;
         }
         DefaultTableModel datosTabla = (DefaultTableModel) jTablePersonas.getModel();
@@ -217,7 +218,7 @@ public class ListadoPersonas extends javax.swing.JPanel {
             }
         }
         if(listaPersonas.size()<1){
-            JOptionPane.showMessageDialog(null, "Debe seleccionar al menos una persona");
+            JOptionPane.showMessageDialog(this, "Debe seleccionar al menos una persona");
             return;
         
         }
@@ -234,7 +235,7 @@ public class ListadoPersonas extends javax.swing.JPanel {
         if ("G".equalsIgnoreCase(opcion)) {
             System.out.println("Guardando");
             String mensaje=GestionViajesBD.guardaPersonasPeregrinacionUnitaria(listaPersonas, ventana.getPeregrinacion(), ventana.getTipoViajero());
-            JOptionPane.showMessageDialog(null, mensaje);
+            JOptionPane.showMessageDialog(this, mensaje);
             Window w = SwingUtilities.getWindowAncestor(this);
             w.setVisible(false);
         }
@@ -275,6 +276,32 @@ public class ListadoPersonas extends javax.swing.JPanel {
                 seleccionFila = true;
             }
         });
+        
+        
+        JFrame padre = (JFrame) this.getParent();
+        jTablePersonas.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                
+                if (e.getClickCount() == 2) {
+                    System.out.println("Se ha hecho doble click");
+                    String id = (String) jTablePersonas.getModel().getValueAt(jTablePersonas.getSelectedRow(), 4);
+                    System.out.println("Id: " + id);
+
+                    JDialog frame = new JDialog(padre, "Gestion de personas", true);
+                    frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+                    frame.getContentPane().add(new OpcionesDePersona(OpcionesDePersona.mtto, id));
+                    frame.pack();
+                    frame.setLocationRelativeTo(padre);
+                    frame.setVisible(true);
+                    int sel = jTablePersonas.getSelectedRow();
+                    cargarListaPersonas();
+                    jTablePersonas.setRowSelectionInterval(sel, sel);
+                }
+            }
+        });
+        
+        
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

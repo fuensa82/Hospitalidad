@@ -242,7 +242,7 @@ public class HabitacionesMtto extends javax.swing.JPanel {
         habitacion.setDescripcion2(jTextDesc2.getText());
         habitacion.setObservaciones(jTextObser.getText());
         if("".equals(jTextCamas.getText())){
-            JOptionPane.showMessageDialog(null, "Debe rellenar el número de camas");
+            JOptionPane.showMessageDialog(this, "Debe rellenar el número de camas");
             return;
         }
         habitacion.setCamasTotales(Integer.parseInt(jTextCamas.getText()));
@@ -251,17 +251,17 @@ public class HabitacionesMtto extends javax.swing.JPanel {
             GestionHabitacionesBD.setHabitacionMtto(habitacion);
             
             //padre.cargaTablaHabitaciones();
-            JOptionPane.showMessageDialog(null, "Habitación modificada correctamente");
+            JOptionPane.showMessageDialog(this, "Habitación modificada correctamente");
             Window w = SwingUtilities.getWindowAncestor(this);
             w.setVisible(false);
             return;
         }else{
             
             if("".equals(habitacion.getDescripcion1())){
-                JOptionPane.showMessageDialog(null, "Debe rellenar al menos la descripción 1");
+                JOptionPane.showMessageDialog(this, "Debe rellenar al menos la descripción 1");
                 return;
             }else if(0==habitacion.getCamasTotales()){
-                JOptionPane.showMessageDialog(null, "El número de camas no pueden ser 0");
+                JOptionPane.showMessageDialog(this, "El número de camas no pueden ser 0");
                 return;
             }
             String idViaje = jComboPeregrinaciones.getModel().getElementAt(jComboPeregrinaciones.getSelectedIndex()).split(" - ")[0];
@@ -271,7 +271,7 @@ public class HabitacionesMtto extends javax.swing.JPanel {
             GestionHabitacionesBD.setHabitacion(habitacion);
             prepararVentana();
             padre.cargaTablaHabitaciones();
-            JOptionPane.showMessageDialog(null, "Habitación creada");
+            JOptionPane.showMessageDialog(this, "Habitación creada");
             //Window w = SwingUtilities.getWindowAncestor(this);
             //w.setVisible(false);
         }
