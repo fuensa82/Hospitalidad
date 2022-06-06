@@ -127,6 +127,7 @@ public class GestionPersonasBD {
                     persona.setNombre(resultado.getString(3));
                     persona.setApellidos(resultado.getString(4));
                     persona.setFechaNacimiento(FechasUtils.fecha(resultado.getString(5)));
+                    persona.setLocalidad(resultado.getString(11));
                     result.add(persona);
                 }
             }
@@ -568,11 +569,9 @@ public class GestionPersonasBD {
     }
     
     public static ArrayList getListadoCompleto(String idViaje){
-        ArrayList<AutobusBean> lista = new ArrayList();
         Connection conexion = null;
         try {
             conexion = ConectorBD.getConnection();
-            AutobusBean autobus;
             PreparedStatement consulta = conexion.prepareStatement(
                     "SELECT personas.Nombre, personas.Apellidos, personas.Localidad, autobuses.Descripcion AS Bus, hoteles.NombreHotel AS hotel, habitaciones.Descripcion1 AS habitacion, tiposviajeros.NombreCortoTipo " +
                     " FROM personas, habitaciones, hoteles, autobuses, relpersonaautobus, relpersonahabitacion, relviajetodo, viajes, tiposviajeros " +
@@ -598,6 +597,7 @@ public class GestionPersonasBD {
                 tabla.add(new Object[]{
                     resultado.getString(2),
                     resultado.getString(1),
+                    resultado.getString(3),
                     resultado.getString(7),
                     resultado.getString(4),
                     resultado.getString(5),
@@ -619,11 +619,9 @@ public class GestionPersonasBD {
     
     }
     public static ArrayList getListadoCompletoEquipos(String idViaje, String idEquipo){
-        ArrayList<AutobusBean> lista = new ArrayList();
         Connection conexion = null;
         try {
             conexion = ConectorBD.getConnection();
-            AutobusBean autobus;
             PreparedStatement consulta = conexion.prepareStatement(
                     "SELECT personas.Nombre, personas.Apellidos, personas.Localidad, autobuses.Descripcion AS Bus, hoteles.NombreHotel AS hotel, habitaciones.Descripcion1 AS habitacion, tiposviajeros.NombreCortoTipo " +
                     " FROM personas, habitaciones, hoteles, autobuses, relpersonaautobus, relpersonahabitacion, relviajetodo, viajes, tiposviajeros " +
@@ -650,6 +648,7 @@ public class GestionPersonasBD {
                 tabla.add(new Object[]{
                     resultado.getString(2),
                     resultado.getString(1),
+                    resultado.getString(3),
                     resultado.getString(7),
                     resultado.getString(4),
                     resultado.getString(5),
@@ -672,11 +671,9 @@ public class GestionPersonasBD {
     }
 
     public static ArrayList getListadoCompletoHoteles(String idViaje, String idHotel) {
-        ArrayList<AutobusBean> lista = new ArrayList();
         Connection conexion = null;
         try {
             conexion = ConectorBD.getConnection();
-            AutobusBean autobus;
             PreparedStatement consulta = conexion.prepareStatement(
                     "SELECT personas.Nombre, personas.Apellidos, personas.Localidad, autobuses.Descripcion AS Bus, hoteles.NombreHotel AS hotel, habitaciones.Descripcion1 AS habitacion, tiposviajeros.NombreCortoTipo " +
                     " FROM personas, habitaciones, hoteles, autobuses, relpersonaautobus, relpersonahabitacion, relviajetodo, viajes, tiposviajeros " +
@@ -703,6 +700,7 @@ public class GestionPersonasBD {
                 tabla.add(new Object[]{
                     resultado.getString(2),
                     resultado.getString(1),
+                    resultado.getString(3),
                     resultado.getString(7),
                     resultado.getString(4),
                     resultado.getString(5),
@@ -724,11 +722,9 @@ public class GestionPersonasBD {
     }
     
     public static ArrayList getListadoCompletoAutobuses(String idViaje, String idAutobus) {
-        ArrayList<AutobusBean> lista = new ArrayList();
         Connection conexion = null;
         try {
             conexion = ConectorBD.getConnection();
-            AutobusBean autobus;
             PreparedStatement consulta = conexion.prepareStatement(
                     "SELECT personas.Nombre, personas.Apellidos, personas.Localidad, autobuses.Descripcion AS Bus, hoteles.NombreHotel AS hotel, habitaciones.Descripcion1 AS habitacion, tiposviajeros.NombreCortoTipo " +
                     " FROM personas, habitaciones, hoteles, autobuses, relpersonaautobus, relpersonahabitacion, relviajetodo, viajes, tiposviajeros " +
@@ -755,6 +751,7 @@ public class GestionPersonasBD {
                 tabla.add(new Object[]{
                     resultado.getString(2),
                     resultado.getString(1),
+                    resultado.getString(3),
                     resultado.getString(7),
                     resultado.getString(4),
                     resultado.getString(5),
