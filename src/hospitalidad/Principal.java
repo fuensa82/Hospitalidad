@@ -430,6 +430,7 @@ public class Principal extends javax.swing.JFrame {
         });
 
         jButton15.setText("Cambiar Equipo");
+        jButton15.setEnabled(false);
         jButton15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton15ActionPerformed(evt);
