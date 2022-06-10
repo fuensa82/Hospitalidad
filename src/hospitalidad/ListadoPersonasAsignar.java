@@ -155,6 +155,7 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
+        jTablePersonas.setAutoCreateRowSorter(true);
         jTablePersonas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -181,7 +182,13 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
         jTablePersonas.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTablePersonas);
         if (jTablePersonas.getColumnModel().getColumnCount() > 0) {
-            jTablePersonas.getColumnModel().getColumn(6).setResizable(false);
+            jTablePersonas.getColumnModel().getColumn(0).setPreferredWidth(10);
+            jTablePersonas.getColumnModel().getColumn(1).setPreferredWidth(150);
+            jTablePersonas.getColumnModel().getColumn(2).setPreferredWidth(150);
+            jTablePersonas.getColumnModel().getColumn(3).setPreferredWidth(70);
+            jTablePersonas.getColumnModel().getColumn(4).setPreferredWidth(25);
+            jTablePersonas.getColumnModel().getColumn(5).setPreferredWidth(100);
+            jTablePersonas.getColumnModel().getColumn(6).setPreferredWidth(10);
         }
 
         jButton1.setText("Salir");
@@ -291,15 +298,15 @@ public class ListadoPersonasAsignar extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Primero debe seleccionar al menos una persona");
             return;
         }
-        DefaultTableModel datosTabla = (DefaultTableModel) jTablePersonas.getModel();
+        //DefaultTableModel datosTabla = (DefaultTableModel) jTablePersonas.getModel();
         listaPersonasSelec = new ArrayList<PersonaBean>();
-        for (int i = 0; i < datosTabla.getRowCount(); i++) {
-            if ((boolean) datosTabla.getValueAt(i, 0)) {
+        for (int i = 0; i < jTablePersonas.getRowCount(); i++) {
+            if ((boolean) jTablePersonas.getValueAt(i, 0)) {
                 PersonaBean persona = new PersonaBean();
-                persona.setIdPersona((String) datosTabla.getValueAt(i, 4));
-                persona.setNombre((String) datosTabla.getValueAt(i, 2));
-                persona.setApellidos((String) datosTabla.getValueAt(i, 1));
-                persona.setIdTipoViajero((String) datosTabla.getValueAt(i, 6));
+                persona.setIdPersona((String) jTablePersonas.getValueAt(i, 4));
+                persona.setNombre((String) jTablePersonas.getValueAt(i, 2));
+                persona.setApellidos((String) jTablePersonas.getValueAt(i, 1));
+                persona.setIdTipoViajero((String) jTablePersonas.getValueAt(i, 6));
                 listaPersonasSelec.add(persona);
             }
         }

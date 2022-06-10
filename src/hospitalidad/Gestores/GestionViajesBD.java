@@ -145,12 +145,12 @@ public class GestionViajesBD {
     }
 
     /**
-     * 
+     *
      * @param listaPersonas
      * @param idViaje
      * @param tipoViajero
      * @return
-     *  @deprecated
+     * @deprecated
      */
     public static boolean guardaPersonasPeregrinacion(ArrayList<PersonaBean> listaPersonas, String idViaje, String idTipoViajero) {
         boolean result = false;
@@ -170,11 +170,11 @@ public class GestionViajesBD {
                 if (ejecutar) {
                     System.out.println("Ejecucion");
                     insert1.executeUpdate();
-                    System.out.println("Lista personas: "+listaPersonas.size());
+                    System.out.println("Lista personas: " + listaPersonas.size());
                     for (PersonaBean persona : listaPersonas) {
                         System.out.println("Actualizando la tabla personas");
-                        sql="UPDATE personas SET ActualTipoViajero=? where idPersona=?";
-                        insert1=conexion.prepareStatement(sql);
+                        sql = "UPDATE personas SET ActualTipoViajero=? where idPersona=?";
+                        insert1 = conexion.prepareStatement(sql);
                         insert1.setString(1, idTipoViajero);
                         insert1.setString(2, persona.getIdPersona());
                         insert1.executeUpdate();
@@ -198,7 +198,9 @@ public class GestionViajesBD {
     }
 
     /**
-     * Guarda de uno en uno las personas que se pasan en la lista, al final devuelve un mensaje que contiene los errores si los hubiera
+     * Guarda de uno en uno las personas que se pasan en la lista, al final
+     * devuelve un mensaje que contiene los errores si los hubiera
+     *
      * @param listaPersonas
      * @param idViaje
      * @param idTipoViajero
@@ -208,7 +210,7 @@ public class GestionViajesBD {
         String result = "";
         int correcto = 0;
         int errores = 0;
-        String personasConError="";
+        String personasConError = "";
         Connection conexion = null;
         try {
             if (listaPersonas.size() > 0) {
@@ -226,7 +228,7 @@ public class GestionViajesBD {
                         filas = insert1.executeUpdate();
                         if (filas == 0) {
                             errores++;
-                            personasConError+="  "+persona.getApellidos()+", "+persona.getNombre()+"\n ";
+                            personasConError += "  " + persona.getApellidos() + ", " + persona.getNombre() + "\n ";
                         } else {
                             correcto++;
                             insert1 = conexion.prepareStatement("UPDATE personas SET ActualTipoViajero=? where idPersona=?");
@@ -237,18 +239,17 @@ public class GestionViajesBD {
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                         errores++;
-                        personasConError+="  "+persona.getApellidos()+", "+persona.getNombre()+"\n ";
+                        personasConError += "  " + persona.getApellidos() + ", " + persona.getNombre() + "\n ";
                     }
-                    
-                    
+
                 }
             }
-            if(errores>0){
-                result="Se han dado de alta "+correcto+" personas\n"+
-                       "Han dado error "+errores+" personas\n"+
-                        personasConError;
-            }else{
-                result="Se han dado de alta "+correcto;
+            if (errores > 0) {
+                result = "Se han dado de alta " + correcto + " personas\n"
+                        + "Han dado error " + errores + " personas\n"
+                        + personasConError;
+            } else {
+                result = "Se han dado de alta " + correcto;
             }
             return result; //Correcto
 
@@ -264,55 +265,97 @@ public class GestionViajesBD {
 
         return result;
     }
+
+    public static boolean cambiaEquipoPersona(String idPersona, String idEquipo, String idViaje) {
+        boolean result = true;
+        Connection conexion = null;
+        try {
+
+            conexion = ConectorBD.getConnection();
+                PreparedStatement insert1 = conexion.prepareStatement(
+                        "UPDATE relviajetodo set idTipoViajero=? where idViaje=? and idPersona=?");
+                insert1.setString(1, idEquipo);
+                insert1.setString(2, idViaje);
+                insert1.setString(3, idPersona);
+                System.out.println("sql2: " + insert1);
+                int filas = 0;
+                try {
+                    filas = insert1.executeUpdate();
+
+                    insert1 = conexion.prepareStatement("UPDATE personas SET ActualTipoViajero=? where idPersona=?");
+                    insert1.setString(1, idEquipo);
+                    insert1.setString(2, idPersona);
+                    insert1.executeUpdate();
+
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    return false;
+                    
+                }
+            return result; //Correcto
+
+        } catch (SQLException | NamingException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionViajesBD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return result;
+    }
+
     /**
-     * Elimina a una persona de la peregrinacion y por tanto se le ellimina tambien del autobus y del hotel (si los tuviera ya
-     * asignados)
+     * Elimina a una persona de la peregrinacion y por tanto se le ellimina
+     * tambien del autobus y del hotel (si los tuviera ya asignados)
+     *
      * @param idPersona
      * @param idViaje
-     * @return 
+     * @return
      */
-    public static boolean eliminaPersonasPeregrinacion(String idPersona, String idViaje){
-        int result1=eliminaPersonasViaje(idPersona, idViaje);
-        int result2=GestionAutobusesBD.eliminaPersonasAutobus(idPersona, idViaje);
-        int result3=GestionHabitacionesBD.eliminaPersonasHabitacion(idPersona, idViaje);
+    public static boolean eliminaPersonasPeregrinacion(String idPersona, String idViaje) {
+        int result1 = eliminaPersonasViaje(idPersona, idViaje);
+        int result2 = GestionAutobusesBD.eliminaPersonasAutobus(idPersona, idViaje);
+        int result3 = GestionHabitacionesBD.eliminaPersonasHabitacion(idPersona, idViaje);
         //Falta eliminar a la persona del hotel 
         return true;
         //int result3=
     }
-    
-    public static ArrayList<PersonaBean> getPersonaSinAutobus(String idViaje){
+
+    public static ArrayList<PersonaBean> getPersonaSinAutobus(String idViaje) {
         ArrayList<PersonaBean> result;
         result = new ArrayList();
         Connection conexion = null;
         try {
-            conexion=ConectorBD.getConnection();
+            conexion = ConectorBD.getConnection();
             PersonaBean persona;
             PreparedStatement consulta = conexion.prepareStatement(
-            "SELECT idPersona,DNI,Nombre,Apellidos FROM relviajetodo  " +
-            "WHERE idViaje=? AND  " +
-            "idPersona NOT IN( " +
-            "   SELECT relpersonaautobus.idPersona FROM relpersonaautobus,autobuses " +
-            "   WHERE relpersonaautobus.idAutobus=autobuses.idAutobus AND " +
-            "       autobuses.idViaje=? " +
-            "       )");
-            
+                    "SELECT idPersona,DNI,Nombre,Apellidos FROM relviajetodo  "
+                    + "WHERE idViaje=? AND  "
+                    + "idPersona NOT IN( "
+                    + "   SELECT relpersonaautobus.idPersona FROM relpersonaautobus,autobuses "
+                    + "   WHERE relpersonaautobus.idAutobus=autobuses.idAutobus AND "
+                    + "       autobuses.idViaje=? "
+                    + "       )");
+
             consulta.setString(1, idViaje);
             consulta.setString(2, idViaje);
-            
+
             ResultSet resultado = consulta.executeQuery();
-            while (resultado.next()){
-                    persona=new PersonaBean();
-                    persona.setIdPersona(resultado.getString(1));
-                    persona.setDNI(resultado.getString(2));
-                    persona.setNombre(resultado.getString(3));
-                    persona.setApellidos(resultado.getString(4));
-                    result.add(persona);
+            while (resultado.next()) {
+                persona = new PersonaBean();
+                persona.setIdPersona(resultado.getString(1));
+                persona.setDNI(resultado.getString(2));
+                persona.setNombre(resultado.getString(3));
+                persona.setApellidos(resultado.getString(4));
+                result.add(persona);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NamingException ex) {
-            
-        }finally{
+
+        } finally {
             try {
                 conexion.close();
             } catch (SQLException ex) {
@@ -320,7 +363,7 @@ public class GestionViajesBD {
         }
         return result;
     }
-    
+
     private static int eliminaPersonasViaje(String idPersona, String idViaje) {
         int fila = 0;
         Connection conexion = null;

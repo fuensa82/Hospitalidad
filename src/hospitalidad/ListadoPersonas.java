@@ -93,6 +93,7 @@ public class ListadoPersonas extends javax.swing.JPanel {
         jButton6 = new javax.swing.JButton();
         jTextFiltro = new javax.swing.JTextField();
 
+        jTablePersonas.setAutoCreateRowSorter(true);
         jTablePersonas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -116,7 +117,15 @@ public class ListadoPersonas extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        jTablePersonas.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTablePersonas);
+        if (jTablePersonas.getColumnModel().getColumnCount() > 0) {
+            jTablePersonas.getColumnModel().getColumn(0).setPreferredWidth(15);
+            jTablePersonas.getColumnModel().getColumn(1).setPreferredWidth(250);
+            jTablePersonas.getColumnModel().getColumn(2).setPreferredWidth(175);
+            jTablePersonas.getColumnModel().getColumn(3).setPreferredWidth(50);
+            jTablePersonas.getColumnModel().getColumn(4).setPreferredWidth(25);
+        }
 
         jButton1.setText("Salir");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -206,14 +215,14 @@ public class ListadoPersonas extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Primero debe seleccionar al menos una persona");
             return;
         }
-        DefaultTableModel datosTabla = (DefaultTableModel) jTablePersonas.getModel();
+        //DefaultTableModel datosTabla = (DefaultTableModel) jTablePersonas.getModel();
         ArrayList<PersonaBean> listaPersonas = new ArrayList<PersonaBean>();
-        for (int i = 0; i < datosTabla.getRowCount(); i++) {
-            if ((boolean) datosTabla.getValueAt(i, 0)) {
+        for (int i = 0; i < jTablePersonas.getRowCount(); i++) {
+            if ((boolean) jTablePersonas.getValueAt(i, 0)) {
                 PersonaBean persona = new PersonaBean();
-                persona.setIdPersona((String) datosTabla.getValueAt(i, 4));
-                persona.setNombre((String) datosTabla.getValueAt(i, 2));
-                persona.setApellidos((String) datosTabla.getValueAt(i, 1));
+                persona.setIdPersona((String) jTablePersonas.getValueAt(i, 4));
+                persona.setNombre((String) jTablePersonas.getValueAt(i, 2));
+                persona.setApellidos((String) jTablePersonas.getValueAt(i, 1));
                 listaPersonas.add(persona);
             }
         }

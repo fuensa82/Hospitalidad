@@ -114,6 +114,7 @@ public class Principal extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton12 = new javax.swing.JButton();
         jButton14 = new javax.swing.JButton();
+        jButton15 = new javax.swing.JButton();
         jPanelPersonasSinAutobus = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTablePersonasSinAutobus = new javax.swing.JTable();
@@ -168,6 +169,7 @@ public class Principal extends javax.swing.JFrame {
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
+        jLabel18 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -187,6 +189,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jTablePersonas.setAutoCreateRowSorter(true);
         jTablePersonas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -213,19 +216,17 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTablePersonas.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
         jTablePersonas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTablePersonas.getTableHeader().setResizingAllowed(false);
         jTablePersonas.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTablePersonas);
         if (jTablePersonas.getColumnModel().getColumnCount() > 0) {
-            jTablePersonas.getColumnModel().getColumn(0).setPreferredWidth(5);
-            jTablePersonas.getColumnModel().getColumn(1).setPreferredWidth(5);
-            jTablePersonas.getColumnModel().getColumn(2).setPreferredWidth(20);
-            jTablePersonas.getColumnModel().getColumn(3).setPreferredWidth(75);
-            jTablePersonas.getColumnModel().getColumn(4).setPreferredWidth(75);
-            jTablePersonas.getColumnModel().getColumn(6).setPreferredWidth(20);
-            jTablePersonas.getColumnModel().getColumn(7).setPreferredWidth(20);
+            jTablePersonas.getColumnModel().getColumn(0).setPreferredWidth(30);
+            jTablePersonas.getColumnModel().getColumn(1).setPreferredWidth(30);
+            jTablePersonas.getColumnModel().getColumn(2).setPreferredWidth(75);
+            jTablePersonas.getColumnModel().getColumn(3).setPreferredWidth(175);
+            jTablePersonas.getColumnModel().getColumn(4).setPreferredWidth(125);
+            jTablePersonas.getColumnModel().getColumn(6).setPreferredWidth(75);
+            jTablePersonas.getColumnModel().getColumn(7).setPreferredWidth(90);
         }
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Autobus"));
@@ -238,6 +239,7 @@ public class Principal extends javax.swing.JFrame {
 
         jLabelIdAutobus.setText("jLabel7");
 
+        jTableAutobusPersona.setAutoCreateRowSorter(true);
         jTableAutobusPersona.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -261,10 +263,8 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTableAutobusPersona.getTableHeader().setReorderingAllowed(false);
         jScrollPane5.setViewportView(jTableAutobusPersona);
-        if (jTableAutobusPersona.getColumnModel().getColumnCount() > 0) {
-            jTableAutobusPersona.getColumnModel().getColumn(0).setResizable(false);
-        }
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -309,6 +309,7 @@ public class Principal extends javax.swing.JFrame {
 
         jLabelDesc2.setText("jLabel5");
 
+        jTableHabitacionesPersona.setAutoCreateRowSorter(true);
         jTableHabitacionesPersona.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -332,10 +333,8 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTableHabitacionesPersona.getTableHeader().setReorderingAllowed(false);
         jScrollPane10.setViewportView(jTableHabitacionesPersona);
-        if (jTableHabitacionesPersona.getColumnModel().getColumnCount() > 0) {
-            jTableHabitacionesPersona.getColumnModel().getColumn(0).setResizable(false);
-        }
 
         jLabelObser.setText("jLabel6");
 
@@ -430,6 +429,13 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jButton15.setText("Cambiar Equipo");
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelPeregrinacionesLayout = new javax.swing.GroupLayout(jPanelPeregrinaciones);
         jPanelPeregrinaciones.setLayout(jPanelPeregrinacionesLayout);
         jPanelPeregrinacionesLayout.setHorizontalGroup(
@@ -453,6 +459,8 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(labelTotal)
+                        .addGap(79, 79, 79)
+                        .addComponent(jButton15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonAgregaPersonas)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -495,7 +503,8 @@ public class Principal extends javax.swing.JFrame {
                                 .addComponent(labelTotal))
                             .addGroup(jPanelPeregrinacionesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jButtonEliminaDeLaPeregrinacion)
-                                .addComponent(jButtonAgregaPersonas)))))
+                                .addComponent(jButtonAgregaPersonas)
+                                .addComponent(jButton15)))))
                 .addGap(78, 78, 78))
         );
 
@@ -510,6 +519,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jTablePersonasSinAutobus.setAutoCreateRowSorter(true);
         jTablePersonasSinAutobus.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -533,7 +543,7 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTablePersonasSinAutobus.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTablePersonasSinAutobus.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(jTablePersonasSinAutobus);
         if (jTablePersonasSinAutobus.getColumnModel().getColumnCount() > 0) {
             jTablePersonasSinAutobus.getColumnModel().getColumn(0).setPreferredWidth(30);
@@ -543,8 +553,7 @@ public class Principal extends javax.swing.JFrame {
             jTablePersonasSinAutobus.getColumnModel().getColumn(4).setPreferredWidth(100);
             jTablePersonasSinAutobus.getColumnModel().getColumn(5).setPreferredWidth(100);
             jTablePersonasSinAutobus.getColumnModel().getColumn(6).setPreferredWidth(100);
-            jTablePersonasSinAutobus.getColumnModel().getColumn(7).setResizable(false);
-            jTablePersonasSinAutobus.getColumnModel().getColumn(7).setPreferredWidth(0);
+            jTablePersonasSinAutobus.getColumnModel().getColumn(7).setPreferredWidth(10);
         }
 
         jButton5.setText("Asignar autobus");
@@ -596,6 +605,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jTableAutobuses.setAutoCreateRowSorter(true);
         jTableAutobuses.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -622,7 +632,6 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTableAutobuses.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_LAST_COLUMN);
         jTableAutobuses.getTableHeader().setReorderingAllowed(false);
         jTableAutobuses.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -631,14 +640,14 @@ public class Principal extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jTableAutobuses);
         if (jTableAutobuses.getColumnModel().getColumnCount() > 0) {
-            jTableAutobuses.getColumnModel().getColumn(0).setResizable(false);
             jTableAutobuses.getColumnModel().getColumn(0).setPreferredWidth(10);
-            jTableAutobuses.getColumnModel().getColumn(1).setPreferredWidth(80);
-            jTableAutobuses.getColumnModel().getColumn(2).setPreferredWidth(80);
+            jTableAutobuses.getColumnModel().getColumn(1).setPreferredWidth(180);
+            jTableAutobuses.getColumnModel().getColumn(2).setPreferredWidth(180);
             jTableAutobuses.getColumnModel().getColumn(3).setPreferredWidth(30);
             jTableAutobuses.getColumnModel().getColumn(4).setPreferredWidth(30);
         }
 
+        jTablePersonasBus.setAutoCreateRowSorter(true);
         jTablePersonasBus.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -662,23 +671,15 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTablePersonasBus.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         jTablePersonasBus.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jTablePersonasBus.getTableHeader().setResizingAllowed(false);
         jTablePersonasBus.getTableHeader().setReorderingAllowed(false);
         jScrollPane4.setViewportView(jTablePersonasBus);
         if (jTablePersonasBus.getColumnModel().getColumnCount() > 0) {
-            jTablePersonasBus.getColumnModel().getColumn(0).setResizable(false);
             jTablePersonasBus.getColumnModel().getColumn(0).setPreferredWidth(30);
-            jTablePersonasBus.getColumnModel().getColumn(1).setResizable(false);
             jTablePersonasBus.getColumnModel().getColumn(1).setPreferredWidth(35);
-            jTablePersonasBus.getColumnModel().getColumn(2).setResizable(false);
             jTablePersonasBus.getColumnModel().getColumn(2).setPreferredWidth(100);
-            jTablePersonasBus.getColumnModel().getColumn(3).setResizable(false);
             jTablePersonasBus.getColumnModel().getColumn(3).setPreferredWidth(165);
-            jTablePersonasBus.getColumnModel().getColumn(4).setResizable(false);
             jTablePersonasBus.getColumnModel().getColumn(4).setPreferredWidth(100);
-            jTablePersonasBus.getColumnModel().getColumn(5).setResizable(false);
             jTablePersonasBus.getColumnModel().getColumn(5).setPreferredWidth(100);
         }
 
@@ -764,6 +765,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jTablePersonasSinHabitacion.setAutoCreateRowSorter(true);
         jTablePersonasSinHabitacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -787,7 +789,7 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTablePersonasSinHabitacion.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTablePersonasSinHabitacion.getTableHeader().setReorderingAllowed(false);
         jScrollPane9.setViewportView(jTablePersonasSinHabitacion);
         if (jTablePersonasSinHabitacion.getColumnModel().getColumnCount() > 0) {
             jTablePersonasSinHabitacion.getColumnModel().getColumn(0).setPreferredWidth(30);
@@ -848,6 +850,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jTableHabitaciones.setAutoCreateRowSorter(true);
         jTableHabitaciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -874,6 +877,7 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTableHabitaciones.getTableHeader().setReorderingAllowed(false);
         jScrollPane6.setViewportView(jTableHabitaciones);
         if (jTableHabitaciones.getColumnModel().getColumnCount() > 0) {
             jTableHabitaciones.getColumnModel().getColumn(0).setResizable(false);
@@ -881,12 +885,11 @@ public class Principal extends javax.swing.JFrame {
             jTableHabitaciones.getColumnModel().getColumn(1).setPreferredWidth(120);
             jTableHabitaciones.getColumnModel().getColumn(2).setPreferredWidth(120);
             jTableHabitaciones.getColumnModel().getColumn(3).setPreferredWidth(100);
-            jTableHabitaciones.getColumnModel().getColumn(4).setResizable(false);
             jTableHabitaciones.getColumnModel().getColumn(4).setPreferredWidth(40);
-            jTableHabitaciones.getColumnModel().getColumn(5).setResizable(false);
             jTableHabitaciones.getColumnModel().getColumn(5).setPreferredWidth(40);
         }
 
+        jTablePersonasHabitacion.setAutoCreateRowSorter(true);
         jTablePersonasHabitacion.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -910,6 +913,7 @@ public class Principal extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTablePersonasHabitacion.getTableHeader().setReorderingAllowed(false);
         jScrollPane7.setViewportView(jTablePersonasHabitacion);
         if (jTablePersonasHabitacion.getColumnModel().getColumnCount() > 0) {
             jTablePersonasHabitacion.getColumnModel().getColumn(0).setResizable(false);
@@ -1023,6 +1027,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jTableListadoTotal.setAutoCreateRowSorter(true);
         jTableListadoTotal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -1189,6 +1194,8 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        jLabel18.setText("v 1.3");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -1212,25 +1219,28 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(jButton9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton11)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel18)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(comboViaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(comboViaje, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel2)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jButton11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel18))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 671, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1409,7 +1419,7 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe seleccionar un autobús");
             return;
         }
-        String idAutobus = (String) jTableAutobuses.getModel().getValueAt(jTableAutobuses.getSelectedRow(), 0);
+        String idAutobus = (String) jTableAutobuses.getValueAt(jTableAutobuses.getSelectedRow(), 0);
         AutobusBean autobus = new AutobusBean(idAutobus);
         autobus.cargaDatos();
         JDialog frame = new JDialog(this, "Gestion de personas", true);
@@ -1590,7 +1600,7 @@ public class Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Debe seleccionar una habitación");
             return;
         }
-        String idHabitacion = (String) jTableHabitaciones.getModel().getValueAt(jTableHabitaciones.getSelectedRow(), 0);
+        String idHabitacion = (String) jTableHabitaciones.getValueAt(jTableHabitaciones.getSelectedRow(), 0);
         HabitacionBean habitacion = new HabitacionBean(idHabitacion);
         habitacion.cargaDatos();
         JDialog frame = new JDialog(this, "Gestion de personas", true);
@@ -1689,6 +1699,29 @@ public class Principal extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "Datos copiados al portapapeles\nListo para pegar en Excel");
     }//GEN-LAST:event_jButton14ActionPerformed
 
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        //Cambiar de equipo
+        ArrayList<PersonaBean> lista = new ArrayList<PersonaBean>();
+        for (int i = 0; i < jTablePersonas.getRowCount(); i++) {
+            if ((boolean) jTablePersonas.getValueAt(i, 0)) {
+                PersonaBean persona = new PersonaBean();
+                persona.setIdPersona((String) jTablePersonas.getValueAt(i, 1));
+                lista.add(persona);
+            }
+        }
+        if (lista.size() < 1) {
+            JOptionPane.showMessageDialog(this, "Debe seleccionar al menos una persona");
+            return;
+
+        }
+        for (PersonaBean persona : lista) {
+            GestionViajesBD.eliminaPersonasPeregrinacion(persona.getIdPersona(), filtroViaje);
+
+        }
+        cargaTablaPersonas(true);
+        prepararVistaPasajerosAutobus();
+    }//GEN-LAST:event_jButton15ActionPerformed
+
     /**
      * Listener para hacer que al seleccionar una habitacion se muestre la tabla
      * con las persona que ya hay asignadas a la habitacion
@@ -1701,7 +1734,7 @@ public class Principal extends javax.swing.JFrame {
                 ListSelectionModel lsm = (ListSelectionModel) evento.getSource();
                 int indice = lsm.getMinSelectionIndex();
                 if (indice != -1) {
-                    String idHabitacion = (String) jTableHabitaciones.getModel().getValueAt(indice, 0);
+                    String idHabitacion = (String) jTableHabitaciones.getValueAt(indice, 0);
                     cargaTablaHuespedes(idHabitacion);
                 }
             }
@@ -1711,7 +1744,7 @@ public class Principal extends javax.swing.JFrame {
                 if (e.getClickCount() == 2) {
                     System.out.println("Se ha hecho doble click");
 
-                    String idHabitacion = (String) jTableHabitaciones.getModel().getValueAt(jTableHabitaciones.getSelectedRow(), 0);
+                    String idHabitacion = (String) jTableHabitaciones.getValueAt(jTableHabitaciones.getSelectedRow(), 0);
                     String idHotel = jComboHotel.getModel().getElementAt(jComboHotel.getSelectedIndex()).split(" - ")[0];
                     filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
                     //System.out.println("Id: "+id);
@@ -1741,7 +1774,7 @@ public class Principal extends javax.swing.JFrame {
 
                 System.out.println("Indice seleccionado de jTableAutobuses: " + indiceSelJTableAutobuses);
                 if (indice != -1) {
-                    String idAutobus = (String) jTableAutobuses.getModel().getValueAt(indice, 0);
+                    String idAutobus = (String) jTableAutobuses.getValueAt(indice, 0);
                     cargaTablaPasajeros(idAutobus);
                 }
             }
@@ -1757,7 +1790,7 @@ public class Principal extends javax.swing.JFrame {
                 }
                 if (e.getClickCount() == 2) {
                     System.out.println("Se ha hecho doble click");
-                    String idAutobus = (String) jTableAutobuses.getModel().getValueAt(jTableAutobuses.getSelectedRow(), 0);
+                    String idAutobus = (String) jTableAutobuses.getValueAt(jTableAutobuses.getSelectedRow(), 0);
                     System.out.println("Id: " + idAutobus);
 
                     JDialog frame = new JDialog(padre, "Gestion de autobuses", true);
@@ -1779,14 +1812,15 @@ public class Principal extends javax.swing.JFrame {
         jTablePersonas.addMouseListener(new MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent e) {
                 if (e.getClickCount() == 1) {
-                    String idPersona = (String) jTablePersonas.getModel().getValueAt(jTablePersonas.getSelectedRow(), 1);
+                    String idPersona = (String) jTablePersonas.getValueAt(jTablePersonas.getSelectedRow(), 1);
                     cargarDatosAutobus(idPersona, filtroViaje);
                     cargarDatosHabitaciones(idPersona, filtroViaje);
                     System.out.println("Se ha hecho un click");
                 }
                 if (e.getClickCount() == 2) {
                     System.out.println("Se ha hecho doble click");
-                    String id = (String) jTablePersonas.getModel().getValueAt(jTablePersonas.getSelectedRow(), 1);
+                    String id =(String) jTablePersonas.getValueAt(jTablePersonas.getSelectedRow(), 1);
+                    //String id = (String) jTablePersonas.getModel().getValueAt(jTablePersonas.getSelectedRow(), 1);
                     System.out.println("Id: " + id);
 
                     JDialog frame = new JDialog(padre, "Gestion de personas", true);
@@ -1990,6 +2024,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -2013,6 +2048,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
