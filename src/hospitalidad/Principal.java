@@ -17,6 +17,7 @@ import hospitalidad.utils.FechasUtils;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.MouseAdapter;
@@ -30,6 +31,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ListSelectionEvent;
@@ -430,7 +432,6 @@ public class Principal extends javax.swing.JFrame {
         });
 
         jButton15.setText("Cambiar Equipo");
-        jButton15.setEnabled(false);
         jButton15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton15ActionPerformed(evt);
@@ -1195,7 +1196,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jLabel18.setText("v 1.3");
+        jLabel18.setText("v 1.4");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -1702,25 +1703,41 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         //Cambiar de equipo
-        ArrayList<PersonaBean> lista = new ArrayList<PersonaBean>();
+        filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
+        ArrayList<PersonaBean> listaPersonasSelec = new ArrayList();
         for (int i = 0; i < jTablePersonas.getRowCount(); i++) {
             if ((boolean) jTablePersonas.getValueAt(i, 0)) {
                 PersonaBean persona = new PersonaBean();
                 persona.setIdPersona((String) jTablePersonas.getValueAt(i, 1));
-                lista.add(persona);
+                persona.setNombre((String) jTablePersonas.getValueAt(i, 4));
+                persona.setApellidos((String) jTablePersonas.getValueAt(i, 3));
+                persona.setIdTipoViajero((String) jTablePersonas.getValueAt(i, 6));
+                listaPersonasSelec.add(persona);
             }
         }
-        if (lista.size() < 1) {
+        if(listaPersonasSelec.size()<1){
             JOptionPane.showMessageDialog(this, "Debe seleccionar al menos una persona");
             return;
-
         }
-        for (PersonaBean persona : lista) {
-            GestionViajesBD.eliminaPersonasPeregrinacion(persona.getIdPersona(), filtroViaje);
-
+        
+        
+        JDialog frame = new JDialog((JFrame) null, "Guardar", true);
+        frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+        OpcionesGuardarPersonaViajeModal ventana = new OpcionesGuardarPersonaViajeModal("2",GestionViajesBD.getViaje(filtroViaje).getNombre());
+        frame.getContentPane().add(ventana);
+        frame.pack();
+        frame.setLocationRelativeTo(this);
+        frame.setVisible(true);
+        String boton = ventana.getBoton();
+        String idEquipo;
+        if("G".equalsIgnoreCase(boton)){
+            idEquipo = ventana.getTipoViajero();
+            boolean result=GestionViajesBD.cambiaEquipoPersona(listaPersonasSelec, idEquipo, filtroViaje);
+            
         }
         cargaTablaPersonas(true);
-        prepararVistaPasajerosAutobus();
+            
+        
     }//GEN-LAST:event_jButton15ActionPerformed
 
     /**

@@ -265,34 +265,41 @@ public class GestionViajesBD {
 
         return result;
     }
-
-    public static boolean cambiaEquipoPersona(String idPersona, String idEquipo, String idViaje) {
+/**
+ * Cambia de equipos en una peregrinación a la lista de personas que se envíe.
+ * @param listaPersonas Lista con los bean de las personas que se van a modificar
+ * @param idEquipo Id del equipo nuevo al que se quiere asignar.
+ * @param idViaje Id del viaje para poder cambiarle el equipo
+ * @return 
+ */
+    public static boolean cambiaEquipoPersona(ArrayList<PersonaBean> listaPersonas, String idEquipo, String idViaje) {
         boolean result = true;
         Connection conexion = null;
         try {
-
-            conexion = ConectorBD.getConnection();
-                PreparedStatement insert1 = conexion.prepareStatement(
-                        "UPDATE relviajetodo set idTipoViajero=? where idViaje=? and idPersona=?");
-                insert1.setString(1, idEquipo);
-                insert1.setString(2, idViaje);
-                insert1.setString(3, idPersona);
-                System.out.println("sql2: " + insert1);
-                int filas = 0;
-                try {
-                    filas = insert1.executeUpdate();
-
-                    insert1 = conexion.prepareStatement("UPDATE personas SET ActualTipoViajero=? where idPersona=?");
+            for (PersonaBean persona: listaPersonas){
+                conexion = ConectorBD.getConnection();
+                    PreparedStatement insert1 = conexion.prepareStatement(
+                            "UPDATE relviajetodo set idTipoViajero=? where idViaje=? and idPersona=?");
                     insert1.setString(1, idEquipo);
-                    insert1.setString(2, idPersona);
-                    insert1.executeUpdate();
+                    insert1.setString(2, idViaje);
+                    insert1.setString(3, persona.getIdPersona());
+                    System.out.println("sql2: " + insert1);
+                    int filas = 0;
+                    try {
+                        filas = insert1.executeUpdate();
+                        insert1 = conexion.prepareStatement("UPDATE personas SET ActualTipoViajero=? where idPersona=?");
+                        insert1.setString(1, idEquipo);
+                        insert1.setString(2, persona.getIdPersona());
+                        insert1.executeUpdate();
 
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                    return false;
-                    
-                }
-            return result; //Correcto
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                        return false;
+
+                    }
+
+                //return result; //Correcto
+            }
 
         } catch (SQLException | NamingException e) {
             e.printStackTrace();
@@ -303,6 +310,7 @@ public class GestionViajesBD {
                 Logger.getLogger(GestionViajesBD.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
         return result;
     }
 

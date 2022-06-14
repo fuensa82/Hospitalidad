@@ -19,6 +19,8 @@ public class OpcionesGuardarPersonaViajeModal extends javax.swing.JPanel {
     /**
      * Creates new form OpcionesGuardarViajeModal
      */
+    private static String CANCELAR="C";
+    private static String GUARDAR="C";
     private String opcionBoton="C"; //C es Cancelar y G guardar
     private String opcion="1";//Si es el 2 se bloqueará
     private String peregrinacion="";
