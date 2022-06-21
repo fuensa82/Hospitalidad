@@ -29,6 +29,15 @@ public class PersonaBean {
     private String informeMedico;
     private String idTipoViajero;
     private String nombreCortoTipoViajero;
+    private int numPeregrinaciones;
+
+    public int getNumPeregrinaciones() {
+        return numPeregrinaciones;
+    }
+
+    public void setNumPeregrinaciones(int numPeregrinaciones) {
+        this.numPeregrinaciones = numPeregrinaciones;
+    }
 
     public TipoViajeroBean getTipo(String idViaje) {
         System.out.println("idViaje: "+idViaje);
