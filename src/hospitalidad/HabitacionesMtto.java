@@ -9,10 +9,8 @@ import hospitalidad.Gestores.GestionViajesBD;
 import hospitalidad.beans.HabitacionBean;
 import java.awt.Frame;
 import java.awt.Window;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 

@@ -5,10 +5,8 @@
 package hospitalidad;
 
 import hospitalidad.Gestores.GestionAutobusesBD;
-import hospitalidad.Gestores.GestionHabitacionesBD;
 import hospitalidad.Gestores.GestionViajesBD;
 import hospitalidad.beans.AutobusBean;
-import hospitalidad.beans.HabitacionBean;
 import java.awt.Window;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
