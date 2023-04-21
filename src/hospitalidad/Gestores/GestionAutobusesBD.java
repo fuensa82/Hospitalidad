@@ -6,7 +6,6 @@
 package hospitalidad.Gestores;
 
 import hospitalidad.beans.AutobusBean;
-import hospitalidad.beans.HabitacionBean;
 import hospitalidad.beans.PersonaBean;
 import hospitalidad.utils.ConectorBD;
 import java.sql.Connection;

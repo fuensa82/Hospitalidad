@@ -453,7 +453,7 @@ public class GestionPersonasBD {
         try {
             conexion = ConectorBD.getConnection();
             PreparedStatement consulta = conexion.prepareStatement(
-                    "SELECT idPersona, DNI, Nombre, Apellidos, FechaNacimiento, Correo, Telefono1, Telefono2, Direccion, CP, Localidad, Provincia, Observaciones, Activo, InformeMedico "
+                    "SELECT idPersona, DNI, Nombre, Apellidos, FechaNacimiento, Correo, Telefono1, Telefono2, Direccion, CP, Localidad, Provincia, Observaciones, Activo, InformeMedico, ViajesAnteriosA2022 "
                     + "FROM personas "
                     + "WHERE idPersona=?");
             consulta.setString(1, idPersona);
@@ -474,6 +474,7 @@ public class GestionPersonasBD {
                 personaResult.setProvincia(resultado.getString(12));
                 personaResult.setObservaciones(resultado.getString(13));
                 personaResult.setInformeMedico(resultado.getString(15));
+                personaResult.setNumPeregrinaciones(resultado.getInt(16));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -495,7 +496,7 @@ public class GestionPersonasBD {
         try {
             conexion = ConectorBD.getConnection();
 
-            PreparedStatement insert1 = conexion.prepareStatement("INSERT INTO `hospitalidad`.`personas` (`DNI`, `Nombre`, `Apellidos`, `FechaNacimiento`, `Correo`, `Telefono1`, `Telefono2`, `Direccion`, `CP`, `Localidad`, `Provincia`, `Observaciones`, `InformeMedico`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement insert1 = conexion.prepareStatement("INSERT INTO `hospitalidad`.`personas` (`DNI`, `Nombre`, `Apellidos`, `FechaNacimiento`, `Correo`, `Telefono1`, `Telefono2`, `Direccion`, `CP`, `Localidad`, `Provincia`, `Observaciones`, `InformeMedico`, 'ViajesAnteriosA2022') VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
             insert1.setString(1, persona.getDNI());
             insert1.setString(2, persona.getNombre());
@@ -510,7 +511,7 @@ public class GestionPersonasBD {
             insert1.setString(11, persona.getProvincia());
             insert1.setString(12, persona.getObservaciones());
             insert1.setString(13, persona.getInformeMedico());
-
+            insert1.setInt(14, persona.getNumPeregrinaciones());
             insert1.executeUpdate();
 
             return true;
@@ -546,7 +547,8 @@ public class GestionPersonasBD {
                     + "	 Localidad=?, "
                     + "	 Provincia=?, "
                     + "	 Observaciones=?, "
-                    + "	 InformeMedico=? "
+                    + "	 InformeMedico=?, "
+                    + "	 ViajesAnteriosA2022=? "
                     + "	WHERE idPersona=?");
             insert1.setString(1, persona.getDNI());
             insert1.setString(2, persona.getNombre());
@@ -561,7 +563,8 @@ public class GestionPersonasBD {
             insert1.setString(11, persona.getProvincia());
             insert1.setString(12, persona.getObservaciones());
             insert1.setString(13, persona.getInformeMedico());
-            insert1.setString(14, persona.getIdPersona());
+            insert1.setInt(14, persona.getNumPeregrinaciones());
+            insert1.setString(15, persona.getIdPersona());
 
             insert1.executeUpdate();
 
