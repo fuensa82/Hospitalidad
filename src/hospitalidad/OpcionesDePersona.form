@@ -40,7 +40,6 @@
                               <EmptySpace min="0" pref="19" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
-                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="jButtonGuardar" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jButton4" min="-2" max="-2" attributes="0"/>
@@ -603,6 +602,8 @@
         </Component>
         <Component class="javax.swing.JTextField" name="jTextNumPere">
           <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="text" type="java.lang.String" value="0"/>
             <Property name="name" type="java.lang.String" value="jTextNumPere" noResource="true"/>
           </Properties>
           <Events>

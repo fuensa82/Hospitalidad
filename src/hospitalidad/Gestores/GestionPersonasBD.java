@@ -496,8 +496,8 @@ public class GestionPersonasBD {
         try {
             conexion = ConectorBD.getConnection();
 
-            PreparedStatement insert1 = conexion.prepareStatement("INSERT INTO `hospitalidad`.`personas` (`DNI`, `Nombre`, `Apellidos`, `FechaNacimiento`, `Correo`, `Telefono1`, `Telefono2`, `Direccion`, `CP`, `Localidad`, `Provincia`, `Observaciones`, `InformeMedico`, 'ViajesAnteriosA2022') VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-
+            PreparedStatement insert1 = conexion.prepareStatement("INSERT INTO `hospitalidad`.`personas` (`DNI`, `Nombre`, `Apellidos`, `FechaNacimiento`, `Correo`, `Telefono1`, `Telefono2`, `Direccion`, `CP`, `Localidad`, `Provincia`, `Observaciones`, `InformeMedico`, `ViajesAnteriosA2022`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            
             insert1.setString(1, persona.getDNI());
             insert1.setString(2, persona.getNombre());
             insert1.setString(3, persona.getApellidos());
@@ -512,6 +512,7 @@ public class GestionPersonasBD {
             insert1.setString(12, persona.getObservaciones());
             insert1.setString(13, persona.getInformeMedico());
             insert1.setInt(14, persona.getNumPeregrinaciones());
+            System.out.println(insert1.toString());
             insert1.executeUpdate();
 
             return true;

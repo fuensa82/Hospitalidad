@@ -1923,7 +1923,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel18">
           <Properties>
-            <Property name="text" type="java.lang.String" value="v 1.4"/>
+            <Property name="text" type="java.lang.String" value="v 1.5 (jun23)"/>
           </Properties>
         </Component>
       </SubComponents>

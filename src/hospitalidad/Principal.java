@@ -1348,7 +1348,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jLabel18.setText("v 1.4");
+        jLabel18.setText("v 1.5 (jun23)");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

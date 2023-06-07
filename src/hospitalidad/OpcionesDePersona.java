@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
@@ -393,6 +394,8 @@ public class OpcionesDePersona extends javax.swing.JPanel {
 
         jLabel13.setText("Número de peregrinaciones anteriores a 2022: ");
 
+        jTextNumPere.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextNumPere.setText("0");
         jTextNumPere.setName("jTextNumPere"); // NOI18N
         jTextNumPere.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -445,7 +448,6 @@ public class OpcionesDePersona extends javax.swing.JPanel {
                                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(0, 19, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButtonGuardar)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton4)
@@ -480,37 +482,46 @@ public class OpcionesDePersona extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
-        PersonaBean persona = new PersonaBean();
-        persona.setIdPersona(idPersona);
-        persona.setNombre(jTextNombe.getText());
-        persona.setApellidos(jTextApellidos.getText());
-        persona.setDNI(jTextDNI.getText());
-        persona.setFechaNacimiento(jTextFechaNac.getText());
-        persona.setCorreo(jTextCorreo.getText());
-        persona.setTelefono1(jTextTelefono1.getText());
-        persona.setTelefono2(jTextTelefono2.getText());
-        persona.setDireccion(jTextDireccion.getText());
-        persona.setCP(jTextCP.getText());
-        persona.setLocalidad(jTextLocalidad.getText());
-        persona.setProvincia(jTextProvincia.getText());
-        persona.setObservaciones(jTextObservaciones.getText());
-        persona.setInformeMedico(jTextInformeMedico.getText());
-        persona.setNumPeregrinaciones(Integer.parseInt(jTextNumPere.getText()));
-        if (OpcionesDePersona.mtto.equals(this.tipoVentana)) {
-            GestionPersonasBD.actualizarPersona(persona);
-            Window w = SwingUtilities.getWindowAncestor(this);
-            w.setVisible(false);
-        }else if (OpcionesDePersona.nuevo.equals(this.tipoVentana)) {
-            if(GestionPersonasBD.setPersona(persona)){
-                Window w = SwingUtilities.getWindowAncestor(this);
-                w.setVisible(false);
-            }else{
-                System.out.println("No se ha guardado. Error");
-                
-            }
-            
-        }
+        if(validarDatos()){
+            PersonaBean persona = new PersonaBean();
+            persona.setIdPersona(idPersona);
+            persona.setNombre(jTextNombe.getText());
+            persona.setApellidos(jTextApellidos.getText());
+            persona.setDNI(jTextDNI.getText());
+            persona.setFechaNacimiento(jTextFechaNac.getText());
+            persona.setCorreo(jTextCorreo.getText());
+            persona.setTelefono1(jTextTelefono1.getText());
+            persona.setTelefono2(jTextTelefono2.getText());
+            persona.setDireccion(jTextDireccion.getText());
+            persona.setCP(jTextCP.getText());
+            persona.setLocalidad(jTextLocalidad.getText());
+            persona.setProvincia(jTextProvincia.getText());
+            persona.setObservaciones(jTextObservaciones.getText());
+            persona.setInformeMedico(jTextInformeMedico.getText());
+            persona.setNumPeregrinaciones(Integer.parseInt(jTextNumPere.getText()));
+            if (OpcionesDePersona.mtto.equals(this.tipoVentana)) {
+                if(GestionPersonasBD.actualizarPersona(persona)){
+                    System.out.println("Actualizado correctamente");
+                    JOptionPane.showMessageDialog(this, "Actualizado correctamente");
+                    Window w = SwingUtilities.getWindowAncestor(this);
+                    w.setVisible(false);
+                }else{
+                    System.out.println("No se ha guardado. Error");
+                    JOptionPane.showMessageDialog(this, "Error al actualizar");
+                }
+            }else if (OpcionesDePersona.nuevo.equals(this.tipoVentana)) {
+                if(GestionPersonasBD.setPersona(persona)){
+                    System.out.println("Guardado correctamente");
+                    JOptionPane.showMessageDialog(this, "Guardado correctamente");
+                    Window w = SwingUtilities.getWindowAncestor(this);
+                    w.setVisible(false);
+                }else{
+                    System.out.println("No se ha guardado. Error");
+                    JOptionPane.showMessageDialog(this, "Error al guardar");
+                }
 
+            }
+        }
     }//GEN-LAST:event_jButtonGuardarActionPerformed
 
     public String getTipoVentana() {
@@ -666,5 +677,31 @@ public class OpcionesDePersona extends javax.swing.JPanel {
 
         });
 
+    }
+
+    private boolean validarDatos() {
+        if("".equals(jTextNombe.getText())){
+            JOptionPane.showMessageDialog(this, "Debe rellenar el nombre");
+            jTextNombe.requestFocus();
+            return false;
+        }else if("".equals(jTextApellidos.getText())){
+            JOptionPane.showMessageDialog(this, "Debe rellenar los apellidos");
+            jTextApellidos.requestFocus();
+            return false;
+        }else if("".equals(jTextFechaNac.getText())){
+            JOptionPane.showMessageDialog(this, "Debe rellenar la fecha de nacimiento");
+            jTextFechaNac.requestFocus();
+            return false;
+        }else if(jTextFechaNac.getText().length()!=10){
+            JOptionPane.showMessageDialog(this, "La fecha de nacimiento tiene que tener el formato dd/mm/aaaa");
+            jTextFechaNac.requestFocus();
+            return false;
+        }else if("".equals(jTextNumPere.getText())){
+            JOptionPane.showMessageDialog(this, "Debe rellenar el número de peregrinaciones anteriores a 2022");
+            return false;
+        }else{
+            return true;
+        }
+        
     }
 }
