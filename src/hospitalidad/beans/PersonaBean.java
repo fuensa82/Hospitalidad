@@ -29,15 +29,35 @@ public class PersonaBean {
     private String informeMedico;
     private String idTipoViajero;
     private String nombreCortoTipoViajero;
-    private int numPeregrinaciones;
+    private int comoHospitalarioAnterior2022;
+    private int comoPeregrino;
+    private int numHospitalatioTotal;
 
-    public int getNumPeregrinaciones() {
-        return numPeregrinaciones;
+    public int getNumHospitalatioTotal() {
+        return numHospitalatioTotal;
     }
 
-    public void setNumPeregrinaciones(int numPeregrinaciones) {
-        this.numPeregrinaciones = numPeregrinaciones;
+    public void setNumHospitalatioTotal(int hospitalatioTotal) {
+        this.numHospitalatioTotal = hospitalatioTotal;
     }
+
+    public int getComoHospitalarioAnterior2022() {
+        return comoHospitalarioAnterior2022;
+    }
+
+    public void setComoHospitalarioAnterior2022(int comoHospitalarioAnterior2022) {
+        this.comoHospitalarioAnterior2022 = comoHospitalarioAnterior2022;
+    }
+
+    public int getComoPeregrino() {
+        return comoPeregrino;
+    }
+
+    public void setComoPeregrino(int comoPeregrino) {
+        this.comoPeregrino = comoPeregrino;
+    }
+
+    
 
     public TipoViajeroBean getTipo(String idViaje) {
         System.out.println("idViaje: "+idViaje);

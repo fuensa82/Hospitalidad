@@ -453,7 +453,7 @@ public class GestionPersonasBD {
         try {
             conexion = ConectorBD.getConnection();
             PreparedStatement consulta = conexion.prepareStatement(
-                    "SELECT idPersona, DNI, Nombre, Apellidos, FechaNacimiento, Correo, Telefono1, Telefono2, Direccion, CP, Localidad, Provincia, Observaciones, Activo, InformeMedico, ViajesAnteriosA2022 "
+                    "SELECT idPersona, DNI, Nombre, Apellidos, FechaNacimiento, Correo, Telefono1, Telefono2, Direccion, CP, Localidad, Provincia, Observaciones, Activo, InformeMedico, ComoHospitalarioAnteriorA2022,ComoPeregrino "
                     + "FROM personas "
                     + "WHERE idPersona=?");
             consulta.setString(1, idPersona);
@@ -474,7 +474,8 @@ public class GestionPersonasBD {
                 personaResult.setProvincia(resultado.getString(12));
                 personaResult.setObservaciones(resultado.getString(13));
                 personaResult.setInformeMedico(resultado.getString(15));
-                personaResult.setNumPeregrinaciones(resultado.getInt(16));
+                personaResult.setComoHospitalarioAnterior2022(resultado.getInt(16));
+                personaResult.setComoPeregrino(resultado.getInt(17));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -496,7 +497,7 @@ public class GestionPersonasBD {
         try {
             conexion = ConectorBD.getConnection();
 
-            PreparedStatement insert1 = conexion.prepareStatement("INSERT INTO `hospitalidad`.`personas` (`DNI`, `Nombre`, `Apellidos`, `FechaNacimiento`, `Correo`, `Telefono1`, `Telefono2`, `Direccion`, `CP`, `Localidad`, `Provincia`, `Observaciones`, `InformeMedico`, `ViajesAnteriosA2022`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement insert1 = conexion.prepareStatement("INSERT INTO `hospitalidad`.`personas` (`DNI`, `Nombre`, `Apellidos`, `FechaNacimiento`, `Correo`, `Telefono1`, `Telefono2`, `Direccion`, `CP`, `Localidad`, `Provincia`, `Observaciones`, `InformeMedico`, `ComoHospitalarioAnteriorA2022`, `ComoPeregrino`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             
             insert1.setString(1, persona.getDNI());
             insert1.setString(2, persona.getNombre());
@@ -511,7 +512,8 @@ public class GestionPersonasBD {
             insert1.setString(11, persona.getProvincia());
             insert1.setString(12, persona.getObservaciones());
             insert1.setString(13, persona.getInformeMedico());
-            insert1.setInt(14, persona.getNumPeregrinaciones());
+            insert1.setInt(14, persona.getComoHospitalarioAnterior2022());
+            insert1.setInt(15, persona.getComoPeregrino());
             System.out.println(insert1.toString());
             insert1.executeUpdate();
 
@@ -549,7 +551,8 @@ public class GestionPersonasBD {
                     + "	 Provincia=?, "
                     + "	 Observaciones=?, "
                     + "	 InformeMedico=?, "
-                    + "	 ViajesAnteriosA2022=? "
+                    + "	 ComoHospitalarioAnteriorA2022=?, "
+                    + "	 ComoPeregrino=? "
                     + "	WHERE idPersona=?");
             insert1.setString(1, persona.getDNI());
             insert1.setString(2, persona.getNombre());
@@ -564,8 +567,9 @@ public class GestionPersonasBD {
             insert1.setString(11, persona.getProvincia());
             insert1.setString(12, persona.getObservaciones());
             insert1.setString(13, persona.getInformeMedico());
-            insert1.setInt(14, persona.getNumPeregrinaciones());
-            insert1.setString(15, persona.getIdPersona());
+            insert1.setInt(14, persona.getComoHospitalarioAnterior2022());
+            insert1.setInt(15, persona.getComoPeregrino());
+            insert1.setString(16, persona.getIdPersona());
 
             insert1.executeUpdate();
 
@@ -791,7 +795,7 @@ public class GestionPersonasBD {
         try {
             conexion = ConectorBD.getConnection();
             PreparedStatement consulta = conexion.prepareStatement(
-                    "SELECT personas.idPersona, personas.Nombre, personas.Apellidos,personas.ViajesAnteriosA2022, personas.ViajesAnteriosA2022+count(relviajetodo.idViaje) AS peregrinaciones "
+                    "SELECT personas.idPersona, personas.Nombre, personas.Apellidos,personas.ComoHospitalarioAnteriorA2022, personas.ComoPeregrino, personas.ComoHospitalarioAnteriorA2022+count(relviajetodo.idViaje) AS peregrinaciones "
                     + "FROM personas, relviajetodo "
                     + "WHERE personas.idPersona=relviajetodo.idPersona "
                     + "GROUP BY personas.idPersona"
@@ -803,7 +807,9 @@ public class GestionPersonasBD {
                 persona.setIdPersona(resultado.getString(1));
                 persona.setNombre(resultado.getString(2));
                 persona.setApellidos(resultado.getString(3));
-                persona.setNumPeregrinaciones(resultado.getInt(5));
+                persona.setComoHospitalarioAnterior2022(resultado.getInt(4));
+                persona.setComoPeregrino(resultado.getInt(5));
+                persona.setNumHospitalatioTotal(resultado.getInt(6));
                 result.add(persona);
             }
             return result;
@@ -848,13 +854,42 @@ public class GestionPersonasBD {
         }
         return null;
     }
-    public static int getNumPeregrinacionesAnt2022(String idPersona){
+    public static int getComoHospitalarioAnt2022(String idPersona){
         Connection conexion = null;
         int result=0;
         try {
             conexion = ConectorBD.getConnection();
             PreparedStatement consulta = conexion.prepareStatement(
-                    "SELECT personas.ViajesAnteriosA2022 " +
+                    "SELECT personas.ComoHospitalarioAnteriorA2022 " +
+                    "FROM personas " +
+                    "WHERE idPersona=?"
+            );
+            consulta.setString(1, idPersona);
+            ResultSet resultado = consulta.executeQuery();
+            
+            while (resultado.next()) {
+                result=resultado.getInt(1);
+            }
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException ex) {
+            Logger.getLogger(GestionPersonasBD.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+            }
+        }
+        return 0;
+    }
+    public static int getComoPeregrino(String idPersona){
+        Connection conexion = null;
+        int result=0;
+        try {
+            conexion = ConectorBD.getConnection();
+            PreparedStatement consulta = conexion.prepareStatement(
+                    "SELECT personas.ComoPeregrino " +
                     "FROM personas " +
                     "WHERE idPersona=?"
             );

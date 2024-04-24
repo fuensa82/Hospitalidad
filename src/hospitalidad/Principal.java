@@ -163,7 +163,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane11 = new javax.swing.JScrollPane();
         jTableNumeroPeregrinaciones = new javax.swing.JTable();
-        jTextNumPeregriAnt2022 = new javax.swing.JTextField();
+        jTextComoHospitalarioAnt2022 = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
         jScrollPane12 = new javax.swing.JScrollPane();
@@ -172,6 +172,8 @@ public class Principal extends javax.swing.JFrame {
         jLabelTotalPagPeregri = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         jLabelNumPeregri = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jTextComoPeregrino = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
         comboViaje = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
@@ -289,7 +291,7 @@ public class Principal extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelObservaciones)
                             .addComponent(jLabelDescripcionAutobus, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 106, Short.MAX_VALUE)
                         .addComponent(jLabelIdAutobusEtiqueta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelIdAutobus)
@@ -1169,20 +1171,20 @@ public class Principal extends javax.swing.JFrame {
         jTableNumeroPeregrinaciones.setAutoCreateRowSorter(true);
         jTableNumeroPeregrinaciones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Id", "Nombre", "Apellidos", "Total Peregrinaciones"
+                "Id", "Apellidos", "Nombre", "Para medalla 5", "Para medalla 25"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1200,9 +1202,9 @@ public class Principal extends javax.swing.JFrame {
             jTableNumeroPeregrinaciones.getColumnModel().getColumn(0).setMaxWidth(40);
         }
 
-        jTextNumPeregriAnt2022.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextComoHospitalarioAnt2022.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
-        jLabel19.setText("Peregrinaciones anteriores a 2022");
+        jLabel19.setText("Como hospitalario anteriores a 2022");
 
         jLabel20.setText("Peregrinaciones desde 2022");
 
@@ -1244,6 +1246,15 @@ public class Principal extends javax.swing.JFrame {
         jLabelNumPeregri.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabelNumPeregri.setText("jLabelNumPeregri");
 
+        jLabel23.setText("Como peregrino");
+
+        jTextComoPeregrino.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextComoPeregrino.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextComoPeregrinoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -1256,19 +1267,22 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(179, 179, 179)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel19)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextNumPeregriAnt2022, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(856, 856, 856))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel20)
                                     .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel22)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabelNumPeregri)))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                        .addComponent(jLabelNumPeregri))
+                                    .addComponent(jLabel23))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel19)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jTextComoPeregrino, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                                    .addComponent(jTextComoHospitalarioAnt2022, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(856, 856, 856))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel21)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1280,19 +1294,23 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
+                        .addGap(48, 48, 48)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextNumPeregriAnt2022, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel19))
+                            .addComponent(jLabel23)
+                            .addComponent(jTextComoPeregrino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextComoHospitalarioAnt2022, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel19))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel20)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(34, 34, 34)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel22)
                             .addComponent(jLabelNumPeregri))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane11)
@@ -1348,7 +1366,7 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jLabel18.setText("v 1.5 (jun23)");
+        jLabel18.setText("v 1.6 (abr24)");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -1898,6 +1916,10 @@ public class Principal extends javax.swing.JFrame {
         cargarTablaNumeroPeregrinaciones();
     }//GEN-LAST:event_jPanel1ComponentShown
 
+    private void jTextComoPeregrinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextComoPeregrinoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextComoPeregrinoActionPerformed
+
     /**
      * Listener para hacer que al seleccionar una habitacion se muestre la tabla
      * con las persona que ya hay asignadas a la habitacion
@@ -2230,6 +2252,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -2288,8 +2311,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTable jTablePersonasHabitacion;
     private javax.swing.JTable jTablePersonasSinAutobus;
     private javax.swing.JTable jTablePersonasSinHabitacion;
+    private javax.swing.JTextField jTextComoHospitalarioAnt2022;
+    private javax.swing.JTextField jTextComoPeregrino;
     private javax.swing.JTextField jTextFiltro;
-    private javax.swing.JTextField jTextNumPeregriAnt2022;
     private javax.swing.JLabel labelTotal;
     // End of variables declaration//GEN-END:variables
 
@@ -2541,7 +2565,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     private void cargarTablaNumeroPeregrinaciones() {
-        jTextNumPeregriAnt2022.setText("");
+        jTextComoHospitalarioAnt2022.setText("");
         jLabelNumPeregri.setText("");
         System.out.println(new Object() {
         }.getClass().getEnclosingMethod().getName());
@@ -2556,7 +2580,8 @@ public class Principal extends javax.swing.JFrame {
                 "" + persona.getIdPersona(),
                 persona.getApellidos(),
                 persona.getNombre(),
-                persona.getNumPeregrinaciones()
+                persona.getComoPeregrino()+persona.getNumHospitalatioTotal(),
+                persona.getNumHospitalatioTotal()
             });
         }
         
@@ -2571,6 +2596,20 @@ public class Principal extends javax.swing.JFrame {
                 String idPersona = (String) jTableNumeroPeregrinaciones.getValueAt(jTableNumeroPeregrinaciones.getSelectedRow(), 0);
                 cargarDatosNumeroPeregrinaciones(idPersona);
                 System.out.println("Se ha hecho un click");
+                if (e.getClickCount() == 2) {
+                    System.out.println("Se ha hecho doble click");
+                    System.out.println("Id: " + idPersona);
+
+                    JDialog frame = new JDialog(padre, "Gestion de personas", true);
+                    frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+                    frame.getContentPane().add(new OpcionesDePersona(OpcionesDePersona.mtto, idPersona));
+                    frame.pack();
+                    frame.setLocationRelativeTo(padre);
+                    frame.setVisible(true);
+                    int sel = jTableNumeroPeregrinaciones.getSelectedRow();
+                    cargarTablaNumeroPeregrinaciones();
+                    jTableNumeroPeregrinaciones.setRowSelectionInterval(sel, sel);
+                }
             }
         });
     }
@@ -2585,9 +2624,11 @@ public class Principal extends javax.swing.JFrame {
                 nombre
             });
         }
-        int ant=GestionPersonasBD.getNumPeregrinacionesAnt2022(idPersona);
-        jTextNumPeregriAnt2022.setText(""+ant);
-        jLabelNumPeregri.setText(""+(lista.size()+ant));
+        int ant=GestionPersonasBD.getComoHospitalarioAnt2022(idPersona);
+        jTextComoHospitalarioAnt2022.setText(""+ant);
+        int ant2=GestionPersonasBD.getComoPeregrino(idPersona);
+        jTextComoPeregrino.setText(""+ant2);
+        jLabelNumPeregri.setText(""+(lista.size()+ant+ant2));
     }
 
 }

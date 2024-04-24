@@ -112,7 +112,10 @@ public class OpcionesDePersona extends javax.swing.JPanel {
         jButton4 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        jTextNumPere = new javax.swing.JTextField();
+        jTextComoHospiAnt2022 = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jTextComoPeregrino = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         jLabel2.setText("Datos de persona");
 
@@ -279,16 +282,11 @@ public class OpcionesDePersona extends javax.swing.JPanel {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2)
-                .addContainerGap())
+            .addComponent(jScrollPane2)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addComponent(jScrollPane2)
-                .addContainerGap())
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Informe médico"));
@@ -355,12 +353,10 @@ public class OpcionesDePersona extends javax.swing.JPanel {
                     .addComponent(jScrollPane3)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                                .addComponent(jButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonAñadirFichero))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonAñadirFichero))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -392,14 +388,26 @@ public class OpcionesDePersona extends javax.swing.JPanel {
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Antigüedad"));
 
-        jLabel13.setText("Número de peregrinaciones anteriores a 2022: ");
+        jLabel13.setText("Como hospitalario anterior a 2022: ");
 
-        jTextNumPere.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextNumPere.setText("0");
-        jTextNumPere.setName("jTextNumPere"); // NOI18N
-        jTextNumPere.addActionListener(new java.awt.event.ActionListener() {
+        jTextComoHospiAnt2022.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextComoHospiAnt2022.setText("0");
+        jTextComoHospiAnt2022.setName("jTextComoHospiAnt2022"); // NOI18N
+        jTextComoHospiAnt2022.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextNumPereActionPerformed(evt);
+                jTextComoHospiAnt2022ActionPerformed(evt);
+            }
+        });
+
+        jLabel14.setText("Como peregrino:");
+
+        jTextComoPeregrino.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextComoPeregrino.setText("0");
+
+        jButton1.setText("+");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -409,18 +417,30 @@ public class OpcionesDePersona extends javax.swing.JPanel {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel13)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel14))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextNumPere, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextComoHospiAnt2022)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jTextComoPeregrino, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1)))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(9, Short.MAX_VALUE)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(jTextComoPeregrino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(jTextNumPere, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextComoHospiAnt2022, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -435,23 +455,21 @@ public class OpcionesDePersona extends javax.swing.JPanel {
                         .addComponent(jLabel2)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(0, 19, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButtonGuardar)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton4)
-                                .addContainerGap())))))
+                                .addComponent(jButton4))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -465,19 +483,20 @@ public class OpcionesDePersona extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton4)
-                            .addComponent(jButtonGuardar))))
-                .addContainerGap())
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jButtonGuardar)
+                                .addComponent(jButton4)))
+                        .addContainerGap())))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -498,7 +517,8 @@ public class OpcionesDePersona extends javax.swing.JPanel {
             persona.setProvincia(jTextProvincia.getText());
             persona.setObservaciones(jTextObservaciones.getText());
             persona.setInformeMedico(jTextInformeMedico.getText());
-            persona.setNumPeregrinaciones(Integer.parseInt(jTextNumPere.getText()));
+            persona.setComoHospitalarioAnterior2022(Integer.parseInt(jTextComoHospiAnt2022.getText()));
+            persona.setComoPeregrino(Integer.parseInt(jTextComoPeregrino.getText()));
             if (OpcionesDePersona.mtto.equals(this.tipoVentana)) {
                 if(GestionPersonasBD.actualizarPersona(persona)){
                     System.out.println("Actualizado correctamente");
@@ -570,12 +590,19 @@ public class OpcionesDePersona extends javax.swing.JPanel {
        
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jTextNumPereActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextNumPereActionPerformed
+    private void jTextComoHospiAnt2022ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextComoHospiAnt2022ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextNumPereActionPerformed
+    }//GEN-LAST:event_jTextComoHospiAnt2022ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int i=Integer.parseInt(jTextComoPeregrino.getText());
+        i++;
+        jTextComoPeregrino.setText(""+i);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButtonAñadirFichero;
@@ -585,6 +612,7 @@ public class OpcionesDePersona extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -605,6 +633,8 @@ public class OpcionesDePersona extends javax.swing.JPanel {
     private javax.swing.JTable jTableInformes;
     private javax.swing.JTextField jTextApellidos;
     private javax.swing.JTextField jTextCP;
+    private javax.swing.JTextField jTextComoHospiAnt2022;
+    private javax.swing.JTextField jTextComoPeregrino;
     private javax.swing.JTextField jTextCorreo;
     private javax.swing.JTextField jTextDNI;
     private javax.swing.JTextField jTextDireccion;
@@ -612,7 +642,6 @@ public class OpcionesDePersona extends javax.swing.JPanel {
     private javax.swing.JTextArea jTextInformeMedico;
     private javax.swing.JTextField jTextLocalidad;
     private javax.swing.JTextField jTextNombe;
-    private javax.swing.JTextField jTextNumPere;
     private javax.swing.JTextArea jTextObservaciones;
     private javax.swing.JTextField jTextProvincia;
     private javax.swing.JTextField jTextTelefono1;
@@ -634,7 +663,8 @@ public class OpcionesDePersona extends javax.swing.JPanel {
         jTextProvincia.setText(persona.getProvincia());
         jTextTelefono1.setText(persona.getTelefono1());
         jTextTelefono2.setText(persona.getTelefono2());
-        jTextNumPere.setText(""+persona.getNumPeregrinaciones());
+        jTextComoHospiAnt2022.setText(""+persona.getComoHospitalarioAnterior2022());
+        jTextComoPeregrino.setText(""+persona.getComoPeregrino());
 
     }
     private void cargaTablaInformes(){
@@ -696,7 +726,7 @@ public class OpcionesDePersona extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "La fecha de nacimiento tiene que tener el formato dd/mm/aaaa");
             jTextFechaNac.requestFocus();
             return false;
-        }else if("".equals(jTextNumPere.getText())){
+        }else if("".equals(jTextComoHospiAnt2022.getText())){
             JOptionPane.showMessageDialog(this, "Debe rellenar el número de peregrinaciones anteriores a 2022");
             return false;
         }else{
