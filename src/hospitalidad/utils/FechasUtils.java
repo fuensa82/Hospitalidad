@@ -74,6 +74,8 @@ public class FechasUtils {
     public static String fechaParaMysql(String fecha) {
         if ((fecha == null) || (fecha.equalsIgnoreCase(""))) {
             return null;
+        }else if(fecha.length()!=10){
+            return null;
         }
         return fecha.substring(6, 10) + "-" + fecha.substring(3, 5) + "-" + fecha.substring(0, 2);
     }

@@ -8,6 +8,7 @@ package hospitalidad.Gestores;
 import hospitalidad.beans.PersonaBean;
 import hospitalidad.beans.ViajeBean;
 import hospitalidad.utils.ConectorBD;
+import hospitalidad.utils.FechasUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,6 +24,39 @@ import javax.naming.NamingException;
  */
 public class GestionViajesBD {
 
+    
+    public static int setViaje(ViajeBean viaje){
+        
+        Connection conexion = null;
+        try {
+            conexion = ConectorBD.getConnection();
+
+            // INSERT INTO `hospitalidad`.`viajes` (`Nombre`, `FechaIni`, `FechaFin`) VALUES ('Peregrinacion 24', '2024-04-24', '2024-04-24');
+            PreparedStatement insert1 = conexion.prepareStatement("INSERT INTO `hospitalidad`.`viajes` (`Nombre`, `FechaIni`, `FechaFin`) VALUES (?, ?, ?)");
+            insert1.setString(1, ""+viaje.getNombre());
+            //insert1.setString(4, FechasUtils.fechaParaMysql(persona.getFechaNacimiento()));
+            String f1=FechasUtils.fechaParaMysql(viaje.getFechaIni());
+            String f2=FechasUtils.fechaParaMysql(viaje.getFechaFin());
+            if(f1==null || f2==null){
+                return 0;
+            }
+            insert1.setString(2, f1);
+            insert1.setString(3, f2);
+            System.out.println(insert1);
+            int fila = insert1.executeUpdate();
+            return fila; //Correcto
+
+        } catch (SQLException | NamingException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionViajesBD.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return 0;
+    }
     /**
      * Devuelve los datos del último viaje que se ha añadido
      *
