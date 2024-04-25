@@ -34,7 +34,7 @@ public class AutobusesMtto extends javax.swing.JPanel {
     }
 
     public AutobusesMtto(String modoVentana, String filtroViaje, int selectedIndex, Principal padre, String idAutobus) {
-        this.idViaje=idViaje;
+        this.idViaje=filtroViaje;
         this.idAutobus=idAutobus;
         this.padre=padre;
         this.modoVentana=modoVentana;

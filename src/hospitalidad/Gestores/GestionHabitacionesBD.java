@@ -5,6 +5,8 @@
  */
 package hospitalidad.Gestores;
 
+import static hospitalidad.Gestores.GestionAutobusesBD.getListaAutobuses;
+import hospitalidad.beans.AutobusBean;
 import hospitalidad.beans.HabitacionBean;
 import hospitalidad.beans.HotelBean;
 import hospitalidad.beans.PersonaBean;
@@ -237,13 +239,13 @@ public class GestionHabitacionesBD {
             HabitacionBean habitacion;
             String sql;
             if("0".equals(idHotel)){
-                sql="select idHabitacion, descripcion1, descripcion2, camas, Observaciones, idViaje, nombreHotel "
+                sql="select idHabitacion, descripcion1, descripcion2, camas, Observaciones, idViaje, nombreHotel, habitaciones.idHotel "
                     + "FROM habitaciones, hoteles "
                     + "WHERE idViaje=? and "
                     + " habitaciones.idHotel=hoteles.IdHotel"
                         + " ORDER BY nombreHotel, descripcion1";
             }else{
-                sql="select idHabitacion, descripcion1, descripcion2, camas, Observaciones, idViaje, nombreHotel "
+                sql="select idHabitacion, descripcion1, descripcion2, camas, Observaciones, idViaje, nombreHotel, habitaciones.idHotel  "
                     + "FROM habitaciones, hoteles "
                     + "WHERE idViaje=? and habitaciones.idHotel=? and "
                     + " habitaciones.idHotel=hoteles.IdHotel "
@@ -266,6 +268,7 @@ public class GestionHabitacionesBD {
                 habitacion.setObservaciones(resultado.getString(5));
                 habitacion.setIdViaje(resultado.getString(6));
                 habitacion.setNombreHotel(resultado.getString(7));
+                habitacion.setIdHotel(resultado.getString(8));
                 lista.add(habitacion);
             }
         } catch (SQLException e) {
@@ -524,5 +527,14 @@ public class GestionHabitacionesBD {
             }
         }
         return lista;
+    }
+    public static void copiarHabitacionesAnoAnterior() {
+        String idViajeNuevo=GestionViajesBD.getLastViaje().getIdViaje();
+        String idViajeAnterior=GestionViajesBD.getPenuntimoViaje();
+        ArrayList<HabitacionBean> lista=getListaHabitaciones(idViajeAnterior, "0");
+        for(HabitacionBean habitacion:lista){
+            habitacion.setIdViaje(idViajeNuevo);
+            GestionHabitacionesBD.setHabitacion(habitacion);
+        }
     }
 }

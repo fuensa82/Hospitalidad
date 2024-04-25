@@ -1942,7 +1942,7 @@ public class Principal extends javax.swing.JFrame {
         filtroViaje = comboViaje.getModel().getElementAt(comboViaje.getSelectedIndex()).split(" - ")[0];
         JDialog frame = new JDialog(this, "Crear peregrinaciones", true);
         frame.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-        CrearPeregrinacion ventana = new CrearPeregrinacion();
+        CrearPeregrinacion ventana = new CrearPeregrinacion(this);
         frame.getContentPane().add(ventana);
         frame.pack();
         frame.setLocationRelativeTo(this);
@@ -2660,6 +2660,10 @@ public class Principal extends javax.swing.JFrame {
         int ant2=GestionPersonasBD.getComoPeregrino(idPersona);
         jTextComoPeregrino.setText(""+ant2);
         jLabelNumPeregri.setText(""+(lista.size()+ant+ant2));
+    }
+    public void recargarComboViaje(){
+        comboViaje.setModel(GestionViajesBD.getModeloComboViajes());
+        comboViaje.setSelectedIndex(comboViaje.getItemCount()-1);
     }
 
 }

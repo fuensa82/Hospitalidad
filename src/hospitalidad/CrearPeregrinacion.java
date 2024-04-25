@@ -4,6 +4,8 @@
  */
 package hospitalidad;
 
+import hospitalidad.Gestores.GestionAutobusesBD;
+import hospitalidad.Gestores.GestionHabitacionesBD;
 import hospitalidad.Gestores.GestionViajesBD;
 import hospitalidad.beans.ViajeBean;
 import java.awt.Window;
@@ -155,8 +157,19 @@ public class CrearPeregrinacion extends javax.swing.JPanel {
             viaje.setFechaFin(jTextField3.getText());
             opcionBoton=GUARDAR;
             if(GestionViajesBD.setViaje(viaje)!=0){
+                int p1=JOptionPane.showConfirmDialog(padre, "¿Quiere generar los mismos autobuses que el año anterior?", "Copiar autobuses", JOptionPane.YES_NO_OPTION);
+                System.out.println("Respuesta: "+p1);
+                if(p1==0){
+                    copiarAutobuses();
+                }
+                int p2=JOptionPane.showConfirmDialog(padre, "¿Quiere generar las mismas habitaciones que el año anterior?", "Copiar habitaciones de hotel", JOptionPane.YES_NO_OPTION);
+                System.out.println("Respuesta: "+p2);
+                if(p2==0){
+                    copiarHabitaciones();
+                }
                 Window w = SwingUtilities.getWindowAncestor(this);
                 w.setVisible(false);
+                padre.recargarComboViaje();
             }else{
                 JOptionPane.showMessageDialog(this, "Se ha producido algún error a la hora de dar de alta la peregrinación y no se ha dado de alta");
             }
@@ -228,4 +241,12 @@ public class CrearPeregrinacion extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
+
+    private void copiarAutobuses() {
+        GestionAutobusesBD.copiarAutobusesAnoAnterior();
+    }
+
+    private void copiarHabitaciones() {
+        GestionHabitacionesBD.copiarHabitacionesAnoAnterior();
+    }
 }

@@ -68,7 +68,7 @@ public class GestionViajesBD {
         try {
             conexion = ConectorBD.getConnection();
             PreparedStatement consulta = conexion.prepareStatement(
-                    "SELECT idViaje, Nombre, FechaIni, FechaFin n"
+                    "SELECT idViaje, Nombre, FechaIni, FechaFin "
                     + "from viajes "
                     + "ORDER BY idViaje DESC LIMIT 1");
 
@@ -429,5 +429,40 @@ public class GestionViajesBD {
             }
         }
         return fila;
+    }
+    /**
+     * Devuelve el id del penúltimo viaje
+     * @return 
+     */
+    public static String getPenuntimoViaje() {
+        String idViaje="";
+        Connection conexion = null;
+        try {
+            conexion = ConectorBD.getConnection();
+            PreparedStatement consulta = conexion.prepareStatement(
+                    " SELECT idViaje " +
+                    "FROM hospitalidad.viajes " +
+                    "ORDER BY idViaje DESC  " +
+                    "LIMIT 1 OFFSET 1");
+            
+            ResultSet resultado = consulta.executeQuery();
+            if (resultado.next()) {
+                //if (resultado.next()) {
+                    idViaje = resultado.getString(1);
+                //}
+            }else{
+                return null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NamingException ex) {
+
+        } finally {
+            try {
+                conexion.close();
+            } catch (SQLException ex) {
+            }
+        }
+        return idViaje;
     }
 }

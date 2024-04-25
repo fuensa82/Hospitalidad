@@ -518,4 +518,14 @@ public class GestionAutobusesBD {
         
         return result;
     }
+
+    public static void copiarAutobusesAnoAnterior() {
+        String idViajeNuevo=GestionViajesBD.getLastViaje().getIdViaje();
+        String idViajeAnterior=GestionViajesBD.getPenuntimoViaje();
+        ArrayList<AutobusBean> lista=getListaAutobuses(idViajeAnterior);
+        for(AutobusBean bus:lista){
+            bus.setIdViaje(idViajeNuevo);
+            GestionAutobusesBD.setAutobus(bus);
+        }
+    }
 }
